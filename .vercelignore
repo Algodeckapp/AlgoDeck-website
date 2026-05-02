@@ -1,0 +1,11 @@
+node_modules
+.git
+.claude
+*.log
+.env.local
+.DS_Store
+api
+db
+contracts
+*.md
+image

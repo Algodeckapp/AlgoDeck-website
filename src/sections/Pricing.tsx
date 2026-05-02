@@ -1,0 +1,502 @@
+import { useState, useEffect, useRef } from 'react'
+import { Check } from 'lucide-react'
+
+const tiers = [
+  {
+    name: 'Starter',
+    monthlyPrice: 49,
+    annualPrice: 490,
+    description: 'For individual traders getting started.',
+    features: [
+      '1 MT4/MT5 account',
+      'Up to 3 active bots',
+      'Basic strategy form',
+      'Standard 7-day backtesting',
+      'Email alerts',
+      '7-day analytics history',
+      '0% performance fee',
+      'Email support',
+    ],
+    cta: 'Start Trial',
+    popular: false,
+    primary: false,
+  },
+  {
+    name: 'Pro',
+    monthlyPrice: 99,
+    annualPrice: 990,
+    description: 'For serious traders who need AI power.',
+    features: [
+      '3 connected accounts',
+      'Up to 10 active bots',
+      'AI natural language strategies',
+      'Advanced 3-year backtesting',
+      'Push + email alerts',
+      'Full analytics history',
+      '10% performance fee on profits',
+      'Priority support',
+    ],
+    cta: 'Start Free Trial',
+    popular: true,
+    primary: true,
+  },
+  {
+    name: 'Elite',
+    monthlyPrice: 249,
+    annualPrice: 2490,
+    description: 'For professionals managing multiple strategies.',
+    features: [
+      '10 connected accounts',
+      'Unlimited bots',
+      'AI + strategy optimization',
+      'Advanced backtesting + AI suggestions',
+      'Push + email + SMS alerts',
+      'Full analytics + PDF reports',
+      'VPS auto-restart monitoring',
+      'Dedicated account manager',
+    ],
+    cta: 'Start Trial',
+    popular: false,
+    primary: false,
+  },
+  {
+    name: 'Institutional',
+    monthlyPrice: null,
+    annualPrice: null,
+    description: 'For firms requiring custom infrastructure.',
+    features: [
+      'Unlimited accounts',
+      'Custom bot development',
+      'Custom backtesting engine',
+      'Full analytics + API access',
+      'Dedicated infrastructure',
+      'VPS monitoring + SLA guarantee',
+      'Negotiable performance fee',
+      '24/7 support + onboarding',
+    ],
+    cta: 'Contact Sales',
+    popular: false,
+    primary: false,
+  },
+]
+
+function PricingCard({
+  tier,
+  isAnnual,
+  index,
+}: {
+  tier: typeof tiers[0]
+  isAnnual: boolean
+  index: number
+}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setVisible(true), index * 150)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    observer.observe(el)
+    return () => observer.unobserve(el)
+  }, [index])
+
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        background: '#0F1629',
+        border: tier.popular
+          ? '1px solid #3A7BFF'
+          : '1px solid rgba(58, 123, 255, 0.15)',
+        borderRadius: '16px',
+        padding: '40px 32px',
+        position: 'relative',
+        flex: '1',
+        minWidth: '260px',
+        boxShadow: tier.popular ? '0 0 40px rgba(58, 123, 255, 0.3), 0 0 80px rgba(58, 123, 255, 0.1)' : 'none',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(60px)',
+        transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+      }}
+    >
+      {/* Popular badge */}
+      {tier.popular && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: '20px',
+            transform: 'translateY(-50%)',
+            background: 'linear-gradient(135deg, #3A7BFF 0%, #17B7BD 100%)',
+            color: 'white',
+            fontSize: '11px',
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            padding: '4px 12px',
+            borderRadius: '4px',
+          }}
+        >
+          Most Popular
+        </div>
+      )}
+
+      {/* Tier name */}
+      <h3
+        style={{
+          fontSize: '22px',
+          fontWeight: 600,
+          color: '#FFFFFF',
+        }}
+      >
+        {tier.name}
+      </h3>
+
+      {/* Price */}
+      <div style={{ marginTop: '16px' }}>
+        {tier.monthlyPrice !== null ? (
+          <>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '42px',
+                fontWeight: 700,
+                color: '#FFFFFF',
+              }}
+            >
+              ${isAnnual ? Math.round(tier.annualPrice! / 12) : tier.monthlyPrice}
+            </span>
+            <span
+              style={{
+                fontSize: '16px',
+                color: '#64748B',
+                marginLeft: '4px',
+              }}
+            >
+              /month
+            </span>
+            {isAnnual && (
+              <div
+                style={{
+                  fontSize: '14px',
+                  color: '#00D084',
+                  marginTop: '4px',
+                }}
+              >
+                ${tier.annualPrice}/year (save 2 months)
+              </div>
+            )}
+          </>
+        ) : (
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '42px',
+              fontWeight: 700,
+              color: '#FFFFFF',
+            }}
+          >
+            Custom
+          </span>
+        )}
+      </div>
+
+      {/* Description */}
+      <p
+        style={{
+          fontSize: '15px',
+          color: '#94A3B8',
+          marginTop: '12px',
+          lineHeight: 1.6,
+        }}
+      >
+        {tier.description}
+      </p>
+
+      {/* Divider */}
+      <div
+        style={{
+          height: '1px',
+          background: 'rgba(58, 123, 255, 0.15)',
+          margin: '24px 0',
+        }}
+      />
+
+      {/* Features */}
+      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        {tier.features.map((feature) => (
+          <li key={feature} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Check size={16} color="#00D084" />
+            <span style={{ fontSize: '14px', color: '#94A3B8' }}>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA */}
+      <button
+        style={{
+          width: '100%',
+          marginTop: '32px',
+          padding: '14px 24px',
+          borderRadius: '9999px',
+          fontFamily: 'var(--font-sans)',
+          fontWeight: 500,
+          fontSize: '12px',
+          letterSpacing: '0.05em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          ...(tier.primary
+            ? {
+                background: 'linear-gradient(135deg, #3A7BFF 0%, #17B7BD 100%)',
+                color: 'white',
+                border: 'none',
+              }
+            : {
+                background: 'transparent',
+                color: '#94A3B8',
+                border: '1px solid rgba(58, 123, 255, 0.3)',
+              }),
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget
+          if (tier.primary) {
+            el.style.filter = 'brightness(1.1)'
+            el.style.boxShadow = '0 0 40px rgba(58, 123, 255, 0.3)'
+          } else {
+            el.style.borderColor = '#3A7BFF'
+            el.style.color = 'white'
+          }
+          el.style.transform = 'scale(1.02)'
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget
+          if (tier.primary) {
+            el.style.filter = 'none'
+            el.style.boxShadow = 'none'
+          } else {
+            el.style.borderColor = 'rgba(58, 123, 255, 0.3)'
+            el.style.color = '#94A3B8'
+          }
+          el.style.transform = 'scale(1)'
+        }}
+      >
+        {tier.cta}
+      </button>
+    </div>
+  )
+}
+
+export default function Pricing() {
+  const [isAnnual, setIsAnnual] = useState(false)
+
+  return (
+    <section
+      style={{
+        background: '#0A0F2C',
+        padding: '120px 24px',
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          textAlign: 'center',
+          maxWidth: '640px',
+          margin: '0 auto 48px',
+        }}
+      >
+        <p className="section-eyebrow">PRICING</p>
+        <h2 className="section-title">Aligned With Your Success</h2>
+        <p className="section-subtitle">
+          Simple subscription + performance fee. You only pay more when you win.
+        </p>
+      </div>
+
+      {/* Toggle */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          marginBottom: '48px',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '12px',
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            color: !isAnnual ? '#FFFFFF' : '#64748B',
+            transition: 'color 0.3s ease',
+          }}
+        >
+          Monthly
+        </span>
+
+        <button
+          onClick={() => setIsAnnual(!isAnnual)}
+          style={{
+            width: '48px',
+            height: '26px',
+            borderRadius: '13px',
+            background: '#0F1629',
+            border: '1px solid rgba(58, 123, 255, 0.3)',
+            position: 'relative',
+            cursor: 'pointer',
+            padding: 0,
+            transition: 'all 0.3s ease',
+          }}
+        >
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              background: '#3A7BFF',
+              position: 'absolute',
+              top: '2px',
+              left: isAnnual ? '24px' : '2px',
+              transition: 'left 0.3s ease',
+              boxShadow: '0 0 8px rgba(58, 123, 255, 0.5)',
+            }}
+          />
+        </button>
+
+        <span
+          style={{
+            fontSize: '12px',
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            color: isAnnual ? '#FFFFFF' : '#64748B',
+            transition: 'color 0.3s ease',
+          }}
+        >
+          Annual <span style={{ color: '#00D084' }}>(2 months free)</span>
+        </span>
+      </div>
+
+      {/* Pricing Cards */}
+      <div
+        style={{
+          maxWidth: '1100px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '24px',
+        }}
+      >
+        {tiers.map((tier, index) => (
+          <PricingCard key={tier.name} tier={tier} isAnnual={isAnnual} index={index} />
+        ))}
+      </div>
+
+      {/* Performance fee note */}
+      <p
+        style={{
+          textAlign: 'center',
+          fontSize: '12px',
+          letterSpacing: '0.05em',
+          color: '#64748B',
+          marginTop: '32px',
+        }}
+      >
+        * Pro and Elite tiers include a 10% performance fee on net monthly profits. Only charged when you win.
+      </p>
+
+      {/* Performance Fee Explanation */}
+      <div style={{ maxWidth: '800px', margin: '80px auto 0', padding: '40px', background: 'var(--color-bg-surface)', borderRadius: '16px', border: '1px solid var(--color-border)' }}>
+        <h3 style={{ fontSize: '24px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', textAlign: 'center' }}>
+          How Performance Fees Work
+        </h3>
+        <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginBottom: '20px', textAlign: 'center' }}>
+          We only succeed when you succeed. Our performance fee aligns our interests with yours.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginTop: '32px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-success)', marginBottom: '8px' }}>10%</div>
+            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Only on NET monthly profits</p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '8px' }}>$0</div>
+            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Fee if you don't profit</p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-accent-purple)', marginBottom: '8px' }}>100%</div>
+            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Transparent calculation</p>
+          </div>
+        </div>
+        <div style={{ marginTop: '32px', padding: '20px', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+          <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', marginBottom: '12px' }}><strong>Example:</strong></p>
+          <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+            If your bots generate $1,000 in profit this month, you pay $100 in performance fees. If you lose money or break even, you pay $0 in performance fees — only your subscription remains.
+          </p>
+        </div>
+      </div>
+
+      {/* FAQ */}
+      <div style={{ maxWidth: '800px', margin: '80px auto 0' }}>
+        <h3 className="section-title" style={{ textAlign: 'center', fontSize: '36px', marginBottom: '48px' }}>
+          Frequently Asked Questions
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {[
+            {
+              q: 'Can I change plans?',
+              a: 'Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate your billing.'
+            },
+            {
+              q: 'What happens if I cancel?',
+              a: 'You can cancel anytime. Your bots will continue running until the end of your billing period, then automatically pause.'
+            },
+            {
+              q: 'How is the performance fee calculated?',
+              a: 'Performance fees are calculated on NET monthly profits across all your connected accounts. Losses are deducted from gains before calculating the fee.'
+            },
+            {
+              q: 'Do you offer refunds?',
+              a: 'We offer a 7-day money-back guarantee for first-time subscribers. Performance fees are non-refundable as they\'re based on realized profits.'
+            },
+            {
+              q: 'Can I try before buying?',
+              a: 'Absolutely! Download the app and explore the strategy builder for free. You only need a subscription to deploy live trading bots.'
+            }
+          ].map((faq, i) => (
+            <div key={i} style={{ padding: '24px', background: 'var(--color-bg-surface)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
+              <h4 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px' }}>{faq.q}</h4>
+              <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div style={{ maxWidth: '600px', margin: '80px auto 0', textAlign: 'center', paddingBottom: '80px' }}>
+        <h3 className="section-title" style={{ fontSize: '32px', marginBottom: '20px' }}>
+          Start with Starter — Upgrade Anytime
+        </h3>
+        <p className="section-subtitle" style={{ marginBottom: '32px' }}>
+          Download the AlgoDeck mobile app and begin your trading automation journey today
+        </p>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/download" className="glow-button">
+            Download for Android
+          </a>
+          <a href="/download" className="outline-button">
+            Download for iOS <span className="badge badge-warning" style={{ marginLeft: '8px' }}>Coming Soon</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}

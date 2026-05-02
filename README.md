@@ -1,4 +1,27 @@
-# React + TypeScript + Vite
+# AlgoDeck Website
+
+Complete marketing website for AlgoDeck - a mobile trading automation platform (Android & iOS).
+
+## 🚀 Quick Start
+
+```bash
+npm install
+npm run dev
+```
+
+## 📦 Deployment (Vercel)
+
+This project is configured for Vercel deployment:
+
+1. **Import project** to Vercel from GitHub
+2. **Framework Preset**: Vite
+3. **Build Command**: `vite build` (auto-detected from vercel.json)
+4. **Output Directory**: `dist` (auto-detected from vercel.json)
+5. **Install Command**: `npm install`
+
+The project will automatically deploy on push to `main` branch.
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

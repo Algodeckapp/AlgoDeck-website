@@ -82,8 +82,13 @@ export default function TradingViz() {
               className="w-full h-auto rounded-[30px] shadow-[0_30px_100px_rgba(58,123,255,0.15)] border border-white/5"
             />
             
-            {/* Overlay Badges */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-[#05070F]/60 backdrop-blur-xl p-3 rounded-2xl border border-white/10 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            {/* Overlay Badges - Stagnant and Bouncing */}
+            <div 
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-[#05070F]/60 backdrop-blur-xl p-3 rounded-2xl border border-white/10 shadow-2xl"
+              style={{
+                animation: 'float3D 4s ease-in-out infinite',
+              }}
+            >
               <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
                 <img 
                   src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
@@ -107,6 +112,13 @@ export default function TradingViz() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes float3D {
+          0%, 100% { transform: translate(-50%, 0px); }
+          50% { transform: translate(-50%, -10px); }
+        }
+      `}</style>
     </section>
   )
 }

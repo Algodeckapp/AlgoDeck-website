@@ -1,11 +1,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Calendar, Clock, ArrowRight, BookOpen, TrendingUp, Newspaper, BarChart3, Search, ArrowLeft, User, Share2, Bookmark, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Calendar, Clock, ArrowRight, BookOpen, TrendingUp, Newspaper, BarChart3, Search, ArrowLeft, Share2, Bookmark, CheckCircle2 } from 'lucide-react'
 
 export default function Blog() {
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState('All Posts')
@@ -18,8 +16,9 @@ export default function Blog() {
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setSubscribed(true)
-    setTimeout(() => setSubscribed(false), 3000)
+    // Subscribed state handled locally for demo
+    const target = e.target as HTMLFormElement
+    target.reset()
   }
 
   const featuredPost = {

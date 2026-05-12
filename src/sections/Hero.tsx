@@ -4,6 +4,7 @@ import * as THREE from 'three'
 // ─── Main Hero Section ───
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
   const [loaded, setLoaded] = useState(false)
 
   // ─── Three.js Particle Background ───
@@ -118,20 +119,6 @@ export default function Hero() {
       renderer.dispose()
     }
   }, [])
-
-  // Monitor visibility based on robot phase
-  const leftMonitorsVisible = robotPhase < 120  // robot on left
-  const rightMonitorsVisible = robotPhase >= 120  // robot on right
-
-  const monitorOpacity = {
-    left: leftMonitorsVisible ? 1 : 0,
-    right: rightMonitorsVisible ? 1 : 0,
-  }
-
-  const monitorTransform = {
-    left: leftMonitorsVisible ? 'scale(1) translateX(0)' : 'scale(0.85) translateX(-20px)',
-    right: rightMonitorsVisible ? 'scale(1) translateX(0)' : 'scale(0.85) translateX(20px)',
-  }
 
   return (
     <section

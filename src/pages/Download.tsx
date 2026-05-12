@@ -1,4 +1,4 @@
-import { Download as DownloadIcon, Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle } from 'lucide-react'
+import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'

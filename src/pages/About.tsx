@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Target, Shield, Users, Lightbulb, HeartHandshake, Smartphone, Server, Database, Network, Bot, ChevronRight, Award, Zap, Globe } from 'lucide-react'
+import { Target, Shield, Users, Lightbulb, HeartHandshake, Smartphone, Server, Database, Network, Bot, Award, Zap, Globe } from 'lucide-react'
 
 export default function About() {
   const [loaded, setLoaded] = useState(false)

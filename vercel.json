@@ -6,7 +6,15 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/((?!.*\\.).*)",
+      "source": "/api/trpc/:path*",
+      "destination": "/api/boot"
+    },
+    {
+      "source": "/api/oauth/:path*",
+      "destination": "/api/boot"
+    },
+    {
+      "source": "/((?!api/|.*\\.).*)",
       "destination": "/index.html"
     }
   ]

@@ -46,9 +46,28 @@ export default function Login() {
       navigate('/admin');
     },
     onError: (err) => {
+      console.error("[DevLogin Error]", err);
       alert("Developer Login failed: " + err.message);
     }
   });
+
+  const pingQuery = trpc.ping.useQuery(undefined, { 
+    enabled: false,
+    retry: false
+  });
+
+  const checkConnection = async () => {
+    try {
+      const res = await pingQuery.refetch();
+      if (res.data?.ok) {
+        alert("✅ Connection Successful! Backend is reachable.");
+      } else {
+        alert("❌ Connection Failed: " + (res.error?.message || "Unknown error"));
+      }
+    } catch (err) {
+      alert("❌ Connection Error: " + (err as Error).message);
+    }
+  };
 
   return (
     <>
@@ -99,6 +118,13 @@ export default function Login() {
               >
                 {devLoginMutation.isPending ? "Authenticating..." : <span className="flex items-center gap-2"><Terminal size={18} /> Developer Login</span>}
               </Button>
+
+              <button 
+                onClick={checkConnection}
+                className="w-full text-[10px] text-[#3A7BFF] uppercase tracking-widest font-bold opacity-50 hover:opacity-100 transition-opacity mt-2"
+              >
+                Check API Connection
+              </button>
               
               <div className="mt-8 pt-8 border-t border-white/5 text-center">
                 <p className="text-[#64748B] text-xs leading-relaxed">

@@ -58,11 +58,18 @@ export default function Login() {
 
   const checkConnection = async () => {
     try {
-      const res = await pingQuery.refetch();
-      if (res.data?.ok) {
-        alert("✅ Connection Successful! Backend is reachable.");
-      } else {
-        alert("❌ Connection Failed: " + (res.error?.message || "Unknown error"));
+      const res = await fetch("/api/trpc/ping?batch=1");
+      const text = await res.text();
+      
+      try {
+        const json = JSON.parse(text);
+        if (json[0]?.result?.data?.ok || json.ok) {
+          alert("✅ Connection Successful! Backend is reachable.");
+        } else {
+          alert("❌ Connection Failed: API returned unexpected data.\n\nResponse: " + text.slice(0, 200));
+        }
+      } catch (e) {
+        alert("❌ Connection Failed: API returned HTML instead of JSON.\n\nFirst 200 chars: " + text.slice(0, 200));
       }
     } catch (err) {
       alert("❌ Connection Error: " + (err as Error).message);

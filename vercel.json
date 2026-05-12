@@ -1,17 +1,20 @@
 {
-  "buildCommand": "vite build",
-  "outputDirectory": "dist",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "vite",
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/trpc/:path*",
-      "destination": "/api/boot"
+      "src": "api/boot.ts",
+      "use": "@vercel/node"
     },
     {
-      "source": "/api/oauth/:path*",
-      "destination": "/api/boot"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/boot.ts"
     },
     {
       "source": "/((?!api/|.*\\.).*)",

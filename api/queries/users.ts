@@ -14,23 +14,34 @@ export async function findUserByUnionId(unionId: string) {
 }
 
 export async function upsertUser(data: InsertUser) {
-  const values = { ...data };
-  const updateSet: Partial<InsertUser> = {
-    lastSignInAt: new Date(),
-    ...data,
-  };
+  const db = getDb();
+  
+  // Check if user exists
+  const existing = await findUserByUnionId(data.unionId);
 
+  const values = { ...data };
   if (
     values.role === undefined &&
     values.unionId &&
     values.unionId === env.ownerUnionId
   ) {
     values.role = "admin";
-    updateSet.role = "admin";
   }
 
-  await getDb()
-    .insert(schema.users)
-    .values(values)
-    .onDuplicateKeyUpdate({ set: updateSet });
+  if (existing) {
+    // Update
+    await db
+      .update(schema.users)
+      .set({
+        name: values.name || existing.name,
+        email: values.email || existing.email,
+        avatar: values.avatar || existing.avatar,
+        role: values.role || existing.role,
+        lastSignInAt: new Date(),
+      })
+      .where(eq(schema.users.unionId, data.unionId));
+  } else {
+    // Insert
+    await db.insert(schema.users).values(values);
+  }
 }

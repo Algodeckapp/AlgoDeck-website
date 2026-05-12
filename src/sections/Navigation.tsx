@@ -57,127 +57,38 @@ export default function Navigation() {
   return (
     <>
       <nav
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          height: scrolled ? '64px' : '80px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 0,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          background: scrolled
-            ? 'rgba(10, 15, 44, 0.95)'
-            : 'rgba(5, 7, 15, 0.6)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: scrolled ? '1px solid rgba(58, 123, 255, 0.2)' : '1px solid rgba(58, 123, 255, 0.1)',
-          boxShadow: scrolled ? '0 4px 24px rgba(0, 0, 0, 0.3)' : 'none',
-        }}
+        className={`fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center transition-all duration-300 ${
+          scrolled ? 'h-16 bg-[#0A0F2C]/95 border-b border-[#3A7BFF]/20 shadow-lg' : 'h-20 bg-[#05070F]/60 border-b border-[#3A7BFF]/10'
+        } backdrop-blur-xl`}
       >
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingLeft: '24px',
-            paddingRight: '24px',
-          }}
-        >
+        <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-6">
           {/* Logo */}
           <Link
             to="/"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'transform 0.3s ease',
-              padding: '8px 16px 8px 8px',
-              borderRadius: '8px',
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)'
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.3)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)'
-            }}
+            className="flex items-center transition-transform hover:scale-105"
           >
             <img
               src="/assets/logo-primary.png"
               alt="AlgoDeck"
-              style={{
-                height: scrolled ? '48px' : '60px',
-                width: 'auto',
-                transition: 'height 0.3s ease',
-                objectFit: 'contain',
-              }}
-              className="logo-image"
+              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}
             />
           </Link>
 
           {/* Desktop Nav */}
-          <div
-            className="hidden md:flex"
-            style={{
-              alignItems: 'center',
-              gap: '4px',
-              flex: 1,
-              justifyContent: 'center',
-            }}
-          >
+          <div className="hidden md:flex items-center justify-center flex-1 gap-1">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href
               return link.isRoute ? (
                 <Link
                   key={link.href}
                   to={link.href}
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    letterSpacing: '0.01em',
-                    color: isActive ? '#FFFFFF' : '#94A3B8',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                    position: 'relative',
-                    background: isActive ? 'rgba(58, 123, 255, 0.1)' : 'transparent',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget
-                    el.style.color = '#FFFFFF'
-                    if (!isActive) {
-                      el.style.background = 'rgba(58, 123, 255, 0.05)'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget
-                    el.style.color = isActive ? '#FFFFFF' : '#94A3B8'
-                    el.style.background = isActive ? 'rgba(58, 123, 255, 0.1)' : 'transparent'
-                  }}
+                  className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-lg transition-all relative ${
+                    isActive ? 'text-white bg-[#3A7BFF]/10' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/5'
+                  }`}
                 >
                   {link.label}
                   {isActive && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '2px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: '24px',
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #3A7BFF 0%, #17B7BD 100%)',
-                        borderRadius: '2px',
-                      }}
-                    />
+                    <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
                   )}
                 </Link>
               ) : (
@@ -188,46 +99,13 @@ export default function Navigation() {
                     e.preventDefault()
                     handleNavClick(link.href)
                   }}
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    letterSpacing: '0.01em',
-                    color: isActive ? '#FFFFFF' : '#94A3B8',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                    position: 'relative',
-                    background: isActive ? 'rgba(58, 123, 255, 0.1)' : 'transparent',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget
-                    el.style.color = '#FFFFFF'
-                    if (!isActive) {
-                      el.style.background = 'rgba(58, 123, 255, 0.05)'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget
-                    el.style.color = isActive ? '#FFFFFF' : '#94A3B8'
-                    el.style.background = isActive ? 'rgba(58, 123, 255, 0.1)' : 'transparent'
-                  }}
+                  className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-lg transition-all relative ${
+                    isActive ? 'text-white bg-[#3A7BFF]/10' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/5'
+                  }`}
                 >
                   {link.label}
                   {isActive && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '2px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: '24px',
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #3A7BFF 0%, #17B7BD 100%)',
-                        borderRadius: '2px',
-                      }}
-                    />
+                    <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
                   )}
                 </a>
               )
@@ -235,37 +113,18 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Right side */}
-          <div className="hidden md:flex" style={{ alignItems: 'center', gap: '12px' }}>
+          <div className="hidden md:flex items-center gap-3">
             {user ? (
               <>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '8px 16px',
-                    borderRadius: '9999px',
-                    background: 'rgba(58, 123, 255, 0.05)',
-                    border: '1px solid rgba(58, 123, 255, 0.15)',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: '#00D084',
-                      boxShadow: '0 0 8px rgba(0, 208, 132, 0.5)',
-                    }}
-                  />
-                  <span style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: 500 }}>
+                <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-[#3A7BFF]/5 border border-[#3A7BFF]/15">
+                  <div className="w-2 h-2 rounded-full bg-[#00D084] shadow-[0_0_8px_rgba(0,208,132,0.5)]" />
+                  <span className="text-white text-sm font-medium">
                     {user.name || 'User'}
                   </span>
                 </div>
                 <button
                   onClick={() => logout()}
-                  className="outline-button"
-                  style={{ padding: '10px 20px', fontSize: '12px' }}
+                  className="outline-button !px-5 !py-2.5 !text-[11px]"
                 >
                   Sign Out
                 </button>
@@ -273,15 +132,7 @@ export default function Navigation() {
             ) : (
               <Link
                 to="/download"
-                className="glow-button"
-                style={{
-                  padding: '12px 24px',
-                  fontSize: '13px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontWeight: 600,
-                }}
+                className="glow-button !px-6 !py-3 !text-[12px] flex items-center gap-2 font-semibold"
               >
                 Download Now
                 <ChevronRight size={16} />
@@ -291,29 +142,8 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden"
+            className="md:hidden w-10 h-10 flex items-center justify-center bg-[#3A7BFF]/10 border border-[#3A7BFF]/20 rounded-lg text-white transition-all hover:bg-[#3A7BFF]/15 hover:border-[#3A7BFF]"
             onClick={() => setMobileOpen(!mobileOpen)}
-            style={{
-              background: 'rgba(58, 123, 255, 0.1)',
-              border: '1px solid rgba(58, 123, 255, 0.2)',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              color: '#FFFFFF',
-              width: '40px',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(58, 123, 255, 0.15)'
-              e.currentTarget.style.borderColor = '#3A7BFF'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(58, 123, 255, 0.1)'
-              e.currentTarget.style.borderColor = 'rgba(58, 123, 255, 0.2)'
-            }}
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -322,71 +152,47 @@ export default function Navigation() {
 
       {/* Mobile menu overlay */}
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 999,
-          background: 'rgba(5, 7, 15, 0.98)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          display: 'flex',
-          flexDirection: 'column',
-          opacity: mobileOpen ? 1 : 0,
-          pointerEvents: mobileOpen ? 'auto' : 'none',
-          transition: 'opacity 0.3s ease',
-        }}
+        className={`fixed inset-0 z-[999] bg-[#05070F]/98 backdrop-blur-2xl flex flex-col transition-opacity duration-300 ${
+          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
       >
         {/* Mobile menu content */}
         <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            padding: '80px 24px 24px',
-            transform: mobileOpen ? 'translateY(0)' : 'translateY(-20px)',
-            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-            transitionDelay: mobileOpen ? '0.1s' : '0s',
-          }}
+          className={`flex-1 flex flex-col items-center justify-center gap-2 px-6 pt-20 transition-transform duration-500 ${
+            mobileOpen ? 'translate-y-0' : '-translate-y-5'
+          }`}
         >
           {navLinks.map((link, index) => {
             const isActive = location.pathname === link.href
-            const linkProps = {
-              key: link.href,
-              onClick: (e: React.MouseEvent) => {
-                if (link.isRoute) {
-                  setMobileOpen(false)
-                } else {
-                  e.preventDefault()
-                  handleNavClick(link.href)
-                }
-              },
-              style: {
-                fontSize: '32px',
-                fontWeight: 600,
-                color: isActive ? '#3A7BFF' : '#FFFFFF',
-                textDecoration: 'none',
-                padding: '16px 32px',
-                borderRadius: '12px',
-                background: isActive ? 'rgba(58, 123, 255, 0.1)' : 'transparent',
-                border: '1px solid transparent',
-                transition: 'all 0.3s ease',
-                width: '100%',
-                maxWidth: '400px',
-                textAlign: 'center' as const,
-                opacity: mobileOpen ? 1 : 0,
-                transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
-                transitionDelay: mobileOpen ? `${0.1 + index * 0.05}s` : '0s',
-              }
+            const commonClasses = `text-2xl font-semibold px-8 py-4 rounded-xl transition-all w-full max-w-sm text-center ${
+              isActive ? 'text-[#3A7BFF] bg-[#3A7BFF]/10' : 'text-white bg-transparent'
+            } ${mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`
+            
+            const commonStyle = {
+              transitionDelay: mobileOpen ? `${0.1 + index * 0.05}s` : '0s'
             }
+
             return link.isRoute ? (
-              <Link {...linkProps} to={link.href}>
+              <Link
+                key={link.href}
+                to={link.href}
+                className={commonClasses}
+                style={commonStyle}
+                onClick={() => setMobileOpen(false)}
+              >
                 {link.label}
               </Link>
             ) : (
-              <a {...linkProps} href={link.href}>
+              <a
+                key={link.href}
+                href={link.href}
+                className={commonClasses}
+                style={commonStyle}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick(link.href)
+                }}
+              >
                 {link.label}
               </a>
             )
@@ -394,43 +200,16 @@ export default function Navigation() {
 
           {/* Mobile auth buttons */}
           <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              marginTop: '40px',
-              width: '100%',
-              maxWidth: '400px',
-              opacity: mobileOpen ? 1 : 0,
-              transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'all 0.3s ease',
-              transitionDelay: mobileOpen ? '0.3s' : '0s',
-            }}
+            className={`flex flex-col gap-3 mt-10 w-full max-w-sm transition-all duration-300 ${
+              mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+            style={{ transitionDelay: mobileOpen ? '0.3s' : '0s' }}
           >
             {user ? (
               <>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    padding: '16px',
-                    borderRadius: '12px',
-                    background: 'rgba(58, 123, 255, 0.05)',
-                    border: '1px solid rgba(58, 123, 255, 0.2)',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '10px',
-                      height: '10px',
-                      borderRadius: '50%',
-                      background: '#00D084',
-                      boxShadow: '0 0 12px rgba(0, 208, 132, 0.6)',
-                    }}
-                  />
-                  <span style={{ color: '#FFFFFF', fontSize: '16px', fontWeight: 500 }}>
+                <div className="flex items-center justify-center gap-3 p-4 rounded-xl bg-[#3A7BFF]/5 border border-[#3A7BFF]/20">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#00D084] shadow-[0_0_12px_rgba(0,208,132,0.6)]" />
+                  <span className="text-white text-lg font-medium">
                     {user.name || 'User'}
                   </span>
                 </div>
@@ -439,8 +218,7 @@ export default function Navigation() {
                     logout()
                     setMobileOpen(false)
                   }}
-                  className="outline-button"
-                  style={{ width: '100%', padding: '16px', fontSize: '14px' }}
+                  className="outline-button !w-full !py-4 !text-sm"
                 >
                   Sign Out
                 </button>
@@ -448,18 +226,8 @@ export default function Navigation() {
             ) : (
               <Link
                 to="/download"
-                className="glow-button"
+                className="glow-button !w-full !py-4.5 !text-base flex items-center justify-center gap-2.5 font-semibold"
                 onClick={() => setMobileOpen(false)}
-                style={{
-                  width: '100%',
-                  padding: '18px',
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px',
-                }}
               >
                 Download Now
                 <ChevronRight size={18} />

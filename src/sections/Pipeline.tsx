@@ -53,30 +53,16 @@ function StageCard({ stage, index }: { stage: typeof stages[0]; index: number })
   return (
     <div
       ref={cardRef}
+      className={`flex w-full px-6 md:px-0 ${isLeft ? 'md:justify-start' : 'md:justify-end'} justify-center`}
       style={{
-        display: 'flex',
-        justifyContent: isLeft ? 'flex-start' : 'flex-end',
-        padding: '0 24px',
         opacity: visible ? 1 : 0,
         transform: visible
-          ? 'translateX(0) scale(1)'
-          : `translateX(${isLeft ? '-60px' : '60px'}) scale(0.95)`,
+          ? 'translateX(0) translateY(0) scale(1)'
+          : `translateX(${window.innerWidth < 768 ? '0' : (isLeft ? '-60px' : '60px')}) translateY(${window.innerWidth < 768 ? '40px' : '0'}) scale(0.95)`,
         transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
-      <div
-        style={{
-          background: 'rgba(15, 22, 41, 0.6)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(58, 123, 255, 0.15)',
-          borderRadius: '16px',
-          padding: '32px',
-          maxWidth: '480px',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
+      <div className="bg-[#0f162999] backdrop-blur-xl border border-[#3a7bff26] rounded-2xl p-8 max-w-lg w-full relative">
         {/* Step number */}
         <span
           style={{
@@ -95,39 +81,17 @@ function StageCard({ stage, index }: { stage: typeof stages[0]; index: number })
         </span>
 
         {/* Icon */}
-        <div
-          style={{
-            width: '48px',
-            height: '48px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '20px',
-          }}
-        >
+        <div className="w-12 h-12 flex items-center justify-center mb-5">
           <Icon size={28} color="#17B7BD" strokeWidth={1.5} />
         </div>
 
         {/* Title */}
-        <h3
-          style={{
-            fontSize: '22px',
-            fontWeight: 600,
-            color: '#FFFFFF',
-            marginBottom: '12px',
-          }}
-        >
+        <h3 className="text-[22px] font-semibold text-white mb-3">
           {stage.title}
         </h3>
 
         {/* Description */}
-        <p
-          style={{
-            fontSize: '15px',
-            lineHeight: 1.7,
-            color: '#94A3B8',
-          }}
-        >
+        <p className="text-[15px] leading-relaxed text-[#94A3B8]">
           {stage.description}
         </p>
       </div>
@@ -166,22 +130,10 @@ export default function Pipeline() {
   return (
     <section
       ref={sectionRef}
-      style={{
-        background: '#05070F',
-        padding: '120px 0',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+      className="bg-[#05070F] py-16 md:py-32 relative overflow-hidden"
     >
       {/* Header */}
-      <div
-        style={{
-          textAlign: 'center',
-          maxWidth: '640px',
-          margin: '0 auto 80px',
-          padding: '0 24px',
-        }}
-      >
+      <div className="text-center max-w-2xl mx-auto mb-20 px-6">
         <p className="section-eyebrow">HOW IT WORKS</p>
         <h2 className="section-title">Start Trading in 3 Simple Steps</h2>
         <p className="section-subtitle">
@@ -190,30 +142,9 @@ export default function Pipeline() {
       </div>
 
       {/* Pipeline Container */}
-      <div
-        style={{
-          maxWidth: '1100px',
-          margin: '0 auto',
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '48px',
-          padding: '0 24px',
-        }}
-      >
+      <div className="max-w-7xl mx-auto relative flex flex-col gap-12 px-6">
         {/* Connecting Line */}
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            bottom: 0,
-            width: '2px',
-            transform: 'translateX(-50%)',
-            background: 'rgba(58, 123, 255, 0.08)',
-            zIndex: 0,
-          }}
-        >
+        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-[#3a7bff14] z-0">
           <div
             ref={lineRef}
             style={{

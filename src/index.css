@@ -95,13 +95,12 @@
   }
 
   .glow-button {
+    @apply px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-xs;
     background: var(--color-gradient-primary);
     color: white;
-    padding: 14px 32px;
     border-radius: 9999px;
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 12px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     border: none;
@@ -145,13 +144,12 @@
   }
 
   .outline-button {
+    @apply px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-xs;
     background: transparent;
     color: var(--color-text-secondary);
-    padding: 14px 32px;
     border-radius: 9999px;
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 12px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     border: 1px solid var(--color-border);

@@ -83,66 +83,26 @@ export default function Footer() {
   }
 
   return (
-    <footer
-      style={{
-        background: '#05070F',
-        borderTop: '1px solid rgba(58, 123, 255, 0.15)',
-        padding: '80px 24px 0',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-        }}
-      >
+    <footer className="bg-[#05070F] border-t border-[#3A7BFF]/15 pt-16 md:pt-24 px-6 pb-8">
+      <div className="max-w-7xl mx-auto">
         {/* Top Row */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '48px',
-            paddingBottom: '64px',
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 md:gap-16 pb-16 border-b border-[#3A7BFF]/15">
           {/* Brand Column */}
-          <div>
+          <div className="lg:col-span-1">
             <Link
               to="/"
-              style={{
-                display: 'inline-block',
-                padding: '8px 16px 8px 8px',
-                borderRadius: '8px',
-                background: 'rgba(255, 255, 255, 0.95)',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)'
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.3)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
+              className="inline-flex items-center p-2 rounded-lg transition-all hover:scale-105 hover:shadow-[0_4px_16px_rgba(59,130,246,0.3)]"
             >
               <img
                 src="/assets/logo-primary.png"
                 alt="AlgoDeck"
-                style={{ height: '36px', objectFit: 'contain' }}
-                className="logo-image"
+                className="h-9 object-contain logo-image"
               />
             </Link>
-            <p
-              style={{
-                fontSize: '15px',
-                color: '#94A3B8',
-                marginTop: '16px',
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="text-[15px] text-[#94A3B8] mt-4 leading-relaxed">
               Automate Your Trading Empire
             </p>
-            <div style={{ display: 'flex', gap: '16px', marginTop: '24px' }}>
+            <div className="flex gap-4 mt-6">
               {[
                 { type: 'twitter', href: 'https://twitter.com/algodeck' },
                 { type: 'discord', href: 'https://discord.gg/algodeck' },
@@ -153,17 +113,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    color: '#64748B',
-                    transition: 'color 0.3s ease',
-                    display: 'flex',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = '#3A7BFF'
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = '#64748B'
-                  }}
+                  className="text-[#64748B] transition-colors hover:text-[#3A7BFF] flex items-center"
                 >
                   <SocialIcon type={social.type} />
                 </a>
@@ -174,57 +124,33 @@ export default function Footer() {
           {/* Link Columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  color: '#FFFFFF',
-                  marginBottom: '20px',
-                }}
-              >
+              <h4 className="text-xs font-medium tracking-[0.1em] uppercase text-white mb-6">
                 {title}
               </h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <ul className="flex flex-col gap-3">
                 {links.map((link) => {
-                  const linkProps = {
-                    onClick: (e: React.MouseEvent) => {
-                      if (!link.isRoute && link.href.startsWith('#')) {
-                        e.preventDefault()
-                        handleNavClick(link.href)
-                      }
-                    },
-                    style: {
-                      fontSize: '14px',
-                      color: '#94A3B8',
-                      textDecoration: 'none',
-                      transition: 'all 0.3s ease',
-                      display: 'inline-block',
-                    },
-                    onMouseEnter: (e: React.MouseEvent) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.color = '#FFFFFF'
-                      el.style.transform = 'translateX(4px)'
-                    },
-                    onMouseLeave: (e: React.MouseEvent) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.color = '#94A3B8'
-                      el.style.transform = 'translateX(0)'
-                    }
-                  }
+                  const linkClasses = "text-sm text-[#94A3B8] hover:text-white transition-all inline-block hover:translate-x-1"
                   return (
                     <li key={link.label}>
                       {link.isRoute ? (
-                        <Link {...linkProps} to={link.href}>
+                        <Link
+                          to={link.href}
+                          className={linkClasses}
+                          onClick={(e) => {
+                            if (link.href.startsWith('#')) {
+                              e.preventDefault()
+                              handleNavClick(link.href)
+                            }
+                          }}
+                        >
                           {link.label}
                         </Link>
                       ) : (
                         <a
-                          {...linkProps}
                           href={link.href}
                           target={link.href.startsWith('http') ? '_blank' : undefined}
                           rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className={linkClasses}
                         >
                           {link.label}
                         </a>
@@ -237,66 +163,28 @@ export default function Footer() {
           ))}
 
           {/* Newsletter */}
-          <div>
-            <h4
-              style={{
-                fontSize: '12px',
-                fontWeight: 500,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                color: '#FFFFFF',
-                marginBottom: '20px',
-              }}
-            >
+          <div className="sm:col-span-2 lg:col-span-1">
+            <h4 className="text-xs font-medium tracking-[0.1em] uppercase text-white mb-6">
               Stay Updated
             </h4>
             {subscribed ? (
-              <p style={{ fontSize: '14px', color: '#00D084' }}>
+              <p className="text-sm text-[#00D084] font-medium animate-fade-in">
                 Thanks for subscribing!
               </p>
             ) : (
-              <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '8px' }}>
+              <form onSubmit={handleSubscribe} className="flex gap-2 max-w-sm">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  style={{
-                    flex: 1,
-                    padding: '10px 16px',
-                    background: '#0F1629',
-                    border: '1px solid rgba(58, 123, 255, 0.15)',
-                    borderRadius: '4px',
-                    color: '#FFFFFF',
-                    fontSize: '14px',
-                    fontFamily: 'var(--font-sans)',
-                    outline: 'none',
-                    minWidth: 0,
-                  }}
+                  placeholder="Email"
+                  className="flex-1 bg-[#0F1629] border border-[#3A7BFF]/15 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#3A7BFF]/40 transition-colors min-w-0"
                 />
                 <button
                   type="submit"
                   disabled={subscribeMutation.isPending}
-                  style={{
-                    padding: '10px 20px',
-                    background: '#3A7BFF',
-                    border: 'none',
-                    borderRadius: '4px',
-                    color: '#FFFFFF',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    fontFamily: 'var(--font-sans)',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'filter 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.filter = 'brightness(1.1)'
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.filter = 'none'
-                  }}
+                  className="bg-[#3A7BFF] hover:brightness-110 text-white text-xs font-medium rounded-lg px-5 py-2.5 transition-all disabled:opacity-50 whitespace-nowrap"
                 >
                   {subscribeMutation.isPending ? '...' : 'Subscribe'}
                 </button>
@@ -305,13 +193,7 @@ export default function Footer() {
             {user?.role === 'admin' && (
               <Link
                 to="/admin"
-                style={{
-                  display: 'inline-block',
-                  marginTop: '16px',
-                  fontSize: '12px',
-                  color: '#3A7BFF',
-                  textDecoration: 'none',
-                }}
+                className="inline-block mt-4 text-[10px] uppercase tracking-wider font-semibold text-[#3A7BFF] hover:brightness-125 transition-all"
               >
                 Admin Dashboard →
               </Link>
@@ -320,22 +202,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom Row */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '32px 0',
-            borderTop: '1px solid rgba(58, 123, 255, 0.15)',
-            flexWrap: 'wrap',
-            gap: '12px',
-          }}
-        >
-          <span style={{ fontSize: '12px', color: '#64748B' }}>
+        <div className="flex flex-col sm:flex-row justify-between items-center py-8 gap-4 text-center sm:text-left">
+          <span className="text-xs text-[#64748B]">
             © 2026 AlgoDeck. All rights reserved.
           </span>
-          <span style={{ fontSize: '12px', color: '#64748B' }}>
-            Made with ❤️ for traders
+          <span className="text-xs text-[#64748B] flex items-center gap-1.5">
+            Made with <span className="text-red-500 animate-pulse">❤️</span> for traders
           </span>
         </div>
       </div>

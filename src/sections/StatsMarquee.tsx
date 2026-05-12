@@ -15,22 +15,13 @@ function StatBlock({ stat, index }: { stat: typeof stats[0]; index: number }) {
   return (
     <div
       ref={ref}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '0 48px',
-        borderRight: index < stats.length - 1 ? '1px solid rgba(58, 123, 255, 0.15)' : 'none',
-        whiteSpace: 'nowrap',
-      }}
+      className={`flex items-center gap-2 px-8 md:px-12 ${
+        index < stats.length - 1 ? 'border-r border-[#3A7BFF]/15' : ''
+      } whitespace-nowrap`}
     >
       <span
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '20px',
-          fontWeight: 700,
-          color: stat.color,
-        }}
+        className="font-mono text-lg md:text-xl font-bold"
+        style={{ color: stat.color }}
       >
         {stat.prefix}
         {inView ? (
@@ -45,7 +36,7 @@ function StatBlock({ stat, index }: { stat: typeof stats[0]; index: number }) {
         )}
         {stat.suffix}
       </span>
-      <span style={{ fontSize: '12px', letterSpacing: '0.05em', color: '#64748B', textTransform: 'uppercase' }}>
+      <span className="text-[10px] md:text-xs tracking-wider text-[#64748B] uppercase">
         {stat.label}
       </span>
     </div>
@@ -54,29 +45,8 @@ function StatBlock({ stat, index }: { stat: typeof stats[0]; index: number }) {
 
 export default function StatsMarquee() {
   return (
-    <section
-      style={{
-        width: '100%',
-        background: '#0A0F2C',
-        borderTop: '1px solid rgba(58, 123, 255, 0.15)',
-        borderBottom: '1px solid rgba(58, 123, 255, 0.15)',
-        padding: '20px 0',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          animation: 'marquee 30s linear infinite',
-          width: 'max-content',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.animationPlayState = 'paused'
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.animationPlayState = 'running'
-        }}
-      >
+    <section className="w-full bg-[#0A0F2C] border-t border-b border-[#3A7BFF]/15 py-4 md:py-6 overflow-hidden">
+      <div className="flex animate-marquee w-max">
         {/* Duplicate for seamless loop */}
         {[...stats, ...stats].map((stat, index) => (
           <StatBlock key={`${stat.label}-${index}`} stat={stat} index={index % stats.length} />

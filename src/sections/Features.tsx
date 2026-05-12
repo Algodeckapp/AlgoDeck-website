@@ -137,14 +137,7 @@ export default function Features() {
   }, [])
 
   return (
-    <section
-      style={{
-        background: '#0A0F2C',
-        padding: '120px 24px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
+    <section className="bg-[#0A0F2C] py-16 px-6 md:py-32 md:px-8 relative overflow-hidden">
       {/* Wireframe Globe Background */}
       <div
         style={{
@@ -201,15 +194,7 @@ export default function Features() {
       </div>
 
       {/* Header */}
-      <div
-        style={{
-          textAlign: 'center',
-          maxWidth: '640px',
-          margin: '0 auto 64px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
+      <div className="text-center max-w-2xl mx-auto mb-16 relative z-10">
         <p className="section-eyebrow">MOBILE APP</p>
         <h2 className="section-title">Powerful Trading Bot Features in Your Pocket</h2>
         <p className="section-subtitle">
@@ -218,17 +203,7 @@ export default function Features() {
       </div>
 
       {/* Feature Grid */}
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '32px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
         {features.map((feature, index) => (
           <FeatureCard key={feature.title} feature={feature} index={index} />
         ))}

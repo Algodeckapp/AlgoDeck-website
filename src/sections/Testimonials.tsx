@@ -131,34 +131,15 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
 
 export default function Testimonials() {
   return (
-    <section
-      style={{
-        background: '#05070F',
-        padding: '120px 24px',
-      }}
-    >
+    <section className="bg-[#05070F] py-16 px-6 md:py-32 md:px-8">
       {/* Header */}
-      <div
-        style={{
-          textAlign: 'center',
-          maxWidth: '640px',
-          margin: '0 auto 64px',
-        }}
-      >
+      <div className="text-center max-w-2xl mx-auto mb-16">
         <p className="section-eyebrow">TRADER STORIES</p>
         <h2 className="section-title">Built for Traders Like You</h2>
       </div>
 
       {/* Testimonials Grid */}
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '32px',
-        }}
-      >
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {testimonials.map((testimonial, index) => (
           <TestimonialCard key={testimonial.author} testimonial={testimonial} index={index} />
         ))}

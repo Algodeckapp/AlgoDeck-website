@@ -104,74 +104,34 @@ export default function CTABanner() {
     <>
       <section
         ref={sectionRef}
-        style={{
-          width: '100%',
-          background: 'linear-gradient(135deg, #0A0F2C 0%, #0F1629 50%, #0A0F2C 100%)',
-          padding: '128px 24px',
-          borderTop: '1px solid rgba(58, 123, 255, 0.15)',
-          borderBottom: '1px solid rgba(58, 123, 255, 0.15)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
+        className="w-full bg-gradient-to-br from-[#0A0F2C] via-[#0F1629] to-[#0A0F2C] py-24 md:py-32 px-6 border-t border-b border-[#3A7BFF]/15 relative overflow-hidden"
       >
         {/* Particle canvas */}
         <canvas
           ref={canvasRef}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 0,
-            width: '100%',
-            height: '100%',
-          }}
+          className="absolute inset-0 z-0 w-full h-full"
         />
 
         {/* Content */}
         <div
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            maxWidth: '720px',
-            margin: '0 auto',
-            textAlign: 'center',
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'all 1s ease',
-          }}
+          className={`relative z-10 max-w-2xl mx-auto text-center transition-all duration-1000 ${
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
         >
           <h2 className="section-title">Ready to Automate Your Trading?</h2>
-          <p
-            style={{
-              fontSize: '16px',
-              lineHeight: 1.7,
-              color: '#94A3B8',
-              maxWidth: '560px',
-              margin: '20px auto 0',
-            }}
-          >
+          <p className="text-base md:text-lg text-[#94A3B8] leading-relaxed max-w-lg mx-auto mt-6">
             Join thousands of traders using AlgoDeck to build profitable trading bots.
           </p>
 
-          <div style={{ marginTop: '48px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+          <div className="flex flex-col items-center gap-4 mt-12">
             <a
               href="/download"
-              className="glow-button"
-              style={{ padding: '16px 40px', fontSize: '16px' }}
+              className="glow-button w-full sm:w-auto flex items-center justify-center !py-4 !px-12 !text-base"
             >
               Download for Android
             </a>
             <button
-              style={{
-                background: 'rgba(58, 123, 255, 0.1)',
-                border: '1px solid rgba(58, 123, 255, 0.3)',
-                borderRadius: '8px',
-                color: '#94A3B8',
-                fontSize: '14px',
-                fontWeight: 500,
-                padding: '12px 32px',
-                cursor: 'not-allowed',
-                opacity: 0.7,
-              }}
+              className="bg-[#3A7BFF]/10 border border-[#3A7BFF]/30 rounded-xl text-[#94A3B8] text-sm font-medium py-3 px-8 cursor-not-allowed opacity-70 w-full sm:w-auto"
               disabled
             >
               Download for iOS (Coming Soon)

@@ -301,20 +301,9 @@ export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false)
 
   return (
-    <section
-      style={{
-        background: '#0A0F2C',
-        padding: '120px 24px',
-      }}
-    >
+    <section className="bg-[#0A0F2C] py-16 px-6 md:py-32 md:px-8">
       {/* Header */}
-      <div
-        style={{
-          textAlign: 'center',
-          maxWidth: '640px',
-          margin: '0 auto 48px',
-        }}
-      >
+      <div className="text-center max-w-2xl mx-auto mb-12">
         <p className="section-eyebrow">PRICING</p>
         <h2 className="section-title">Aligned With Your Success</h2>
         <p className="section-subtitle">
@@ -387,15 +376,7 @@ export default function Pricing() {
       </div>
 
       {/* Pricing Cards */}
-      <div
-        style={{
-          maxWidth: '1100px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '24px',
-        }}
-      >
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {tiers.map((tier, index) => (
           <PricingCard key={tier.name} tier={tier} isAnnual={isAnnual} index={index} />
         ))}
@@ -415,14 +396,14 @@ export default function Pricing() {
       </p>
 
       {/* Performance Fee Explanation */}
-      <div style={{ maxWidth: '800px', margin: '80px auto 0', padding: '40px', background: 'var(--color-bg-surface)', borderRadius: '16px', border: '1px solid var(--color-border)' }}>
+      <div className="max-w-3xl mx-auto mt-20 p-10 bg-[var(--color-bg-surface)] rounded-2xl border border-[var(--color-border)]">
         <h3 style={{ fontSize: '24px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', textAlign: 'center' }}>
           How Performance Fees Work
         </h3>
         <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginBottom: '20px', textAlign: 'center' }}>
           We only succeed when you succeed. Our performance fee aligns our interests with yours.
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginTop: '32px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8">
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-success)', marginBottom: '8px' }}>10%</div>
             <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Only on NET monthly profits</p>
@@ -436,7 +417,7 @@ export default function Pricing() {
             <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Transparent calculation</p>
           </div>
         </div>
-        <div style={{ marginTop: '32px', padding: '20px', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+        <div className="mt-8 p-5 bg-[#3b82f60d] rounded-lg border border-[#3b82f633]">
           <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', marginBottom: '12px' }}><strong>Example:</strong></p>
           <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
             If your bots generate $1,000 in profit this month, you pay $100 in performance fees. If you lose money or break even, you pay $0 in performance fees — only your subscription remains.
@@ -445,11 +426,11 @@ export default function Pricing() {
       </div>
 
       {/* FAQ */}
-      <div style={{ maxWidth: '800px', margin: '80px auto 0' }}>
-        <h3 className="section-title" style={{ textAlign: 'center', fontSize: '36px', marginBottom: '48px' }}>
+      <div className="max-w-3xl mx-auto mt-20">
+        <h3 className="section-title text-center text-4xl mb-12">
           Frequently Asked Questions
         </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="flex flex-col gap-6">
           {[
             {
               q: 'Can I change plans?',
@@ -472,7 +453,7 @@ export default function Pricing() {
               a: 'Absolutely! Download the app and explore the strategy builder for free. You only need a subscription to deploy live trading bots.'
             }
           ].map((faq, i) => (
-            <div key={i} style={{ padding: '24px', background: 'var(--color-bg-surface)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
+            <div key={i} className="p-6 bg-[var(--color-bg-surface)] rounded-xl border border-[var(--color-border)]">
               <h4 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px' }}>{faq.q}</h4>
               <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>{faq.a}</p>
             </div>
@@ -481,19 +462,19 @@ export default function Pricing() {
       </div>
 
       {/* Final CTA */}
-      <div style={{ maxWidth: '600px', margin: '80px auto 0', textAlign: 'center', paddingBottom: '80px' }}>
-        <h3 className="section-title" style={{ fontSize: '32px', marginBottom: '20px' }}>
+      <div className="max-w-2xl mx-auto mt-20 text-center pb-20">
+        <h3 className="section-title text-3xl mb-5">
           Start with Starter — Upgrade Anytime
         </h3>
-        <p className="section-subtitle" style={{ marginBottom: '32px' }}>
+        <p className="section-subtitle mb-8">
           Download the AlgoDeck mobile app and begin your trading automation journey today
         </p>
-        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div className="flex gap-4 justify-center flex-wrap">
           <a href="/download" className="glow-button">
             Download for Android
           </a>
           <a href="/download" className="outline-button">
-            Download for iOS <span className="badge badge-warning" style={{ marginLeft: '8px' }}>Coming Soon</span>
+            Download for iOS <span className="ml-2 px-2 py-0.5 text-[10px] bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded uppercase font-bold">Coming Soon</span>
           </a>
         </div>
       </div>

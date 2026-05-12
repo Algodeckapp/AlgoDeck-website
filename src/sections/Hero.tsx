@@ -247,340 +247,86 @@ export default function Hero() {
       />
 
       {/* ═══ ROBOT + MONITORS CONTAINER (centered, massive) ═══ */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          pointerEvents: 'none',
-        }}
-      >
-        {/* Robot wrapper with swerve animation */}
-        <div
-          className="robot-sway"
-          style={{
-            position: 'relative',
-            animation: 'robotSwerve 4s ease-in-out infinite',
+      {/* ═══ HERO CONTENT CONTAINER ═══ */}
+      <div className="relative z-10 max-w-[1600px] mx-auto h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-16 pt-28 md:pt-0 gap-[10px] md:gap-16">
+        {/* Text content */}
+        <div className="w-full md:max-w-[600px] text-center md:text-left pointer-events-auto">
+          {/* Eyebrow */}
+          <span
+            className={`section-eyebrow transition-all duration-700 ${
+              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            } block mb-4`}
+            style={{
+              transitionDelay: '0.5s',
+              textShadow: '0 2px 10px rgba(5,7,15,0.8)',
+            }}
+          >
+            AUTOMATED TRADING INTELLIGENCE
+          </span>
+
+          {/* Headline */}
+          <h1
+            className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight transition-all duration-1000 ${
+              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{
+              transitionDelay: '0.7s',
+              textShadow: '0 4px 20px rgba(5,7,15,0.9), 0 2px 8px rgba(0,0,0,0.5)',
+            }}
+          >
+            Automate Your Trading <br className="hidden md:block" />
+            <span className="gradient-text">Empire</span>
+          </h1>
+
+          {/* Subheadline */}
+          <p
+            className={`text-base md:text-lg text-[#CBD5E1] leading-relaxed mt-6 md:mt-8 transition-all duration-1000 ${
+              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            } max-w-lg mx-auto md:mx-0`}
+            style={{
+              transitionDelay: '0.9s',
+              textShadow: '0 2px 10px rgba(5,7,15,0.8)',
+            }}
+          >
+            Build, backtest, and deploy AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
+          </p>
+
+          {/* CTA Row */}
+          <div
+            className={`flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mt-10 md:mt-12 transition-all duration-700 ${
+              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+            style={{ transitionDelay: '1.1s' }}
+          >
+            <a
+              href="/download"
+              className="glow-button w-full sm:w-auto flex items-center justify-center"
+            >
+              Download for Android
+            </a>
+            <a
+              href="/download"
+              className="outline-button w-full sm:w-auto flex items-center justify-center gap-2"
+            >
+              <Play size={16} />
+              Download for iOS
+              <span className="badge badge-warning ml-1">Coming Soon</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Hero Mockup Image - Standalone Responsive */}
+        <img
+          src="/assets/hero mockup.png"
+          alt="AlgoDeck Mobile App Mockup"
+          className="md:mt-0 w-[calc(100%-6px)] md:w-[950px] h-auto rounded-[30px] z-20"
+          style={{ 
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-            transitionDelay: '0.3s',
+            transitionDelay: '1s',
+            animation: loaded ? 'imageBounce 4s ease-in-out infinite' : 'none'
           }}
-        >
-          {/* Robot Image - MASSIVE */}
-          <img
-            src="/assets/hero-robot.png"
-            alt="AlgoDeck AI Trading Robot"
-            style={{
-              height: '85vh',
-              maxHeight: '800px',
-              minHeight: '500px',
-              objectFit: 'contain',
-              objectPosition: 'top center',
-              marginTop: '-8%',
-              filter: 'drop-shadow(0 0 80px rgba(58, 123, 255, 0.5)) drop-shadow(0 0 120px rgba(58, 123, 255, 0.2))',
-            }}
-          />
-
-          {/* ═══ LEFT-SIDE MONITORS ═══ */}
-          <div
-            className="monitor-left"
-            style={{
-              position: 'absolute',
-              top: '8%',
-              left: '-28%',
-              width: '200px',
-              height: '130px',
-              opacity: monitorOpacity.left,
-              transform: monitorTransform.left,
-              transition: 'opacity 0.5s ease, transform 0.5s ease',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(58, 123, 255, 0.3)',
-              borderRadius: '14px',
-              padding: '14px',
-              boxShadow: '0 0 30px rgba(58, 123, 255, 0.15), inset 0 0 20px rgba(58, 123, 255, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3A7BFF' }}>
-                  EUR/USD M15
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <CandleChart color="#3A7BFF" />
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              top: '38%',
-              left: '-35%',
-              width: '180px',
-              height: '110px',
-              opacity: monitorOpacity.left,
-              transform: monitorTransform.left,
-              transition: 'opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(58, 123, 255, 0.3)',
-              borderRadius: '14px',
-              padding: '14px',
-              boxShadow: '0 0 30px rgba(58, 123, 255, 0.15), inset 0 0 20px rgba(58, 123, 255, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#17B7BD' }}>
-                  Portfolio P&L
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <LineChart color="#17B7BD" />
-            </div>
-          </div>
-
-          <div
-            className="monitor-left"
-            style={{
-              position: 'absolute',
-              bottom: '15%',
-              left: '-22%',
-              width: '170px',
-              height: '100px',
-              opacity: monitorOpacity.left,
-              transform: monitorTransform.left,
-              transition: 'opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(58, 123, 255, 0.3)',
-              borderRadius: '14px',
-              padding: '12px',
-              boxShadow: '0 0 30px rgba(58, 123, 255, 0.15), inset 0 0 20px rgba(58, 123, 255, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#00D084' }}>
-                  Volume
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <BarChartMini color="#00D084" />
-            </div>
-          </div>
-
-          {/* ═══ RIGHT-SIDE MONITORS ═══ */}
-          <div
-            className="monitor-right"
-            style={{
-              position: 'absolute',
-              top: '5%',
-              right: '-30%',
-              width: '210px',
-              height: '140px',
-              opacity: monitorOpacity.right,
-              transform: monitorTransform.right,
-              transition: 'opacity 0.5s ease, transform 0.5s ease',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(23, 183, 189, 0.3)',
-              borderRadius: '14px',
-              padding: '14px',
-              boxShadow: '0 0 30px rgba(23, 183, 189, 0.15), inset 0 0 20px rgba(23, 183, 189, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3A7BFF' }}>
-                  GBP/USD H1
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <CandleChart color="#3A7BFF" />
-            </div>
-          </div>
-
-          <div
-            className="monitor-right"
-            style={{
-              position: 'absolute',
-              top: '42%',
-              right: '-32%',
-              width: '190px',
-              height: '115px',
-              opacity: monitorOpacity.right,
-              transform: monitorTransform.right,
-              transition: 'opacity 0.5s ease 0.12s, transform 0.5s ease 0.12s',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(0, 208, 132, 0.3)',
-              borderRadius: '14px',
-              padding: '14px',
-              boxShadow: '0 0 30px rgba(0, 208, 132, 0.15), inset 0 0 20px rgba(0, 208, 132, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#00D084' }}>
-                  Bot Performance
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <LineChart color="#00D084" />
-            </div>
-          </div>
-
-          <div
-            className="monitor-right"
-            style={{
-              position: 'absolute',
-              bottom: '18%',
-              right: '-24%',
-              width: '160px',
-              height: '95px',
-              opacity: monitorOpacity.right,
-              transform: monitorTransform.right,
-              transition: 'opacity 0.5s ease 0.22s, transform 0.5s ease 0.22s',
-              pointerEvents: 'auto',
-            }}
-          >
-            <div style={{
-              width: '100%', height: '100%',
-              background: 'rgba(10, 15, 44, 0.75)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(23, 183, 189, 0.3)',
-              borderRadius: '14px',
-              padding: '12px',
-              boxShadow: '0 0 30px rgba(23, 183, 189, 0.15), inset 0 0 20px rgba(23, 183, 189, 0.05)',
-              overflow: 'hidden',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#17B7BD' }}>
-                  Risk Metrics
-                </span>
-                <span style={{ fontSize: '9px', color: '#64748B', fontFamily: 'var(--font-mono)' }}>LIVE</span>
-              </div>
-              <BarChartMini color="#17B7BD" />
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ═══ TEXT OVERLAY (bottom-left, z-index above everything) ═══ */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '15%',
-          left: '5%',
-          zIndex: 10,
-          maxWidth: '520px',
-          padding: '0 24px',
-          pointerEvents: 'auto',
-        }}
-      >
-        {/* Eyebrow */}
-        <span
-          className="section-eyebrow"
-          style={{
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.6s ease',
-            transitionDelay: '0.5s',
-            textShadow: '0 2px 10px rgba(5,7,15,0.8)',
-          }}
-        >
-          AUTOMATED TRADING INTELLIGENCE
-        </span>
-
-        {/* Headline */}
-        <h1
-          style={{
-            fontSize: 'clamp(40px, 5vw, 72px)',
-            fontWeight: 700,
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            color: '#FFFFFF',
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.8s ease',
-            transitionDelay: '0.7s',
-            textShadow: '0 4px 20px rgba(5,7,15,0.9), 0 2px 8px rgba(0,0,0,0.5)',
-          }}
-        >
-          Automate Your Trading{' '}
-          <span className="gradient-text">Empire</span>
-        </h1>
-
-        {/* Subheadline */}
-        <p
-          style={{
-            fontSize: '16px',
-            lineHeight: 1.7,
-            color: '#CBD5E1',
-            marginTop: '20px',
-            maxWidth: '460px',
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.8s ease',
-            transitionDelay: '0.9s',
-            textShadow: '0 2px 10px rgba(5,7,15,0.8)',
-          }}
-        >
-          Build, backtest, and deploy AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
-        </p>
-
-        {/* CTA Row */}
-        <div
-          style={{
-            display: 'flex',
-            gap: '16px',
-            marginTop: '36px',
-            flexWrap: 'wrap',
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.6s ease',
-            transitionDelay: '1.1s',
-          }}
-        >
-          <a
-            href="/download"
-            className="glow-button"
-            style={{ padding: '14px 32px', fontSize: '12px' }}
-          >
-            Download for Android
-          </a>
-          <a href="/download" className="outline-button" style={{ padding: '14px 32px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Play size={16} />
-            Download for iOS
-            <span className="badge badge-warning" style={{ marginLeft: '4px' }}>Coming Soon</span>
-          </a>
-        </div>
+        />
       </div>
 
       {/* Scroll Indicator */}
@@ -628,27 +374,37 @@ export default function Hero() {
 
       {/* Robot swerve keyframes injected via style */}
       <style>{`
+        @keyframes imageBounce {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+
+        @keyframes float3D {
+          0%, 100% { transform: translateY(0px) rotateX(0deg); }
+          50% { transform: translateY(-20px) rotateX(2deg); }
+        }
+
         @keyframes robotSwerve {
           0% {
-            transform: translateX(0px) rotateZ(0deg);
+            transform: translateX(0px);
           }
           20% {
-            transform: translateX(-40px) rotateZ(-2deg);
+            transform: translateX(-40px);
           }
           40% {
-            transform: translateX(-40px) rotateZ(-2deg);
+            transform: translateX(-40px);
           }
           50% {
-            transform: translateX(0px) rotateZ(0deg);
+            transform: translateX(0px);
           }
           70% {
-            transform: translateX(40px) rotateZ(2deg);
+            transform: translateX(40px);
           }
           90% {
-            transform: translateX(40px) rotateZ(2deg);
+            transform: translateX(40px);
           }
           100% {
-            transform: translateX(0px) rotateZ(0deg);
+            transform: translateX(0px);
           }
         }
 

@@ -264,9 +264,29 @@ export default function Features() {
             <p className="text-[#94A3B8] text-lg mb-12">
               Join the future of automated trading. Build your first strategy on mobile and deploy it globally in under 5 minutes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/download" className="glow-button !px-12 !py-5 !text-base">Download Now</a>
-              <a href="/pricing" className="outline-button !px-12 !py-5 !text-base">Compare Plans</a>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
+              <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                  alt="Get it on Google Play" 
+                  className="h-12 w-auto"
+                />
+              </a>
+              <div className="relative group">
+                <div className="absolute -top-3 -right-2 z-10">
+                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+                </div>
+                <div className="opacity-50 grayscale cursor-not-allowed">
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-12 w-auto"
+                  />
+                </div>
+              </div>
+              <Link to="/pricing" className="text-sm font-bold text-[#3A7BFF] hover:underline sm:ml-4">
+                Compare Plans →
+              </Link>
             </div>
           </div>
         </section>

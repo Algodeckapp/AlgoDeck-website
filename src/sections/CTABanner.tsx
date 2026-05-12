@@ -123,19 +123,29 @@ export default function CTABanner() {
             Join thousands of traders using AlgoDeck to build profitable trading bots.
           </p>
 
-          <div className="flex flex-col items-center gap-4 mt-12">
-            <a
-              href="/download"
-              className="glow-button w-full sm:w-auto flex items-center justify-center !py-4 !px-12 !text-base"
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
+            <a 
+              href="/download" 
+              className="transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10"
             >
-              Download for Android
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                alt="Get it on Google Play" 
+                className="h-14 w-auto"
+              />
             </a>
-            <button
-              className="bg-[#3A7BFF]/10 border border-[#3A7BFF]/30 rounded-xl text-[#94A3B8] text-sm font-medium py-3 px-8 cursor-not-allowed opacity-70 w-full sm:w-auto"
-              disabled
-            >
-              Download for iOS (Coming Soon)
-            </button>
+            <div className="relative group">
+              <div className="absolute -top-3 -right-2 z-10">
+                <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+              </div>
+              <div className="opacity-40 grayscale cursor-not-allowed">
+                <img 
+                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                  alt="Download on the App Store" 
+                  className="h-14 w-auto"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -62,18 +62,26 @@ export default function Download() {
               {/* Android Card */}
               <div className="glass-panel p-8 md:p-12 text-center border-2 border-[#3A7BFF]/30 shadow-[0_20px_50px_rgba(58,123,255,0.1)] relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#3A7BFF]/5 rounded-bl-full transition-all group-hover:scale-110" />
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#3A7BFF] to-[#17B7BD] flex items-center justify-center mx-auto mb-8 shadow-lg shadow-[#3A7BFF]/20">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#3A7BFF] to-[#17B7BD] flex items-center justify-center mx-auto mb-8 shadow-lg shadow-[#3A7BFF]/20 transition-transform group-hover:scale-110">
                   <PlayCircle size={40} className="text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">Android</h3>
                 <p className="text-[#94A3B8] text-base mb-10">
                   The full AlgoDeck experience optimized for Android devices.
                 </p>
-                <a href="#" className="glow-button w-full flex items-center justify-center gap-3 !py-5 !text-base">
-                  <DownloadIcon size={20} />
-                  Google Play Store
-                </a>
-                <div className="mt-6 flex items-center justify-center gap-2 text-[#64748B] text-sm">
+                <div className="flex flex-col gap-4">
+                  <a href="#" className="transition-transform hover:scale-105 active:scale-95 mx-auto">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                      alt="Get it on Google Play" 
+                      className="h-16 w-auto"
+                    />
+                  </a>
+                  <a href="#" className="text-[#3A7BFF] text-xs font-bold uppercase tracking-widest hover:underline mt-2">
+                    Direct APK Download →
+                  </a>
+                </div>
+                <div className="mt-8 flex items-center justify-center gap-2 text-[#64748B] text-sm border-t border-white/5 pt-6">
                   <Smartphone size={16} />
                   Requires Android 7.0+
                 </div>
@@ -82,14 +90,14 @@ export default function Download() {
               {/* iOS Card */}
               <div className="glass-panel p-8 md:p-12 text-center border border-white/10 relative overflow-hidden group opacity-90">
                 <div className="badge badge-warning absolute top-6 right-6">COMING SOON</div>
-                <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8">
+                <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8 transition-transform group-hover:scale-110">
                   <Apple size={40} className="text-[#94A3B8]" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">iOS App Store</h3>
                 <p className="text-[#94A3B8] text-base mb-8">
                   Join the waitlist to be first in line when we launch on iOS.
                 </p>
-                <form onSubmit={handleWaitlist} className="space-y-4">
+                <form onSubmit={handleWaitlist} className="space-y-4 mb-8">
                   <input
                     type="email"
                     placeholder="Enter your email"
@@ -98,11 +106,20 @@ export default function Download() {
                     required
                     className="w-full px-5 py-4 bg-[#05070F] border border-white/10 rounded-xl text-white text-sm outline-none focus:border-[#3A7BFF]/40 transition-colors"
                   />
-                  <button type="submit" className="outline-button w-full !py-4.5 !text-sm">
+                  <button type="submit" className="glow-button w-full !py-4.5 !text-sm">
                     {submitted ? "You're on the list!" : "Join iOS Waitlist"}
                   </button>
                 </form>
-                <p className="mt-6 text-[#64748B] text-xs uppercase tracking-widest font-medium">
+                
+                <div className="opacity-40 grayscale cursor-not-allowed">
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-14 w-auto mx-auto"
+                  />
+                </div>
+                
+                <p className="mt-6 text-[#64748B] text-xs uppercase tracking-widest font-medium border-t border-white/5 pt-6">
                   Expected Launch: Q3 2026
                 </p>
               </div>

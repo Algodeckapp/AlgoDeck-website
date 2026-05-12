@@ -34,7 +34,7 @@ export default function Navigation() {
     { label: 'Features', href: '/features', isRoute: true },
     { label: 'Pricing', href: '/pricing', isRoute: true },
     { label: 'Download', href: '/download', isRoute: true },
-    { label: 'Docs', href: '/docs', isRoute: true },
+    { label: 'Blog', href: '/blog', isRoute: true },
     { label: 'About', href: '/about', isRoute: true },
     { label: 'Contact', href: '/contact', isRoute: true },
   ]
@@ -132,13 +132,30 @@ export default function Navigation() {
                 </button>
               </>
             ) : (
-              <Link
-                to="/download"
-                className="glow-button !px-6 !py-3 !text-[12px] flex items-center gap-2 font-semibold"
-              >
-                Download Now
-                <ChevronRight size={16} />
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/download"
+                  className="transition-transform hover:scale-105 active:scale-95 flex items-center"
+                >
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Get it on Google Play" 
+                    className="h-9 w-auto"
+                  />
+                </Link>
+                <div className="relative group flex items-center">
+                  <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
+                    <span className="badge badge-warning text-[8px] px-1.5 py-0 shadow-lg">SOON</span>
+                  </div>
+                  <div className="opacity-40 grayscale cursor-not-allowed">
+                    <img 
+                      src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                      alt="Download on the App Store" 
+                      className="h-8 w-auto"
+                    />
+                  </div>
+                </div>
+              </div>
             )}
           </div>
 
@@ -226,14 +243,29 @@ export default function Navigation() {
                 </button>
               </>
             ) : (
-              <Link
-                to="/download"
-                className="glow-button !w-full !py-4.5 !text-base flex items-center justify-center gap-2.5 font-semibold"
-                onClick={() => setMobileOpen(false)}
-              >
-                Download Now
-                <ChevronRight size={18} />
-              </Link>
+              <div className="flex flex-col gap-6 items-center">
+                <Link
+                  to="/download"
+                  className="transition-transform hover:scale-105 active:scale-95"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Get it on Google Play" 
+                    className="h-16 w-auto"
+                  />
+                </Link>
+                <div className="relative opacity-40 grayscale cursor-not-allowed">
+                  <div className="absolute -top-3 -right-2 z-10 scale-75">
+                    <span className="badge badge-warning text-[10px] px-2 py-0.5">COMING SOON</span>
+                  </div>
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-14 w-auto"
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>

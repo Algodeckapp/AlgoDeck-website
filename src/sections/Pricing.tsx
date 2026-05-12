@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router'
 import { Check, X } from 'lucide-react'
 
 const tiers = [
@@ -273,8 +274,10 @@ function PricingCard({
       </ul>
 
       {/* CTA */}
-      <button
+      <Link
+        to={tier.cta === 'Contact Sales' ? '/contact' : '/download'}
         style={{
+          display: 'block',
           width: '100%',
           marginTop: '32px',
           padding: '14px 24px',
@@ -284,6 +287,8 @@ function PricingCard({
           fontSize: '12px',
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
+          textAlign: 'center',
+          textDecoration: 'none',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           ...(tier.primary
@@ -322,7 +327,7 @@ function PricingCard({
         }}
       >
         {tier.cta}
-      </button>
+      </Link>
     </div>
   )
 }
@@ -499,13 +504,26 @@ export default function Pricing() {
         <p className="section-subtitle mb-8">
           Download the AlgoDeck mobile app and begin your trading automation journey today
         </p>
-        <div className="flex gap-4 justify-center flex-wrap">
-          <a href="/download" className="glow-button">
-            Download for Android
+        <div className="flex gap-6 justify-center flex-wrap mt-10">
+          <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+              alt="Get it on Google Play" 
+              className="h-12 w-auto"
+            />
           </a>
-          <a href="/download" className="outline-button">
-            Download for iOS <span className="ml-2 px-2 py-0.5 text-[10px] bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded uppercase font-bold">Coming Soon</span>
-          </a>
+          <div className="relative">
+            <div className="absolute -top-3 -right-2 z-10">
+              <span className="badge badge-warning text-[8px] px-2 py-0.5">COMING SOON</span>
+            </div>
+            <div className="opacity-50 grayscale cursor-not-allowed">
+              <img 
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                alt="Download on the App Store" 
+                className="h-12 w-auto"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

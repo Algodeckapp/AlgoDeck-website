@@ -2,26 +2,54 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { ShieldCheck, Lock } from 'lucide-react'
+import { ShieldCheck, Lock, Terminal } from 'lucide-react'
+import { trpc } from '@/providers/trpc'
+import { useNavigate } from 'react-router'
 
 function getOAuthUrl() {
-  if (typeof window === "undefined") return "";
-  const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
-  const appID = import.meta.env.VITE_APP_ID;
-  const redirectUri = `${window.location.origin}/api/oauth/callback`;
-  const state = btoa(redirectUri);
+  try {
+    if (typeof window === "undefined") return "";
+    
+    const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
+    const appID = import.meta.env.VITE_APP_ID;
 
-  const url = new URL(`${kimiAuthUrl}/api/oauth/authorize`);
-  url.searchParams.set("client_id", appID);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "profile");
-  url.searchParams.set("state", state);
+    if (!kimiAuthUrl || !appID) {
+      console.error("[Auth] Missing VITE_KIMI_AUTH_URL or VITE_APP_ID in environment variables.");
+      alert("System Configuration Error: Login is temporarily unavailable.");
+      return "";
+    }
 
-  return url.toString();
+    const redirectUri = `${window.location.origin}/api/oauth/callback`;
+    const state = btoa(redirectUri);
+
+    const url = new URL(`${kimiAuthUrl}/api/oauth/authorize`);
+    url.searchParams.set("client_id", appID);
+    url.searchParams.set("redirect_uri", redirectUri);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("scope", "profile");
+    url.searchParams.set("state", state);
+
+    return url.toString();
+  } catch (err) {
+    console.error("[Auth] Failed to construct OAuth URL:", err);
+    return "";
+  }
 }
 
 export default function Login() {
+  const navigate = useNavigate();
+  const utils = trpc.useUtils();
+
+  const devLoginMutation = trpc.auth.devLogin.useMutation({
+    onSuccess: async () => {
+      await utils.invalidate();
+      navigate('/admin');
+    },
+    onError: (err) => {
+      alert("Developer Login failed: " + err.message);
+    }
+  });
+
   return (
     <>
       <Navigation />
@@ -45,14 +73,31 @@ export default function Login() {
               </div>
               <CardTitle className="text-white">Welcome Back</CardTitle>
             </CardHeader>
-            <CardContent className="p-8">
+            <CardContent className="p-8 space-y-4">
               <Button
                 className="w-full h-14 rounded-xl bg-[#3A7BFF] hover:bg-[#3A7BFF]/90 text-white font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/20"
                 onClick={() => {
-                  window.location.href = getOAuthUrl();
+                  const url = getOAuthUrl();
+                  if (url) {
+                    window.location.href = url;
+                  }
                 }}
               >
                 Sign in with Kimi
+              </Button>
+
+              <div className="relative flex items-center justify-center py-4">
+                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5" /></div>
+                <span className="relative bg-[#0A0F2C] px-4 text-[10px] text-[#64748B] font-bold uppercase tracking-tighter">Dev Tools</span>
+              </div>
+
+              <Button
+                variant="outline"
+                className="w-full h-14 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-base transition-all hover:bg-white/10 hover:scale-[1.02]"
+                onClick={() => devLoginMutation.mutate()}
+                disabled={devLoginMutation.isPending}
+              >
+                {devLoginMutation.isPending ? "Authenticating..." : <span className="flex items-center gap-2"><Terminal size={18} /> Developer Login</span>}
               </Button>
               
               <div className="mt-8 pt-8 border-t border-white/5 text-center">

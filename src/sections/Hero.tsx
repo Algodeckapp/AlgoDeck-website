@@ -1,100 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { Play } from 'lucide-react'
-
-// ─── Trading Chart SVG Components ───
-function CandleChart({ color }: { color: string }) {
-  return (
-    <svg viewBox="0 0 200 80" style={{ width: '100%', height: '100%' }}>
-      {/* Grid lines */}
-      {[0, 20, 40, 60, 80].map((y) => (
-        <line key={y} x1="0" y1={y} x2="200" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-      ))}
-      {/* Candles */}
-      {[
-        { x: 10, o: 50, c: 35, h: 55, l: 30, up: false },
-        { x: 30, o: 35, c: 45, h: 48, l: 32, up: true },
-        { x: 50, o: 45, c: 30, h: 50, l: 28, up: false },
-        { x: 70, o: 30, c: 55, h: 60, l: 25, up: true },
-        { x: 90, o: 55, c: 40, h: 58, l: 38, up: false },
-        { x: 110, o: 40, c: 60, h: 65, l: 38, up: true },
-        { x: 130, o: 60, c: 45, h: 62, l: 42, up: false },
-        { x: 150, o: 45, c: 70, h: 72, l: 43, up: true },
-        { x: 170, o: 70, c: 55, h: 73, l: 52, up: false },
-        { x: 190, o: 55, c: 65, h: 68, l: 53, up: true },
-      ].map((c, i) => (
-        <g key={i}>
-          <line x1={c.x} y1={c.l} x2={c.x} y2={c.h} stroke={c.up ? '#00D084' : '#FF4757'} strokeWidth="1" />
-          <rect x={c.x - 3} y={Math.min(c.o, c.c)} width="6" height={Math.abs(c.c - c.o)} rx="1" fill={c.up ? '#00D084' : '#FF4757'} opacity="0.9" />
-        </g>
-      ))}
-      {/* Trend line */}
-      <path d="M 10 42 Q 60 60, 110 48 T 190 35" fill="none" stroke={color} strokeWidth="1.5" opacity="0.7" />
-    </svg>
-  )
-}
-
-function LineChart({ color }: { color: string }) {
-  return (
-    <svg viewBox="0 0 200 60" style={{ width: '100%', height: '100%' }}>
-      <defs>
-        <linearGradient id={`grad-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M 0 50 L 20 45 L 40 48 L 60 35 L 80 40 L 100 28 L 120 32 L 140 18 L 160 22 L 180 10 L 200 15"
-        fill={`url(#grad-${color.replace('#', '')})`}
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      {/* Data points */}
-      {[
-        [20, 45], [40, 48], [60, 35], [80, 40], [100, 28], [120, 32], [140, 18], [160, 22], [180, 10], [200, 15],
-      ].map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="2.5" fill={color} />
-      ))}
-    </svg>
-  )
-}
-
-function BarChartMini({ color }: { color: string }) {
-  return (
-    <svg viewBox="0 0 200 60" style={{ width: '100%', height: '100%' }}>
-      {[
-        { x: 10, h: 30 }, { x: 30, h: 45 }, { x: 50, h: 25 }, { x: 70, h: 50 },
-        { x: 90, h: 35 }, { x: 110, h: 55 }, { x: 130, h: 40 }, { x: 150, h: 48 },
-        { x: 170, h: 32 }, { x: 190, h: 42 },
-      ].map((b, i) => (
-        <rect key={i} x={b.x - 4} y={60 - b.h} width="8" height={b.h} rx="2" fill={color} opacity={0.6 + (i % 3) * 0.15} />
-      ))}
-    </svg>
-  )
-}
 
 // ─── Main Hero Section ───
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const mouseRef = useRef({ x: 0, y: 0 })
   const [loaded, setLoaded] = useState(false)
-  const [robotPhase, setRobotPhase] = useState(0)
-
-  // Track robot animation phase for monitor synchronization
-  useEffect(() => {
-    let frame = 0
-    let id: number
-    const tick = () => {
-      frame++
-      // 0-120: moving left, 120-240: moving right (at 60fps, 4 second cycle)
-      const cycle = frame % 240
-      setRobotPhase(cycle)
-      id = requestAnimationFrame(tick)
-    }
-    id = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(id)
-  }, [])
 
   // ─── Three.js Particle Background ───
   useEffect(() => {

@@ -152,7 +152,7 @@ export default function Blog() {
       </article>
     ),
     'The Relaxed Trader: How Automation Ends Trading Stress': (
-      <article className="prose prose-invert max-with-none">
+      <article className="prose prose-invert max-w-none">
         <p className="text-xl text-[#94A3B8] leading-relaxed mb-10 italic">
           "I used to wake up at 3 AM to check the London open. Now, I wake up when I'm rested, knowing my bots handled the volatility for me."
         </p>
@@ -258,11 +258,11 @@ export default function Blog() {
                 <div className="flex items-center justify-between py-8 border-y border-white/5">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full bg-[#3A7BFF]/10 flex items-center justify-center text-[#3A7BFF] font-bold border border-[#3A7BFF]/20">
-                      {'author' in currentPost ? (currentPost as any).author.split(' ').map((n: any) => n[0]).join('') : 'TC'}
+                      {currentPost && 'author' in currentPost ? (currentPost as any).author.split(' ').map((n: any) => n[0]).join('') : 'TC'}
                     </div>
                     <div>
-                      <div className="text-white font-bold">{'author' in currentPost ? (currentPost as any).author : 'Tony Chris'}</div>
-                      <div className="text-[#64748B] text-xs">{'authorRole' in currentPost ? (currentPost as any).authorRole : 'Expert Trader'}</div>
+                      <div className="text-white font-bold">{currentPost && 'author' in currentPost ? (currentPost as any).author : 'Tony Chris'}</div>
+                      <div className="text-[#64748B] text-xs">{currentPost && 'authorRole' in currentPost ? (currentPost as any).authorRole : 'Expert Trader'}</div>
                     </div>
                   </div>
                   <div className="flex gap-3">
@@ -283,7 +283,7 @@ export default function Blog() {
 
               {/* Article Body */}
               <div className="glass-panel p-8 md:p-16 border border-white/5 leading-relaxed">
-                {articleContents[currentPost.title] || articleContents['Default']}
+                {selectedPost && articleContents[selectedPost] ? articleContents[selectedPost] : articleContents['Default']}
               </div>
 
               {/* Newsletter Inline */}

@@ -1,9 +1,10 @@
 import { Bot, Zap, LineChart, Network, Shield, Bell, Target, TrendingUp, Check, ArrowRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 
-export default function Features() {
+export default function FeaturesPage() {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {

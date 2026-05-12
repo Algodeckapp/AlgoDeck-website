@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
-import Features from './pages/Features'
+import FeaturesPage from './pages/Features'
 import PricingPage from './pages/Pricing'
 import Download from './pages/Download'
 import About from './pages/About'
@@ -21,7 +21,7 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
+        <Route path="/features" element={<FeaturesPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/download" element={<Download />} />
         <Route path="/about" element={<About />} />

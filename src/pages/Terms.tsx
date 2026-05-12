@@ -612,7 +612,7 @@ export default function Terms() {
                 Legal Department
               </p>
               <a
-                href="mailto:legal@algodeck.com"
+                href="mailto:legal@algodeck.app"
                 style={{
                   fontSize: '15px',
                   color: 'var(--color-primary)',
@@ -626,7 +626,7 @@ export default function Terms() {
                   e.currentTarget.style.textDecoration = 'none'
                 }}
               >
-                legal@algodeck.com
+                legal@algodeck.app
               </a>
             </div>
           </section>

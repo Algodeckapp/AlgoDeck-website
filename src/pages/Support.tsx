@@ -445,7 +445,7 @@ export default function Support() {
                   </span>
                 </div>
                 <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>
-                  support@algodeck.com
+                  support@algodeck.app
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Clock size={12} style={{ color: 'var(--color-text-muted)' }} />

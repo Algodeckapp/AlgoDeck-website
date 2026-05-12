@@ -326,11 +326,11 @@ Create a modern, professional landing page website for **AlgoDeck** - a mobile t
 **Contact Methods:**
 
 **Email Support:**
-- support@algodeck.com
+- support@algodeck.app
 - Response time: 24 hours (Pro), 12 hours (Elite)
 
 **Sales Inquiries:**
-- sales@algodeck.com
+- sales@algodeck.app
 - For Institutional tier inquiries
 
 **Technical Support:**
@@ -502,7 +502,7 @@ These terms are governed by the laws of [Jurisdiction].
 
 ## 11. CONTACT
 
-For questions about these terms, contact us at legal@algodeck.com
+For questions about these terms, contact us at legal@algodeck.app
 ```
 
 ---
@@ -625,8 +625,8 @@ For EU users, we comply with GDPR requirements including:
 ## 14. CONTACT
 
 For privacy concerns or data requests:
-• **Email:** privacy@algodeck.com
-• **Data Protection Officer:** dpo@algodeck.com
+• **Email:** privacy@algodeck.app
+• **Data Protection Officer:** dpo@algodeck.app
 ```
 
 ---

@@ -75,41 +75,43 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center justify-center flex-1 gap-1">
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.href
-              return link.isRoute ? (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-lg transition-all relative ${
-                    isActive ? 'text-white bg-[#3A7BFF]/10' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/5'
-                  }`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
-                  )}
-                </Link>
-              ) : (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavClick(link.href)
-                  }}
-                  className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-lg transition-all relative ${
-                    isActive ? 'text-white bg-[#3A7BFF]/10' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/5'
-                  }`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
-                  )}
-                </a>
-              )
-            })}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center gap-1 bg-white/5 border border-white/10 px-4 py-2 rounded-[30px] backdrop-blur-md">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.href
+                return link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-full transition-all relative ${
+                      isActive ? 'text-white bg-[#3A7BFF]/20' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/10'
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
+                    )}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNavClick(link.href)
+                    }}
+                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-full transition-all relative ${
+                      isActive ? 'text-white bg-[#3A7BFF]/20' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/10'
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] rounded-full" />
+                    )}
+                  </a>
+                )
+              })}
+            </div>
           </div>
 
           {/* Desktop Right side */}

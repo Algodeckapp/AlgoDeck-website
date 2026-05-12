@@ -1,225 +1,278 @@
-import { Bot, Zap, LineChart, Network, Shield, Bell, Target, TrendingUp } from 'lucide-react'
+import { Bot, Zap, LineChart, Network, Shield, Bell, Target, TrendingUp, Check, ArrowRight } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 
 export default function Features() {
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    setLoaded(true)
+  }, [])
+
   const features = [
     {
       icon: Bot,
-      title: 'AI-Powered Strategy Creation',
+      title: 'AI Strategy Creation',
       description: 'Turn plain English into executable trading strategies',
       details: [
-        'Natural language input: "Buy EURUSD when RSI is below 30"',
-        'AI parser converts to executable strategy',
-        'Validates and suggests improvements',
-        'Available on Pro & Elite tiers'
+        'Natural language input parsing',
+        'AI-powered logic optimization',
+        'Automated code generation',
+        'Strategy health validation'
       ],
       tier: 'Pro & Elite',
-      gradient: 'from-blue-500 to-purple-500'
+      color: '#3A7BFF'
     },
     {
       icon: Target,
-      title: 'Visual Strategy Builder',
+      title: 'Visual Builder',
       description: 'Build strategies without writing code',
       details: [
-        'Drag-and-drop indicators',
-        'Visual condition builder',
-        'Real-time preview',
-        'Available on all tiers'
+        'Drag-and-drop conditions',
+        'Visual logic flows',
+        'Real-time strategy preview',
+        'Indicator library integration'
       ],
       tier: 'All Tiers',
-      gradient: 'from-purple-500 to-pink-500'
+      color: '#17B7BD'
     },
     {
       icon: LineChart,
-      title: 'Professional Backtesting',
+      title: 'Backtesting',
       description: 'Test strategies on real historical data',
       details: [
-        'Real historical data via yfinance',
-        'Multiple timeframes (M1 to D1)',
-        'Performance metrics (Sharpe ratio, drawdown, win rate)',
-        'Trade-by-trade analysis'
+        'Tick-perfect historical data',
+        'Multi-timeframe analysis',
+        'Monte Carlo simulations',
+        'Detailed performance metrics'
       ],
       tier: 'All Tiers',
-      gradient: 'from-green-500 to-emerald-500'
+      color: '#8B5CF6'
     },
     {
       icon: Zap,
-      title: 'Live Trading Integration',
-      description: 'Deploy bots directly to MT4/MT5 accounts',
+      title: 'Live Deployment',
+      description: 'Deploy bots directly to MT4/MT5',
       details: [
-        'Direct MT4/MT5 connection via MetaAPI',
-        'Real-time trade execution',
-        'Position management',
-        'Risk controls (stop loss, take profit)'
+        'Direct MetaAPI integration',
+        'Zero-latency execution',
+        'Automatic risk padding',
+        'Server-side bot hosting'
       ],
       tier: 'All Tiers',
-      gradient: 'from-yellow-500 to-orange-500'
+      color: '#00D084'
     },
     {
       icon: TrendingUp,
       title: 'Advanced Analytics',
-      description: 'Track performance with detailed metrics',
+      description: 'Track performance with deep metrics',
       details: [
-        'Real-time P&L tracking',
-        'Performance charts and graphs',
-        'Trade history and journal',
-        'Export reports to PDF (Elite tier)'
+        'Real-time equity curves',
+        'Drawdown heatmaps',
+        'Proprietary Alpha scores',
+        'Exportable PDF reports'
       ],
       tier: 'All Tiers',
-      gradient: 'from-cyan-500 to-blue-500'
+      color: '#3A7BFF'
     },
     {
       icon: Network,
-      title: 'Multi-Account Management',
+      title: 'Multi-Account',
       description: 'Trade across multiple brokers',
       details: [
-        'Connect up to 10 accounts (Elite)',
-        'Trade across multiple brokers',
-        'Account-specific strategies',
-        'Unified dashboard'
+        'Unified control center',
+        'Cross-account copying',
+        'Broker-agnostic routing',
+        'Up to 10 accounts (Elite)'
       ],
       tier: 'Pro & Elite',
-      gradient: 'from-indigo-500 to-purple-500'
+      color: '#17B7BD'
     },
     {
       icon: Shield,
-      title: 'Risk Management',
-      description: 'Protect your capital with built-in controls',
+      title: 'Risk Guard',
+      description: 'Protect capital with built-in controls',
       details: [
-        'Per-trade risk limits',
-        'Account-wide exposure controls',
-        'Automatic stop-loss and take-profit',
-        'Trailing stops'
+        'Dynamic position sizing',
+        'Global account stop-loss',
+        'News event protection',
+        'Trailing guard system'
       ],
       tier: 'All Tiers',
-      gradient: 'from-red-500 to-pink-500'
+      color: '#8B5CF6'
     },
     {
       icon: Bell,
-      title: 'Smart Notifications',
-      description: 'Stay informed of every trade and alert',
+      title: 'Smart Alerts',
+      description: 'Stay informed of every market move',
       details: [
-        'Trade alerts (all tiers)',
-        'Bot status notifications',
-        'Push notifications (Pro+)',
-        'Email reports (Pro+)',
-        'SMS alerts (Elite)'
+        'Instant push notifications',
+        'Custom webhook support',
+        'Daily performance briefs',
+        'Critical system alerts'
       ],
       tier: 'All Tiers',
-      gradient: 'from-purple-500 to-indigo-500'
+      color: '#00D084'
     }
   ]
 
   return (
     <>
       <Navigation />
-      <div style={{ background: 'var(--color-bg-deep)', minHeight: '100vh', paddingTop: '80px' }}>
-        {/* Hero */}
-      <section style={{ padding: '80px 24px 60px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 className="section-title" style={{ marginBottom: '24px' }}>
-            Powerful Features for Serious Traders
-          </h1>
-          <p className="section-subtitle" style={{ fontSize: '18px' }}>
-            Everything you need to build, test, and deploy profitable trading bots
-          </p>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section style={{ padding: '0 24px 120px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
-          {features.map((feature, index) => {
-            const Icon = feature.icon
-            return (
-              <div
-                key={index}
-                style={{
-                  background: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '32px',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.borderColor = 'var(--color-primary)'
-                  e.currentTarget.style.boxShadow = 'var(--shadow-glow-primary)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                {/* Icon */}
-                <div
-                  style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: 'var(--radius-md)',
-                    background: `linear-gradient(135deg, ${feature.gradient.replace('from-', 'var(--color-').replace(' to-', '), var(--color-').replace(/-([\d]+)/g, '')})`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '20px'
-                  }}
-                >
-                  <Icon size={28} color="#FFFFFF" />
-                </div>
-
-                {/* Tier Badge */}
-                <div className="badge badge-primary" style={{ marginBottom: '16px' }}>
-                  {feature.tier}
-                </div>
-
-                {/* Title */}
-                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px' }}>
-                  {feature.title}
-                </h3>
-
-                {/* Description */}
-                <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', marginBottom: '20px', lineHeight: 1.6 }}>
-                  {feature.description}
-                </p>
-
-                {/* Details */}
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {feature.details.map((detail, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                      <span style={{ color: 'var(--color-primary)', marginTop: '2px' }}>•</span>
-                      <span>{detail}</span>
-                    </li>
-                  ))}
-                </ul>
+      <div className="bg-[#05070F] min-h-screen pt-20 overflow-hidden">
+        {/* Cinematic Hero */}
+        <section className="relative py-20 md:py-32 px-6">
+          {/* Background effects */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-[#3A7BFF]/10 to-transparent pointer-events-none z-0" />
+          
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 md:gap-24 relative z-10">
+            <div className={`w-full lg:max-w-2xl text-center lg:text-left transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <span className="section-eyebrow mb-4 block text-[#3A7BFF]">ADVANCED TECHNOLOGY</span>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
+                Everything You Need to <br />
+                <span className="gradient-text">Dominate Markets.</span>
+              </h1>
+              <p className="text-[#94A3B8] text-lg md:text-xl mt-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Institutional-grade tools reimagined for the modern mobile trader. From natural language strategy building to professional-grade backtesting and risk management.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a href="/download" className="glow-button !px-10">Get Started Now</a>
+                <a href="#all-features" className="outline-button !px-10">Explore Grid</a>
               </div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section style={{ padding: '80px 24px', background: 'var(--color-bg-midnight)', textAlign: 'center' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h2 className="section-title" style={{ fontSize: '36px', marginBottom: '20px' }}>
-            Ready to Start Trading?
-          </h2>
-          <p className="section-subtitle" style={{ marginBottom: '32px' }}>
-            Download the AlgoDeck mobile app and start building your trading empire today
-          </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/#download" className="glow-button">
-              Download for Android
-            </a>
-            <a href="/#download" className="outline-button">
-              Download for iOS <span className="badge badge-warning" style={{ marginLeft: '8px' }}>Coming Soon</span>
-            </a>
+            </div>
+            
+            <div className={`w-full lg:w-1/2 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+              <div className="relative group">
+                <div className="absolute -inset-4 bg-[#3A7BFF]/20 rounded-[3rem] blur-3xl opacity-50 group-hover:opacity-70 transition-all duration-1000" />
+                <img
+                  src="/assets/your edge automated.png"
+                  alt="AlgoDeck Interface"
+                  className="relative w-full max-w-[550px] mx-auto h-auto rounded-[2.5rem] shadow-[0_40px_120px_rgba(0,0,0,0.7)] border border-white/10 z-10"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Feature Grid Section */}
+        <section id="all-features" className="py-24 px-6 bg-[#0A0F2C]/40 backdrop-blur-sm border-t border-white/5 relative z-10">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-20">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Core Capabilities</h2>
+              <div className="w-20 h-1 bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] mx-auto rounded-full" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((f, i) => (
+                <div 
+                  key={i} 
+                  className="glass-panel p-8 border border-white/5 hover:border-[#3A7BFF]/30 transition-all duration-500 group flex flex-col h-full"
+                >
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 shadow-lg" style={{ background: `${f.color}15`, border: `1px solid ${f.color}30` }}>
+                    <f.icon size={28} style={{ color: f.color }} />
+                  </div>
+                  
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold text-white">{f.title}</h3>
+                    </div>
+                    <p className="text-[#94A3B8] text-sm leading-relaxed mb-8">
+                      {f.description}
+                    </p>
+                    
+                    <ul className="space-y-3">
+                      {f.details.map((detail, idx) => (
+                        <li key={idx} className="flex items-start gap-3 text-xs text-[#64748B] group-hover:text-[#94A3B8] transition-colors">
+                          <Check size={14} className="text-[#3A7BFF] mt-0.5" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#3A7BFF]">{f.tier}</span>
+                    <ArrowRight size={14} className="text-[#3A7BFF] opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Feature Showcase - App Focus */}
+        <section className="py-24 md:py-40 px-6 relative overflow-hidden">
+          {/* Ambient Glows */}
+          <div className="absolute top-1/2 left-[-10%] -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/5 rounded-full blur-[150px] pointer-events-none" />
+          
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 md:gap-24">
+            <div className="w-full lg:max-w-2xl">
+              <span className="section-eyebrow mb-4 block text-[#17B7BD]">CENTRALIZED CONTROL</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-8">
+                Control Your Entire Empire <br />
+                <span className="text-[#17B7BD]">From One App.</span>
+              </h2>
+              <div className="space-y-10">
+                <div className="flex gap-6 group">
+                  <div className="w-12 h-12 rounded-xl bg-[#17B7BD]/10 flex items-center justify-center text-[#17B7BD] flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Network size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white mb-2">Multi-Broker Hub</h4>
+                    <p className="text-[#94A3B8] leading-relaxed">Connect to any broker worldwide. Manage multiple MT4 and MT5 accounts simultaneously without switching applications.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6 group">
+                  <div className="w-12 h-12 rounded-xl bg-[#3A7BFF]/10 flex items-center justify-center text-[#3A7BFF] flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <TrendingUp size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white mb-2">Live Performance Ticker</h4>
+                    <p className="text-[#94A3B8] leading-relaxed">Real-time profit and loss tracking with advanced drawdown metrics. See exactly how your bots are performing in every market cycle.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6 group">
+                  <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Shield size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white mb-2">Security-First Connection</h4>
+                    <p className="text-[#94A3B8] leading-relaxed">Military-grade encryption for all API connections. Your broker credentials never leave our secure vault system.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative group">
+                <div className="absolute -inset-2 bg-gradient-to-tr from-[#17B7BD]/20 to-[#3A7BFF]/20 rounded-[3rem] blur-2xl opacity-40 group-hover:opacity-60 transition-all duration-1000" />
+                <img
+                  src="/assets/control from one app.png"
+                  alt="Unified Control Center"
+                  className="relative w-full max-w-[450px] mx-auto h-auto rounded-[30px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10 z-10 transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Unified CTA */}
+        <section className="py-24 md:py-32 px-6 border-t border-white/5 bg-gradient-to-b from-transparent to-[#0A0F2C]/50">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">Ready to Level Up?</h2>
+            <p className="text-[#94A3B8] text-lg mb-12">
+              Join the future of automated trading. Build your first strategy on mobile and deploy it globally in under 5 minutes.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="/download" className="glow-button !px-12 !py-5 !text-base">Download Now</a>
+              <a href="/pricing" className="outline-button !px-12 !py-5 !text-base">Compare Plans</a>
+            </div>
+          </div>
+        </section>
       </div>
       <Footer />
     </>
   )
 }
+

@@ -255,7 +255,7 @@ export default function Privacy() {
               </li>
             </ul>
             <p style={{ marginBottom: '16px' }}>
-              To exercise any of these rights, contact us at <a href="mailto:privacy@algodeck.com" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>privacy@algodeck.com</a>. We will respond to your request within 30 days.
+              To exercise any of these rights, contact us at <a href="mailto:privacy@algodeck.app" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>privacy@algodeck.app</a>. We will respond to your request within 30 days.
             </p>
           </div>
 
@@ -333,7 +333,7 @@ export default function Privacy() {
               AlgoDeck is not intended for users under the age of 18. We do not knowingly collect personal information from children. Trading in financial markets involves significant risk and is only appropriate for adults. If we become aware that we have collected personal information from a child under 18, we will take steps to delete that information promptly.
             </p>
             <p style={{ marginBottom: '16px' }}>
-              If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:privacy@algodeck.com" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>privacy@algodeck.com</a>.
+              If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:privacy@algodeck.app" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>privacy@algodeck.app</a>.
             </p>
           </div>
 
@@ -415,7 +415,7 @@ export default function Privacy() {
               Data Protection Officer
             </h3>
             <p style={{ marginBottom: '16px' }}>
-              For GDPR-related inquiries, you can contact our Data Protection Officer at <a href="mailto:dpo@algodeck.com" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>dpo@algodeck.com</a>.
+              For GDPR-related inquiries, you can contact our Data Protection Officer at <a href="mailto:dpo@algodeck.app" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>dpo@algodeck.app</a>.
             </p>
           </div>
 
@@ -444,15 +444,15 @@ export default function Privacy() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
                   <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginBottom: '4px' }}>General Privacy Questions</p>
-                  <a href="mailto:privacy@algodeck.com" style={{ color: 'var(--color-primary)', fontSize: '16px', fontWeight: 500 }}>
-                    privacy@algodeck.com
+                  <a href="mailto:privacy@algodeck.app" style={{ color: 'var(--color-primary)', fontSize: '16px', fontWeight: 500 }}>
+                    privacy@algodeck.app
                   </a>
                 </div>
 
                 <div>
                   <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginBottom: '4px' }}>Data Protection Officer (GDPR)</p>
-                  <a href="mailto:dpo@algodeck.com" style={{ color: 'var(--color-primary)', fontSize: '16px', fontWeight: 500 }}>
-                    dpo@algodeck.com
+                  <a href="mailto:dpo@algodeck.app" style={{ color: 'var(--color-primary)', fontSize: '16px', fontWeight: 500 }}>
+                    dpo@algodeck.app
                   </a>
                 </div>
 

@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Search, Book, Code, TrendingUp, PlayCircle, Shield, HelpCircle, ChevronRight } from 'lucide-react'
+import { 
+  Search, Book, Code, TrendingUp, PlayCircle, 
+  Shield, HelpCircle, ChevronRight, ArrowLeft,
+  CheckCircle2, AlertCircle, Info, ExternalLink,
+  Cpu, Zap, Lock, Globe, Terminal, Smartphone
+} from 'lucide-react'
 
 interface DocSection {
   id: string
   title: string
   description: string
-  icon: React.ReactNode
+  icon: React.ElementType
   articles: string[]
 }
 
@@ -17,417 +22,322 @@ const docSections: DocSection[] = [
     id: 'getting-started',
     title: 'Getting Started',
     description: 'Quick start guides and initial setup',
-    icon: <PlayCircle size={24} />,
+    icon: PlayCircle,
     articles: [
-      'Creating Your First Strategy',
       'Platform Overview',
+      'Installation Guide',
       'Setting Up Your Account',
       'Connecting Your Broker',
-      'Understanding the Dashboard',
+      'Creating Your First Strategy',
     ],
   },
   {
     id: 'strategy-building',
     title: 'Strategy Building',
     description: 'Build and customize your trading strategies',
-    icon: <Code size={24} />,
+    icon: Code,
     articles: [
       'Strategy Builder Interface',
+      'AI Natural Language Parser',
       'Technical Indicators Guide',
       'Entry & Exit Rules',
-      'Position Sizing',
-      'Risk Management Parameters',
-      'Using Multiple Timeframes',
+      'Position Sizing & Risk',
     ],
   },
   {
     id: 'backtesting',
     title: 'Backtesting',
     description: 'Test your strategies against historical data',
-    icon: <TrendingUp size={24} />,
+    icon: TrendingUp,
     articles: [
       'Running Your First Backtest',
-      'Understanding Backtest Results',
-      'Performance Metrics Explained',
+      'Understanding Results',
+      'Performance Metrics',
       'Optimization Techniques',
-      'Walk-Forward Analysis',
     ],
   },
   {
     id: 'live-trading',
     title: 'Live Trading',
     description: 'Deploy and monitor live trading bots',
-    icon: <PlayCircle size={24} />,
+    icon: Zap,
     articles: [
       'Going Live Checklist',
-      'Paper Trading vs Live Trading',
-      'Bot Monitoring Dashboard',
-      'Managing Active Positions',
-      'Emergency Stop Procedures',
-      'VPS Setup & Management',
+      'Paper vs Live Trading',
+      'Monitoring Dashboard',
+      'Emergency Procedures',
     ],
   },
   {
-    id: 'account-management',
-    title: 'Account Management',
-    description: 'Manage your account settings and subscription',
-    icon: <Shield size={24} />,
+    id: 'account',
+    title: 'Account & Security',
+    description: 'Manage your settings and subscription',
+    icon: Shield,
     articles: [
       'Subscription Plans',
       'Billing & Payments',
-      'Account Security',
+      'Security Best Practices',
       'API Keys Management',
-      'Notification Settings',
     ],
   },
   {
-    id: 'api-docs',
-    title: 'API Documentation (Institutional)',
-    description: 'Advanced integration for institutional users',
-    icon: <Book size={24} />,
+    id: 'institutional',
+    title: 'Institutional API',
+    description: 'Advanced integration for firms',
+    icon: Book,
     articles: [
       'API Authentication',
       'REST API Reference',
       'WebSocket Feeds',
-      'Strategy Deployment API',
-      'Portfolio Management API',
-      'Rate Limits & Best Practices',
-    ],
-  },
-  {
-    id: 'faq',
-    title: 'FAQ',
-    description: 'Frequently asked questions',
-    icon: <HelpCircle size={24} />,
-    articles: [
-      'Account & Billing',
-      'Strategy Development',
-      'Backtesting & Results',
-      'Live Trading',
-      'Technical Issues',
-      'Security & Privacy',
+      'Rate Limits',
     ],
   },
 ]
 
+// Mapping of article titles to their detailed content
+const articleContent: Record<string, React.ReactNode> = {
+  'Platform Overview': (
+    <div className="prose prose-invert max-w-none">
+      <p className="text-lg text-[#94A3B8] leading-relaxed mb-6">
+        AlgoDeck is a revolutionary mobile-first trading automation platform designed to democratize algorithmic trading. Built for both novice and professional traders, it removes the coding barrier from strategy development.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+          <h4 className="text-white font-bold mb-2 flex items-center gap-2"><Smartphone size={18} className="text-[#3A7BFF]" /> Mobile First</h4>
+          <p className="text-sm text-[#64748B]">Manage your entire trading empire from your phone. No desktop required for deployment or monitoring.</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+          <h4 className="text-white font-bold mb-2 flex items-center gap-2"><Cpu size={18} className="text-[#17B7BD]" /> AI Powered</h4>
+          <p className="text-sm text-[#64748B]">Leverage advanced LLMs to convert plain English ideas into high-performance execution logic.</p>
+        </div>
+      </div>
+      <h3 className="text-2xl font-bold text-white mb-4">Core Ecosystem</h3>
+      <ul className="space-y-3 text-[#94A3B8]">
+        <li className="flex gap-3"><CheckCircle2 size={18} className="text-[#00D084] mt-1 flex-shrink-0" /> <strong>Strategy Hub:</strong> Build and store your intellectual property.</li>
+        <li className="flex gap-3"><CheckCircle2 size={18} className="text-[#00D084] mt-1 flex-shrink-0" /> <strong>Backtest Engine:</strong> Verify performance with tick-perfect historical data.</li>
+        <li className="flex gap-3"><CheckCircle2 size={18} className="text-[#00D084] mt-1 flex-shrink-0" /> <strong>Execution Cloud:</strong> 24/7 low-latency bot hosting.</li>
+      </ul>
+    </div>
+  ),
+  'Connecting Your Broker': (
+    <div className="prose prose-invert max-w-none">
+      <p className="text-[#94A3B8] mb-6">AlgoDeck connects to your MetaTrader 4 (MT4) or MetaTrader 5 (MT5) accounts using secure, encrypted API bridges.</p>
+      <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl mb-8 flex gap-4">
+        <AlertCircle className="text-amber-500 flex-shrink-0" size={24} />
+        <p className="text-sm text-amber-200/80">Never share your master password. We recommend using a <strong>Trading Password</strong> (Investor passwords do not support automated execution).</p>
+      </div>
+      <h3 className="text-xl font-bold text-white mb-4">Connection Steps:</h3>
+      <ol className="list-decimal pl-6 space-y-4 text-[#94A3B8]">
+        <li>Open the AlgoDeck App and go to <strong>Settings &gt; Accounts</strong>.</li>
+        <li>Tap <strong>Add Account</strong> and select your platform (MT4 or MT5).</li>
+        <li>Enter your Broker Server name (e.g., IC Markets-Live 20).</li>
+        <li>Provide your Account ID and Trading Password.</li>
+        <li>Tap <strong>Verify Connection</strong>. Once green, your account is ready for bot deployment.</li>
+      </ol>
+    </div>
+  ),
+  'AI Natural Language Parser': (
+    <div className="prose prose-invert max-w-none">
+      <h3 className="text-2xl font-bold text-white mb-6 text-center">Plain English to Profit</h3>
+      <div className="bg-[#0A0F2C] border border-[#3A7BFF]/30 p-8 rounded-3xl mb-8 relative">
+        <div className="absolute -top-3 left-6 px-3 py-1 bg-[#3A7BFF] rounded-full text-[10px] font-black uppercase">User Input</div>
+        <p className="text-xl italic text-white font-serif">"Buy 0.1 lots of Gold when the 14-period RSI crosses below 30 and the price is above the 200 EMA."</p>
+      </div>
+      <div className="flex justify-center mb-8"><ArrowLeft className="rotate-[270deg] text-[#3A7BFF]" /></div>
+      <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+        <h4 className="text-[#00D084] font-bold mb-4 flex items-center gap-2"><Terminal size={18} /> AI Interpretation:</h4>
+        <ul className="space-y-2 text-sm text-[#94A3B8]">
+          <li><strong>Symbol:</strong> XAUUSD</li>
+          <li><strong>Volume:</strong> 0.1 Lots (Fixed)</li>
+          <li><strong>Condition 1:</strong> RSI(14) &lt; 30 (Cross-under)</li>
+          <li><strong>Condition 2:</strong> Close &gt; EMA(200)</li>
+        </ul>
+      </div>
+    </div>
+  ),
+  'Going Live Checklist': (
+    <div className="prose prose-invert max-w-none">
+      <h3 className="text-xl font-bold text-white mb-6">Before You Flip the Switch</h3>
+      <div className="space-y-4">
+        {[
+          { t: 'Verify Backtest', d: 'Ensure your strategy has at least 100 trades in history with a positive profit factor.' },
+          { t: 'Check Margin', d: 'Confirm your broker account has sufficient free margin for the bot\'s position sizing.' },
+          { t: 'Stop-Loss Required', d: 'All live bots MUST have a hard stop-loss defined to prevent catastrophic loss.' },
+          { t: 'Server Status', d: 'Check the Status Page to ensure the AlgoDeck Execution Cloud is fully operational.' }
+        ].map((item, i) => (
+          <div key={i} className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+            <div className="w-6 h-6 rounded-full bg-[#00D084]/20 text-[#00D084] flex items-center justify-center flex-shrink-0 mt-1">
+              <CheckCircle2 size={16} />
+            </div>
+            <div>
+              <h5 className="text-white font-bold text-sm mb-1">{item.t}</h5>
+              <p className="text-xs text-[#64748B]">{item.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+  // Default fallback for unwritten articles
+  'Default': (
+    <div className="text-center py-20">
+      <Info size={48} className="mx-auto text-[#3A7BFF] mb-6 opacity-20" />
+      <h3 className="text-xl font-bold text-white mb-2">Content Under Construction</h3>
+      <p className="text-[#64748B]">This article is currently being updated by our documentation team. Check back soon for the latest guides.</p>
+    </div>
+  )
+}
+
 export default function Docs() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+  const [selectedArticle, setSelectedArticle] = useState<string | null>(null)
+  const [loaded, setLoaded] = useState(false)
 
-  const filteredSections = docSections.filter(
-    (section) =>
-      section.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      section.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      section.articles.some((article) =>
-        article.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-  )
+  useEffect(() => {
+    setLoaded(true)
+    window.scrollTo(0, 0)
+  }, [selectedArticle])
 
-  const toggleSection = (id: string) => {
-    setExpandedSection(expandedSection === id ? null : id)
-  }
+  const filteredSections = useMemo(() => {
+    if (!searchQuery) return docSections
+    return docSections.map(section => ({
+      ...section,
+      articles: section.articles.filter(a => a.toLowerCase().includes(searchQuery.toLowerCase()))
+    })).filter(section => section.articles.length > 0 || section.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  }, [searchQuery])
+
+  const currentContent = useMemo(() => {
+    if (!selectedArticle) return null
+    return articleContent[selectedArticle] || articleContent['Default']
+  }, [selectedArticle])
 
   return (
-    <div style={{ background: 'var(--color-bg-deep)', minHeight: '100vh' }}>
+    <div className="bg-[#05070F] min-h-screen">
       <Navigation />
 
-      {/* Hero Section */}
-      <section
-        style={{
-          position: 'relative',
-          padding: '160px 24px 80px',
-          background: 'linear-gradient(180deg, var(--color-bg-midnight) 0%, var(--color-bg-deep) 100%)',
-          borderBottom: '1px solid var(--color-border)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            textAlign: 'center',
-          }}
-        >
-          <h1
-            className="section-title"
-            style={{
-              fontSize: 'clamp(36px, 5vw, 56px)',
-              marginBottom: '20px',
-            }}
-          >
-            Documentation
-          </h1>
-          <p
-            className="section-subtitle"
-            style={{
-              fontSize: '18px',
-              marginTop: '20px',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
-            Everything you need to know about using AlgoDeck
-          </p>
-
-          {/* Search Bar */}
-          <div
-            style={{
-              marginTop: '48px',
-              position: 'relative',
-              maxWidth: '600px',
-              margin: '48px auto 0',
-            }}
-          >
-            <Search
-              size={20}
-              style={{
-                position: 'absolute',
-                left: '20px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: 'var(--color-text-muted)',
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search documentation..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '16px 20px 16px 52px',
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-md)',
-                color: 'var(--color-text-primary)',
-                fontSize: '16px',
-                fontFamily: 'var(--font-sans)',
-                outline: 'none',
-                transition: 'all 0.3s ease',
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-primary)'
-                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)'
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border)'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Documentation Sections */}
-      <section
-        style={{
-          padding: '80px 24px',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '24px',
-          }}
-        >
-          {filteredSections.map((section) => (
-            <div
-              key={section.id}
-              className="glass-panel"
-              style={{
-                padding: '32px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                borderColor:
-                  expandedSection === section.id
-                    ? 'var(--color-border-glow)'
-                    : 'var(--color-border)',
-              }}
-              onClick={() => toggleSection(section.id)}
-              onMouseEnter={(e) => {
-                if (expandedSection !== section.id) {
-                  e.currentTarget.style.borderColor = 'var(--color-border-glow)'
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (expandedSection !== section.id) {
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }
-              }}
+      {selectedArticle ? (
+        /* ARTICLE READER VIEW */
+        <div className="pt-24 md:pt-32 pb-20 px-6 max-w-5xl mx-auto flex flex-col md:flex-row gap-12">
+          {/* Sidebar Navigation */}
+          <aside className="hidden md:block w-64 flex-shrink-0">
+            <button 
+              onClick={() => setSelectedArticle(null)}
+              className="flex items-center gap-2 text-[#3A7BFF] font-bold text-sm mb-8 hover:gap-3 transition-all"
             >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                  marginBottom: '16px',
-                }}
-              >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: 'var(--radius-md)',
-                    background: 'rgba(59, 130, 246, 0.1)',
-                    border: '1px solid var(--color-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-primary)',
-                  }}
-                >
-                  {section.icon}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h3
-                    style={{
-                      fontSize: '20px',
-                      fontWeight: 600,
-                      color: 'var(--color-text-primary)',
-                      marginBottom: '4px',
-                    }}
-                  >
-                    {section.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: '14px',
-                      color: 'var(--color-text-secondary)',
-                    }}
-                  >
-                    {section.description}
-                  </p>
-                </div>
-                <ChevronRight
-                  size={20}
-                  style={{
-                    color: 'var(--color-text-muted)',
-                    transform:
-                      expandedSection === section.id
-                        ? 'rotate(90deg)'
-                        : 'rotate(0deg)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                />
-              </div>
-
-              {/* Expanded Articles */}
-              {expandedSection === section.id && (
-                <div
-                  style={{
-                    marginTop: '24px',
-                    paddingTop: '24px',
-                    borderTop: '1px solid var(--color-border)',
-                  }}
-                >
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {section.articles.map((article, idx) => (
-                      <li key={idx}>
-                        <a
-                          href="#"
-                          onClick={(e) => e.preventDefault()}
-                          style={{
-                            fontSize: '14px',
-                            color: 'var(--color-text-secondary)',
-                            textDecoration: 'none',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '8px',
-                            borderRadius: 'var(--radius-sm)',
-                            transition: 'all 0.2s ease',
-                          }}
-                          onMouseEnter={(e) => {
-                            const el = e.currentTarget as HTMLElement
-                            el.style.color = 'var(--color-primary)'
-                            el.style.background = 'rgba(59, 130, 246, 0.05)'
-                            el.style.paddingLeft = '12px'
-                          }}
-                          onMouseLeave={(e) => {
-                            const el = e.currentTarget as HTMLElement
-                            el.style.color = 'var(--color-text-secondary)'
-                            el.style.background = 'transparent'
-                            el.style.paddingLeft = '8px'
-                          }}
+              <ArrowLeft size={16} /> Back to Docs
+            </button>
+            <div className="space-y-8">
+              {docSections.map(s => (
+                <div key={s.id}>
+                  <h5 className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] mb-4">{s.title}</h5>
+                  <ul className="space-y-3">
+                    {s.articles.map(a => (
+                      <li key={a}>
+                        <button 
+                          onClick={() => setSelectedArticle(a)}
+                          className={`text-xs text-left transition-colors hover:text-white ${selectedArticle === a ? 'text-[#3A7BFF] font-bold' : 'text-[#94A3B8]'}`}
                         >
-                          <ChevronRight size={14} />
-                          {article}
-                        </a>
+                          {a}
+                        </button>
                       </li>
                     ))}
                   </ul>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
+          </aside>
 
-        {filteredSections.length === 0 && (
-          <div
-            style={{
-              textAlign: 'center',
-              padding: '80px 24px',
-              color: 'var(--color-text-muted)',
-            }}
-          >
-            <p style={{ fontSize: '18px' }}>No documentation found matching your search.</p>
-          </div>
-        )}
-      </section>
-
-      {/* Need More Help Section */}
-      <section
-        style={{
-          padding: '80px 24px',
-          borderTop: '1px solid var(--color-border)',
-          background: 'var(--color-bg-midnight)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            textAlign: 'center',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 'clamp(28px, 4vw, 36px)',
-              fontWeight: 600,
-              color: 'var(--color-text-primary)',
-              marginBottom: '16px',
-            }}
-          >
-            Need More Help?
-          </h2>
-          <p
-            style={{
-              fontSize: '16px',
-              color: 'var(--color-text-secondary)',
-              marginBottom: '32px',
-            }}
-          >
-            Can't find what you're looking for? Our support team is here to help.
-          </p>
-          <Link
-            to="/support"
-            className="glow-button"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            Contact Support
-            <ChevronRight size={16} />
-          </Link>
+          {/* Main Content */}
+          <main className={`flex-1 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <button 
+              onClick={() => setSelectedArticle(null)}
+              className="md:hidden flex items-center gap-2 text-[#3A7BFF] font-bold text-sm mb-6"
+            >
+              <ArrowLeft size={16} /> All Docs
+            </button>
+            <nav className="flex items-center gap-2 text-[10px] text-[#64748B] uppercase tracking-widest mb-4">
+              <span>Documentation</span>
+              <ChevronRight size={10} />
+              <span className="text-[#3A7BFF] font-bold">{selectedArticle}</span>
+            </nav>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">{selectedArticle}</h1>
+            <div className="glass-panel p-8 md:p-12 border border-white/5 min-h-[400px]">
+              {currentContent}
+            </div>
+            
+            {/* Footer Pagination */}
+            <div className="mt-12 flex justify-between items-center py-8 border-t border-white/5">
+              <Link to="/support" className="text-sm text-[#94A3B8] hover:text-white transition-colors flex items-center gap-2">
+                <HelpCircle size={16} /> Still need help?
+              </Link>
+              <button className="text-sm text-[#3A7BFF] font-bold flex items-center gap-1">
+                Next Article <ChevronRight size={16} />
+              </button>
+            </div>
+          </main>
         </div>
-      </section>
+      ) : (
+        /* DOCS DASHBOARD VIEW */
+        <>
+          <section className="relative pt-32 pb-16 px-6">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-[#3A7BFF]/5 to-transparent pointer-events-none" />
+            <div className="max-w-4xl mx-auto text-center relative z-10">
+              <span className="section-eyebrow mb-4 block">KNOWLEDGE BASE</span>
+              <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8">Documentation</h1>
+              <div className="relative max-w-2xl mx-auto group">
+                <Search size={22} className="absolute left-6 top-1/2 -translate-y-1/2 text-[#64748B] group-focus-within:text-[#3A7BFF] transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Search features, setups, or indicators..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-16 pl-16 pr-8 bg-[#0A0F2C] border border-white/10 rounded-2xl text-white outline-none focus:border-[#3A7BFF]/40 focus:ring-4 focus:ring-[#3A7BFF]/5 transition-all shadow-2xl"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className="pb-32 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredSections.map((s, idx) => (
+                  <div 
+                    key={s.id}
+                    className={`glass-panel p-8 border border-white/5 hover:border-[#3A7BFF]/30 transition-all duration-500 group ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    style={{ transitionDelay: `${idx * 100}ms` }}
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-[#3A7BFF]/5 border border-[#3A7BFF]/10 flex items-center justify-center text-[#3A7BFF] mb-8 transition-transform group-hover:scale-110">
+                      <s.icon size={28} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{s.title}</h3>
+                    <p className="text-[#64748B] text-sm mb-8 leading-relaxed">{s.description}</p>
+                    
+                    <ul className="space-y-3 border-t border-white/5 pt-6">
+                      {s.articles.map(a => (
+                        <li key={a}>
+                          <button 
+                            onClick={() => setSelectedArticle(a)}
+                            className="flex items-center justify-between w-full text-sm text-[#94A3B8] hover:text-white transition-all group/item"
+                          >
+                            <span className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF]/30 group-hover/item:bg-[#3A7BFF] transition-colors" />
+                              {a}
+                            </span>
+                            <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       <Footer />
     </div>
   )
 }
+

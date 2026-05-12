@@ -1,23 +1,42 @@
 import { useState, useEffect, useRef } from 'react'
-import { Check } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 
 const tiers = [
+  {
+    name: 'Free',
+    monthlyPrice: 0,
+    annualPrice: 0,
+    description: 'Explore the basics of automation.',
+    features: [
+      { label: 'Strategy Builder', included: true },
+      { label: 'Standard Backtesting', included: true },
+      { label: '1 Active Bot', included: true },
+      { label: 'MT4/MT5 Integration', included: false },
+      { label: 'Multiple Accounts', included: false },
+      { label: 'Advanced Analytics', included: false },
+      { label: 'Email Alerts', included: false },
+      { label: 'Priority Support', included: false },
+    ],
+    cta: 'Get Started',
+    popular: false,
+    primary: false,
+  },
   {
     name: 'Starter',
     monthlyPrice: 49,
     annualPrice: 490,
     description: 'For individual traders getting started.',
     features: [
-      '1 MT4/MT5 account',
-      'Up to 3 active bots',
-      'Basic strategy form',
-      'Standard 7-day backtesting',
-      'Email alerts',
-      '7-day analytics history',
-      '0% performance fee',
-      'Email support',
+      { label: 'Strategy Builder', included: true },
+      { label: 'Standard Backtesting', included: true },
+      { label: 'Up to 3 Active Bots', included: true },
+      { label: '1 MT4/MT5 Account', included: true },
+      { label: '7-day Analytics History', included: true },
+      { label: 'Email Alerts', included: true },
+      { label: '0% Performance Fee', included: true },
+      { label: 'Email Support', included: true },
     ],
-    cta: 'Start Trial',
+    cta: 'Get Started',
     popular: false,
     primary: false,
   },
@@ -27,16 +46,16 @@ const tiers = [
     annualPrice: 990,
     description: 'For serious traders who need AI power.',
     features: [
-      '3 connected accounts',
-      'Up to 10 active bots',
-      'AI natural language strategies',
-      'Advanced 3-year backtesting',
-      'Push + email alerts',
-      'Full analytics history',
-      '10% performance fee on profits',
-      'Priority support',
+      { label: '3 Connected Accounts', included: true },
+      { label: 'Up to 10 Active Bots', included: true },
+      { label: 'AI Natural Strategies', included: true },
+      { label: 'Advanced Backtesting', included: true },
+      { label: 'Push + Email Alerts', included: true },
+      { label: 'Full Analytics History', included: true },
+      { label: '10% Performance Fee', included: true },
+      { label: 'Priority Support', included: true },
     ],
-    cta: 'Start Free Trial',
+    cta: 'Get Started',
     popular: true,
     primary: true,
   },
@@ -46,16 +65,16 @@ const tiers = [
     annualPrice: 2490,
     description: 'For professionals managing multiple strategies.',
     features: [
-      '10 connected accounts',
-      'Unlimited bots',
-      'AI + strategy optimization',
-      'Advanced backtesting + AI suggestions',
-      'Push + email + SMS alerts',
-      'Full analytics + PDF reports',
-      'VPS auto-restart monitoring',
-      'Dedicated account manager',
+      { label: '10 Connected Accounts', included: true },
+      { label: 'Unlimited Bots', included: true },
+      { label: 'AI Optimization', included: true },
+      { label: 'Advanced Backtesting', included: true },
+      { label: 'Push + Email + SMS', included: true },
+      { label: 'PDF Reports', included: true },
+      { label: 'VPS Monitoring', included: true },
+      { label: 'Account Manager', included: true },
     ],
-    cta: 'Start Trial',
+    cta: 'Get Started',
     popular: false,
     primary: false,
   },
@@ -65,14 +84,14 @@ const tiers = [
     annualPrice: null,
     description: 'For firms requiring custom infrastructure.',
     features: [
-      'Unlimited accounts',
-      'Custom bot development',
-      'Custom backtesting engine',
-      'Full analytics + API access',
-      'Dedicated infrastructure',
-      'VPS monitoring + SLA guarantee',
-      'Negotiable performance fee',
-      '24/7 support + onboarding',
+      { label: 'Unlimited Accounts', included: true },
+      { label: 'Custom Bot Dev', included: true },
+      { label: 'Custom Backtesting', included: true },
+      { label: 'API Access', included: true },
+      { label: 'Dedicated Infra', included: true },
+      { label: 'SLA Guarantee', included: true },
+      { label: 'Negotiable Fee', included: true },
+      { label: '24/7 Support', included: true },
     ],
     cta: 'Contact Sales',
     popular: false,
@@ -235,9 +254,20 @@ function PricingCard({
       {/* Features */}
       <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px' }}>
         {tier.features.map((feature) => (
-          <li key={feature} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Check size={16} color="#00D084" />
-            <span style={{ fontSize: '14px', color: '#94A3B8' }}>{feature}</span>
+          <li key={feature.label} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {feature.included ? (
+              <Check size={16} color="#00D084" />
+            ) : (
+              <X size={16} color="#64748B" />
+            )}
+            <span style={{ 
+              fontSize: '14px', 
+              color: feature.included ? '#94A3B8' : '#64748B',
+              textDecoration: feature.included ? 'none' : 'line-through',
+              opacity: feature.included ? 1 : 0.6
+            }}>
+              {feature.label}
+            </span>
           </li>
         ))}
       </ul>
@@ -371,7 +401,7 @@ export default function Pricing() {
             transition: 'color 0.3s ease',
           }}
         >
-          Annual <span style={{ color: '#00D084' }}>(2 months free)</span>
+          Annual
         </span>
       </div>
 
@@ -450,7 +480,7 @@ export default function Pricing() {
             },
             {
               q: 'Can I try before buying?',
-              a: 'Absolutely! Download the app and explore the strategy builder for free. You only need a subscription to deploy live trading bots.'
+              a: 'Yes! You can download the app and use our Free tier to build and deploy 1 active trading bot. You only need a paid subscription to connect more accounts or run multiple bots.'
             }
           ].map((faq, i) => (
             <div key={i} className="p-6 bg-[var(--color-bg-surface)] rounded-xl border border-[var(--color-border)]">
@@ -464,7 +494,7 @@ export default function Pricing() {
       {/* Final CTA */}
       <div className="max-w-2xl mx-auto mt-20 text-center pb-20">
         <h3 className="section-title text-3xl mb-5">
-          Start with Starter — Upgrade Anytime
+          Start for Free — Upgrade Anytime
         </h3>
         <p className="section-subtitle mb-8">
           Download the AlgoDeck mobile app and begin your trading automation journey today

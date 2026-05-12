@@ -44,7 +44,33 @@ export default function Admin() {
   }
 
   if (!user || user.role !== 'admin') {
-    return null
+    return (
+      <div className="min-h-screen bg-[#05070F] flex items-center justify-center px-6">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-md w-full glass-panel p-10 border-white/5 text-center relative z-10">
+          <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6 text-red-500">
+            <ShieldCheck size={32} />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
+          <p className="text-[#94A3B8] text-sm leading-relaxed mb-8">
+            This area is restricted to system administrators. Your account (<strong>{user?.name || 'User'}</strong>) 
+            is currently assigned the <strong>{user?.role || 'user'}</strong> role.
+          </p>
+          <div className="space-y-4">
+            <Link to="/" className="glow-button !w-full block">Return Home</Link>
+            <button 
+              onClick={() => logout()}
+              className="outline-button !w-full"
+            >
+              Sign Out
+            </button>
+          </div>
+          <p className="mt-8 text-[10px] text-[#64748B] uppercase tracking-widest font-bold">
+            Security ID: {user?.unionId?.slice(0, 8) || 'ANONYMOUS'}
+          </p>
+        </div>
+      </div>
+    )
   }
 
   const statCards = [

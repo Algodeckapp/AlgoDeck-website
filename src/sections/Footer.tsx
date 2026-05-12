@@ -17,6 +17,7 @@ const footerLinks = {
   Company: [
     { label: 'About', href: '/about', isRoute: true },
     { label: 'Contact', href: '/contact', isRoute: true },
+    { label: 'Sign In', href: '/login', isRoute: true },
   ],
   Legal: [
     { label: 'Terms of Service', href: '/terms', isRoute: true },

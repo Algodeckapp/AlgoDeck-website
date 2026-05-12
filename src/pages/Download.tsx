@@ -1,7 +1,8 @@
-import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle } from 'lucide-react'
+import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle, ShieldCheck } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
+import { trpc } from '@/providers/trpc'
 
 export default function Download() {
   const [email, setEmail] = useState('')
@@ -12,10 +13,15 @@ export default function Download() {
     setLoaded(true)
   }, [])
 
+  const subscribeMutation = trpc.newsletter.subscribe.useMutation({
+    onSuccess: () => {
+      setSubmitted(true)
+    },
+  })
+
   const handleWaitlist = (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    subscribeMutation.mutate({ email })
   }
 
   const brokers = [
@@ -106,8 +112,12 @@ export default function Download() {
                     required
                     className="w-full px-5 py-4 bg-[#05070F] border border-white/10 rounded-xl text-white text-sm outline-none focus:border-[#3A7BFF]/40 transition-colors"
                   />
-                  <button type="submit" className="glow-button w-full !py-4.5 !text-sm">
-                    {submitted ? "You're on the list!" : "Join iOS Waitlist"}
+                  <button 
+                    type="submit" 
+                    disabled={subscribeMutation.isPending}
+                    className="glow-button w-full !py-4.5 !text-sm"
+                  >
+                    {submitted ? "YOU'RE ON THE LIST!" : subscribeMutation.isPending ? "REGISTERING..." : "JOIN iOS WAITLIST"}
                   </button>
                 </form>
                 

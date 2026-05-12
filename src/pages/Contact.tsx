@@ -1,389 +1,202 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Mail, Phone, MessageSquare, Users, Twitter, Youtube, Send } from 'lucide-react'
+import { Mail, Phone, MessageSquare, Users, Twitter, Youtube, Send, CheckCircle2, ShieldCheck, Clock } from 'lucide-react'
+import { trpc } from '@/providers/trpc'
 
 export default function Contact() {
+  const [loaded, setLoaded] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: 'general',
     message: '',
+    company: '',
   })
   const [submitted, setSubmitted] = useState(false)
 
+  useEffect(() => {
+    setLoaded(true)
+  }, [])
+
+  const submitMutation = trpc.contact.submit.useMutation({
+    onSuccess: () => {
+      setSubmitted(true)
+    },
+  })
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Integrate with backend API
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
+    submitMutation.mutate({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      company: formData.company,
+    })
   }
 
   const contactMethods = [
     {
       icon: Mail,
-      title: 'Email Support',
-      description: 'Get help from our support team',
-      contact: 'support@algodeck.app',
-      color: '#3B82F6',
+      title: 'Support',
+      desc: 'Email our technical desk',
+      val: 'support@algodeck.app',
+      color: '#3A7BFF'
     },
     {
       icon: Users,
-      title: 'Sales Inquiries',
-      description: 'Enterprise and partnership opportunities',
-      contact: 'sales@algodeck.app',
-      color: '#10B981',
+      title: 'Sales',
+      desc: 'Enterprise & partnerships',
+      val: 'sales@algodeck.app',
+      color: '#17B7BD'
     },
     {
-      icon: Phone,
-      title: 'Technical Support',
-      description: 'API and integration assistance',
-      contact: 'tech@algodeck.app',
-      color: '#8B5CF6',
-    },
+      icon: Clock,
+      title: 'Status',
+      desc: '24/7 Platform monitoring',
+      val: 'All systems operational',
+      color: '#00D084'
+    }
   ]
-
-  const socialLinks = [
-    {
-      icon: Twitter,
-      name: 'Twitter / X',
-      handle: '@algodeck',
-      url: 'https://twitter.com/algodeck',
-      color: '#1DA1F2',
-    },
-    {
-      icon: MessageSquare,
-      name: 'Discord',
-      handle: 'Join our community',
-      url: 'https://discord.gg/algodeck',
-      color: '#5865F2',
-    },
-    {
-      icon: Youtube,
-      name: 'YouTube',
-      handle: '@AlgoDeck',
-      url: 'https://youtube.com/@algodeck',
-      color: '#FF0000',
-    },
-    {
-      icon: Send,
-      name: 'Telegram',
-      handle: '@AlgoDeckOfficial',
-      url: 'https://t.me/algodeck',
-      color: '#0088CC',
-    },
-  ]
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '14px 18px',
-    background: 'var(--color-bg-surface)',
-    border: '1px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    color: '#FFFFFF',
-    fontSize: '15px',
-    fontFamily: 'var(--font-sans)',
-    outline: 'none',
-    transition: 'border-color 0.3s ease',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontSize: '13px',
-    fontWeight: 500,
-    letterSpacing: '0.05em',
-    textTransform: 'uppercase' as const,
-    color: 'var(--color-text-secondary)',
-    marginBottom: '8px',
-    display: 'block',
-  }
 
   return (
-    <div style={{ background: 'var(--color-bg-deep)', minHeight: '100vh' }}>
+    <>
       <Navigation />
-
-      {/* Hero Section */}
-      <section style={{ padding: '140px 24px 80px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 className="section-title" style={{ marginBottom: '24px' }}>
-            Get in Touch
-          </h1>
-          <p className="section-subtitle" style={{ fontSize: '20px' }}>
-            We're here to help you succeed with AlgoDeck
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Methods */}
-      <section style={{ padding: '0 24px 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
-          {contactMethods.map((method, index) => {
-            const Icon = method.icon
-            return (
-              <div
-                key={index}
-                style={{
-                  background: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '32px',
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.borderColor = method.color
-                  e.currentTarget.style.boxShadow = `0 0 40px ${method.color}33`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <div
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '50%',
-                    background: `${method.color}20`,
-                    border: `1px solid ${method.color}40`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 24px',
-                  }}
-                >
-                  <Icon size={28} color={method.color} />
-                </div>
-                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#FFFFFF', marginBottom: '10px' }}>
-                  {method.title}
-                </h3>
-                <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginBottom: '16px', lineHeight: 1.6 }}>
-                  {method.description}
-                </p>
-                <a
-                  href={`mailto:${method.contact}`}
-                  style={{
-                    fontSize: '15px',
-                    color: method.color,
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                  }}
-                >
-                  {method.contact}
-                </a>
-              </div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section style={{ padding: '80px 24px', background: 'var(--color-bg-midnight)' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <div className="badge badge-primary" style={{ marginBottom: '16px' }}>Send us a message</div>
-            <h2 className="section-title" style={{ fontSize: '36px', marginBottom: '20px' }}>
-              Contact Form
-            </h2>
-            <p className="section-subtitle">
-              Fill out the form below and we'll get back to you within 24 hours
-            </p>
-          </div>
-
-          {submitted ? (
-            <div
-              style={{
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '64px 48px',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '50%',
-                  background: 'rgba(16, 185, 129, 0.1)',
-                  border: '2px solid var(--color-success)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 24px',
-                }}
-              >
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: '28px', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px' }}>
-                Message Sent!
-              </h3>
-              <p style={{ fontSize: '16px', color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '32px' }}>
-                Thanks for reaching out, {formData.name}! Our team will get back to you within 24 hours.
+      <div className="bg-[#05070F] min-h-screen pt-20 overflow-hidden relative">
+        {/* Background Effects */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-[#3A7BFF]/10 to-transparent pointer-events-none z-0" />
+        
+        <div className="relative z-10 pt-16 md:pt-28 pb-32 px-6">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-start">
+            
+            {/* Left Column: Info */}
+            <div className={`transition-all duration-1000 ${loaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+              <span className="section-eyebrow mb-4 block">GET IN TOUCH</span>
+              <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 leading-tight">
+                Let's Build Your <br />
+                <span className="gradient-text">Empire Together.</span>
+              </h1>
+              <p className="text-[#94A3B8] text-lg leading-relaxed mb-12 max-w-xl">
+                Have a question about our AI strategies or need enterprise-level deployment? 
+                Our team of experts is ready to help you automate your success.
               </p>
-              <button
-                onClick={() => setSubmitted(false)}
-                className="outline-button"
-              >
-                Send Another Message
-              </button>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              style={{
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '48px',
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                  <label style={labelStyle}>Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    style={inputStyle}
-                    placeholder="Your name"
-                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--color-primary)')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
-                  />
-                </div>
 
-                <div>
-                  <label style={labelStyle}>Email *</label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    style={inputStyle}
-                    placeholder="you@example.com"
-                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--color-primary)')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Subject *</label>
-                  <select
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    style={{ ...inputStyle, cursor: 'pointer' }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--color-primary)')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
-                  >
-                    <option value="general">General Inquiry</option>
-                    <option value="sales">Sales / Partnership</option>
-                    <option value="technical">Technical Support</option>
-                    <option value="feedback">Feedback / Suggestions</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Message *</label>
-                  <textarea
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    style={{ ...inputStyle, minHeight: '150px', resize: 'vertical' }}
-                    placeholder="Tell us how we can help you..."
-                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--color-primary)')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="glow-button"
-                  style={{ width: '100%', marginTop: '8px' }}
-                >
-                  Send Message
-                </button>
+              <div className="grid grid-cols-1 gap-6">
+                {contactMethods.map((m, i) => (
+                  <div key={i} className="glass-panel p-6 border border-white/5 flex gap-6 items-center">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${m.color}15`, border: `1px solid ${m.color}20` }}>
+                      <m.icon size={22} style={{ color: m.color }} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-sm mb-0.5">{m.title}</h4>
+                      <p className="text-[#64748B] text-xs mb-1">{m.desc}</p>
+                      <p className="text-white font-mono text-sm">{m.val}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </form>
-          )}
-        </div>
-      </section>
+            </div>
 
-      {/* Social Media Section */}
-      <section style={{ padding: '80px 24px 120px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div className="badge badge-primary" style={{ marginBottom: '16px' }}>Connect with us</div>
-          <h2 className="section-title" style={{ fontSize: '36px', marginBottom: '20px' }}>
-            Join Our Community
-          </h2>
-          <p className="section-subtitle">
-            Follow us on social media for updates, tips, and community discussions
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
-          {socialLinks.map((social, index) => {
-            const Icon = social.icon
-            return (
-              <a
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '28px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '20px',
-                  textDecoration: 'none',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.borderColor = social.color
-                  e.currentTarget.style.boxShadow = `0 0 32px ${social.color}33`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    background: `${social.color}20`,
-                    border: `1px solid ${social.color}40`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Icon size={22} color={social.color} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#FFFFFF', marginBottom: '4px' }}>
-                    {social.name}
-                  </h3>
-                  <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                    {social.handle}
+            {/* Right Column: Form */}
+            <div className={`transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              {submitted ? (
+                <div className="glass-panel p-12 md:p-16 border border-[#00D084]/20 text-center relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D084]/5 rounded-bl-full" />
+                  <div className="w-20 h-20 rounded-full bg-[#00D084]/10 border border-[#00D084]/20 flex items-center justify-center mx-auto mb-8 text-[#00D084]">
+                    <CheckCircle2 size={40} />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white mb-4">Message Sent!</h2>
+                  <p className="text-[#94A3B8] mb-10 leading-relaxed">
+                    Thank you, {formData.name}. Our technical desk has received your inquiry and will respond within 24 hours.
                   </p>
+                  <button onClick={() => setSubmitted(false)} className="outline-button !w-full">Send Another Message</button>
                 </div>
-              </a>
-            )
-          })}
-        </div>
-      </section>
+              ) : (
+                <div className="glass-panel p-8 md:p-12 border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.4)]">
+                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <ShieldCheck className="text-[#3A7BFF]" size={24} /> Secure Transmission
+                  </h3>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#64748B] uppercase tracking-widest ml-1">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="w-full h-14 bg-[#05070F] border border-white/10 rounded-xl px-5 text-white outline-none focus:border-[#3A7BFF]/40 transition-all"
+                          placeholder="Tony Chris"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#64748B] uppercase tracking-widest ml-1">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full h-14 bg-[#05070F] border border-white/10 rounded-xl px-5 text-white outline-none focus:border-[#3A7BFF]/40 transition-all"
+                          placeholder="tony@algodeck.app"
+                        />
+                      </div>
+                    </div>
 
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-[#64748B] uppercase tracking-widest ml-1">Company (Optional)</label>
+                      <input
+                        type="text"
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        className="w-full h-14 bg-[#05070F] border border-white/10 rounded-xl px-5 text-white outline-none focus:border-[#3A7BFF]/40 transition-all"
+                        placeholder="Prop Firm or Individual"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-[#64748B] uppercase tracking-widest ml-1">Subject</label>
+                      <select
+                        value={formData.subject}
+                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                        className="w-full h-14 bg-[#05070F] border border-white/10 rounded-xl px-5 text-white outline-none focus:border-[#3A7BFF]/40 transition-all appearance-none"
+                      >
+                        <option value="general">General Inquiry</option>
+                        <option value="sales">Institutional / Sales</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="feedback">Feedback</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-[#64748B] uppercase tracking-widest ml-1">Detailed Message</label>
+                      <textarea
+                        required
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        className="w-full min-h-[160px] bg-[#05070F] border border-white/10 rounded-xl p-5 text-white outline-none focus:border-[#3A7BFF]/40 transition-all resize-none"
+                        placeholder="Tell us about your trading goals..."
+                      />
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={submitMutation.isPending}
+                      className="glow-button !w-full !h-14 font-bold flex items-center justify-center gap-2"
+                    >
+                      {submitMutation.isPending ? 'TRANSMITTING...' : 'SEND SECURE MESSAGE'} <Send size={18} />
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </div>
       <Footer />
-    </div>
+    </>
   )
 }

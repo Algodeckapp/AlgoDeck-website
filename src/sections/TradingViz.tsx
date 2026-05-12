@@ -75,11 +75,36 @@ export default function TradingViz() {
             inView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
         >
-          <img
-            src="/assets/see market differently.png"
-            alt="Market Visualization"
-            className="w-full h-auto rounded-[30px] shadow-[0_30px_100px_rgba(58,123,255,0.15)] border border-white/5"
-          />
+          <div className="relative group">
+            <img
+              src="/assets/see market differently.png"
+              alt="Market Visualization"
+              className="w-full h-auto rounded-[30px] shadow-[0_30px_100px_rgba(58,123,255,0.15)] border border-white/5"
+            />
+            
+            {/* Overlay Badges */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-[#05070F]/60 backdrop-blur-xl p-3 rounded-2xl border border-white/10 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                  alt="Get it on Google Play" 
+                  className="h-10 w-auto"
+                />
+              </a>
+              <div className="relative">
+                <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
+                  <span className="badge badge-warning text-[8px] px-1.5 py-0">SOON</span>
+                </div>
+                <div className="opacity-40 grayscale cursor-not-allowed">
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-9 w-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

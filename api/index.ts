@@ -29,7 +29,8 @@ app.onError((err, c) => {
   return c.json({
     error: "Internal Server Error",
     message: err.message,
-    debug: process.env.NODE_ENV !== "production" ? err.stack : "Check server logs"
+    name: err.name,
+    stack: err.stack, // Temporarily enabled for prod debugging
   }, 500);
 });
 

@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import type { HttpBindings } from "@hono/node-server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { handle } from "hono/vercel";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
@@ -26,7 +27,7 @@ app.use("/api/trpc/*", async (c) => {
 
 app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
-export default app;
+export default handle(app);
 
 // Standalone server for local development/production
 if (env.isProduction && !process.env.VERCEL) {

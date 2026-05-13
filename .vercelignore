@@ -4,8 +4,5 @@ node_modules
 *.log
 .env.local
 .DS_Store
-api
-db
-contracts
 *.md
 image

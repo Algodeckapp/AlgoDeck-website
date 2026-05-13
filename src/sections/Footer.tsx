@@ -208,10 +208,6 @@ export default function Footer() {
             <span className="text-xs text-[#64748B]">
               © 2026 AlgoDeck. All rights reserved.
             </span>
-            <span className="hidden sm:block text-[#3A7BFF]/20">|</span>
-            <span className="text-[9px] font-mono uppercase tracking-widest text-[#3A7BFF]/40">
-              Build v1.0.7 - Production
-            </span>
           </div>
           <span className="text-xs text-[#64748B] flex items-center gap-1.5">
             Made with <span className="text-red-500 animate-pulse">❤️</span> for traders

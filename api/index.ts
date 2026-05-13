@@ -27,7 +27,9 @@ app.use("/api/trpc/*", async (c) => {
 
 app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
-export default handle(app);
+const handler = handle(app);
+
+export default process.env.NODE_ENV === "development" ? app : handler;
 
 // Standalone server for local development/production
 if (env.isProduction && !process.env.VERCEL) {

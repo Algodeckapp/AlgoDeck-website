@@ -23,6 +23,16 @@ app.use("/api/trpc/*", async (c) => {
 
 app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
+app.onError((err, c) => {
+  console.error(`[FATAL ERROR] ${err.name}: ${err.message}`);
+  console.error(err.stack);
+  return c.json({
+    error: "Internal Server Error",
+    message: err.message,
+    debug: process.env.NODE_ENV !== "production" ? err.stack : "Check server logs"
+  }, 500);
+});
+
 const handler = handle(app);
 
 export default process.env.NODE_ENV === "development" ? app : handler;

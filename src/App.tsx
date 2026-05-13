@@ -18,6 +18,9 @@ import NotFound from './pages/NotFound'
 export default function App() {
   return (
     <>
+      <div className="bg-[#3A7BFF] text-white text-[10px] py-1 text-center font-bold uppercase tracking-[0.2em] relative z-[9999]">
+        AlgoDeck Production Build v1.0.6 - Live Deployment Confirmed
+      </div>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />

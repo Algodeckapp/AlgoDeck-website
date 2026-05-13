@@ -11,31 +11,6 @@ import { TRPCError } from "@trpc/server";
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
   
-  register: publicQuery
-    .input(z.object({
-      email: z.string().email(),
-      password: z.string().min(8),
-      name: z.string().optional(),
-    }))
-    .mutation(async ({ input }) => {
-      const existing = await findUserByEmail(input.email);
-      if (existing) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "User already exists",
-        });
-      }
-
-      const passwordHash = await hashPassword(input.password);
-      await createUser({
-        email: input.email,
-        passwordHash,
-        name: input.name,
-      });
-
-      return { success: true };
-    }),
-
   login: publicQuery
     .input(z.object({
       email: z.string().email(),

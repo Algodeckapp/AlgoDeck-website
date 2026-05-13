@@ -1,22 +1,23 @@
 import "dotenv/config";
 
-function required(name: string): string {
+/**
+ * Returns an environment variable or a safe fallback.
+ * Prevents top-level crashes if variables are missing on Vercel.
+ */
+function getEnv(name: string, fallback = ""): string {
   const value = process.env[name];
   if (!value && process.env.NODE_ENV === "production") {
-    console.error(`[CRITICAL] Missing environment variable: ${name}`);
-    // Return empty string instead of throwing to prevent Vercel boot crashes,
-    // though the specific feature will fail when used.
-    return "";
+    console.warn(`[BOOT WARNING] Environment variable ${name} is not set.`);
   }
-  return value ?? "";
+  return value ?? fallback;
 }
 
 export const env = {
-  appId: required("APP_ID"),
-  appSecret: required("APP_SECRET"),
+  appId: getEnv("APP_ID", "missing-app-id"),
+  appSecret: getEnv("APP_SECRET", "temporary-secret-for-boot-only-change-this"),
   isProduction: process.env.NODE_ENV === "production",
-  databaseUrl: required("DATABASE_URL"),
-  kimiAuthUrl: required("KIMI_AUTH_URL"),
-  kimiOpenUrl: required("KIMI_OPEN_URL"),
-  ownerUnionId: process.env.OWNER_UNION_ID ?? "",
+  databaseUrl: getEnv("DATABASE_URL"),
+  kimiAuthUrl: getEnv("KIMI_AUTH_URL"),
+  kimiOpenUrl: getEnv("KIMI_OPEN_URL"),
+  ownerUnionId: getEnv("OWNER_UNION_ID"),
 };

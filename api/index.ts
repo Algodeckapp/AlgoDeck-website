@@ -6,47 +6,54 @@ import { handle } from "hono/vercel";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
-import { Paths } from "../contracts/constants";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
+// Basic middleware
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 
-app.use("/api/trpc/*", async (c) => {
-  return fetchRequestHandler({
-    endpoint: "/api/trpc",
-    req: c.req.raw,
-    router: appRouter,
-    createContext,
+// Diagnostic endpoint
+app.get("/api/ping", (c) => {
+  return c.json({
+    status: "pong",
+    time: new Date().toISOString(),
+    env: {
+      isProduction: env.isProduction,
+      hasDb: !!env.databaseUrl,
+      hasSecret: !!process.env.APP_SECRET,
+    }
   });
 });
 
-app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
+// TRPC Handler
+app.use("/api/trpc/*", async (c) => {
+  try {
+    return await fetchRequestHandler({
+      endpoint: "/api/trpc",
+      req: c.req.raw,
+      router: appRouter,
+      createContext,
+    });
+  } catch (err: any) {
+    console.error("[TRPC ERROR]", err);
+    return c.json({ error: "TRPC Handler Failed", message: err.message }, 500);
+  }
+});
 
+// Error handling
 app.onError((err, c) => {
-  console.error(`[FATAL ERROR] ${err.name}: ${err.message}`);
+  console.error(`[HONO ERROR] ${err.name}: ${err.message}`);
   console.error(err.stack);
   return c.json({
     error: "Internal Server Error",
     message: err.message,
     name: err.name,
-    stack: err.stack, // Temporarily enabled for prod debugging
+    stack: env.isProduction ? undefined : err.stack,
   }, 500);
 });
 
+app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
+
+// Vercel export
 const handler = handle(app);
-
-export default process.env.NODE_ENV === "development" ? app : handler;
-
-// Standalone server for local development/production
-if (env.isProduction && !process.env.VERCEL) {
-  const { serve } = await import("@hono/node-server");
-  const { serveStaticFiles } = await import("./lib/vite");
-  
-  serveStaticFiles(app);
-
-  const port = parseInt(process.env.PORT || "3000");
-  serve({ fetch: app.fetch, port }, () => {
-    console.log(`Server running on http://localhost:${port}/`);
-  });
-}
+export default process.env.VERCEL ? handler : app;

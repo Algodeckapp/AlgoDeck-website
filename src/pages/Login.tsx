@@ -30,9 +30,14 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!formData.email || !formData.password) {
+      setError("Please enter both email and password.");
+      return;
+    }
     
     loginMutation.mutate({
-      email: formData.email,
+      email: formData.email.trim(),
       password: formData.password,
     });
   };

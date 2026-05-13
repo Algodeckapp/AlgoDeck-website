@@ -51,11 +51,6 @@ export default function Login() {
     }
   });
 
-  const pingQuery = trpc.ping.useQuery(undefined, { 
-    enabled: false,
-    retry: false
-  });
-
   const checkConnection = async () => {
     try {
       const res = await fetch("/api/trpc/ping?batch=1");

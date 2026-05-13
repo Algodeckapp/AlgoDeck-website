@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { trpc } from '@/providers/trpc'
 import { Link } from 'react-router'
-import { ArrowLeft, Mail, MessageSquare, Calendar } from 'lucide-react'
+import { ArrowLeft, Mail, MessageSquare, Calendar, Apple, Smartphone, ShieldCheck } from 'lucide-react'
 
 export default function Admin() {
   const navigate = useNavigate()
-  const { user, isLoading } = useAuth()
+  const { user, isLoading, logout } = useAuth()
 
   useEffect(() => {
     if (!isLoading && (!user || user.role !== 'admin')) {

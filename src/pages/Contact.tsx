@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Mail, Phone, MessageSquare, Users, Twitter, Youtube, Send, CheckCircle2, ShieldCheck, Clock } from 'lucide-react'
+import { Mail, Users, Send, CheckCircle2, ShieldCheck, Clock } from 'lucide-react'
 import { trpc } from '@/providers/trpc'
 
 export default function Contact() {

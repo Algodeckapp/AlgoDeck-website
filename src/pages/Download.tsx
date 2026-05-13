@@ -1,4 +1,4 @@
-import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle, ShieldCheck } from 'lucide-react'
+import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
@@ -169,7 +169,7 @@ export default function Download() {
                 { num: '02', title: 'Onboard', desc: 'Create your account and complete the setup.' },
                 { num: '03', title: 'Connect', desc: 'Securely link your MT4/MT5 broker account.' },
                 { num: '04', title: 'Automate', desc: 'Deploy your first AI-powered bot in minutes.' }
-              ].map((step, i) => (
+              ].map((step) => (
                 <div key={step.num} className="relative group">
                   <div className="text-6xl font-black text-white/5 absolute -top-8 -left-2 transition-colors group-hover:text-[#3A7BFF]/10">{step.num}</div>
                   <div className="relative z-10">

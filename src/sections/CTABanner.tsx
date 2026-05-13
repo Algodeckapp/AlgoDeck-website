@@ -126,13 +126,18 @@ export default function CTABanner() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
             <a 
               href="/download" 
-              className="transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10"
+              className="relative group transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10"
             >
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                alt="Get it on Google Play" 
-                className="h-14 w-auto"
-              />
+              <div className="absolute -top-3 -right-2 z-10">
+                <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+              </div>
+              <div className="opacity-40 grayscale">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                  alt="Get it on Google Play" 
+                  className="h-14 w-auto"
+                />
+              </div>
             </a>
             <a 
               href="/download"

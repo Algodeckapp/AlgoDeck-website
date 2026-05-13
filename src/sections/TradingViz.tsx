@@ -89,12 +89,17 @@ export default function TradingViz() {
                 animation: 'float3D 4s ease-in-out infinite',
               }}
             >
-              <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                  alt="Get it on Google Play" 
-                  className="h-10 w-auto"
-                />
+              <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
+                <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
+                  <span className="badge badge-warning text-[8px] px-1.5 py-0">SOON</span>
+                </div>
+                <div className="opacity-40 grayscale">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Get it on Google Play" 
+                    className="h-10 w-auto"
+                  />
+                </div>
               </a>
               <a href="/download" className="relative transition-transform hover:scale-105 active:scale-95">
                 <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">

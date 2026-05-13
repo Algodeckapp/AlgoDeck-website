@@ -135,13 +135,18 @@ export default function Navigation() {
               <div className="flex items-center gap-3">
                 <Link
                   to="/download"
-                  className="transition-transform hover:scale-105 active:scale-95 flex items-center"
+                  className="relative group flex items-center transition-transform hover:scale-105 active:scale-95"
                 >
-                  <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                    alt="Get it on Google Play" 
-                    className="h-9 w-auto"
-                  />
+                  <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
+                    <span className="badge badge-warning text-[8px] px-1.5 py-0 shadow-lg">SOON</span>
+                  </div>
+                  <div className="opacity-40 grayscale">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                      alt="Get it on Google Play" 
+                      className="h-9 w-auto"
+                    />
+                  </div>
                 </Link>
                 <Link
                   to="/download"

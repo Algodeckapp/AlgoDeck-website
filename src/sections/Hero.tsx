@@ -190,35 +190,54 @@ export default function Hero() {
 
           {/* CTA Row */}
           <div
-            className={`flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 mt-10 md:mt-12 transition-all duration-700 ${
+            className={`flex flex-col items-center md:items-start gap-8 mt-10 md:mt-12 transition-all duration-700 ${
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
             style={{ transitionDelay: '1.1s' }}
           >
-            <a 
-              href="/download" 
-              className="transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10 rounded-xl"
-            >
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                alt="Get it on Google Play" 
-                className="h-14 md:h-16 w-auto"
-              />
-            </a>
+            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+              {/* Play Store (Coming Soon) */}
+              <a 
+                href="/download" 
+                className="relative group transition-transform hover:scale-105 active:scale-95"
+              >
+                <div className="absolute -top-3 -right-2 z-10">
+                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+                </div>
+                <div className="opacity-50 grayscale transition-transform">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Get it on Google Play" 
+                    className="h-14 md:h-16 w-auto"
+                  />
+                </div>
+              </a>
+
+              {/* App Store (Coming Soon) */}
+              <a 
+                href="/download"
+                className="relative group transition-transform hover:scale-105 active:scale-95"
+              >
+                <div className="absolute -top-3 -right-2 z-10">
+                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+                </div>
+                <div className="opacity-50 grayscale transition-transform">
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-14 md:h-16 w-auto"
+                  />
+                </div>
+              </a>
+            </div>
+
+            {/* Primary Waitlist Button */}
             <a 
               href="/download"
-              className="relative group transition-transform hover:scale-105 active:scale-95"
+              className="glow-button !px-12 !py-4.5 !text-sm font-black tracking-widest flex items-center gap-3 group"
             >
-              <div className="absolute -top-3 -right-2 z-10">
-                <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
-              </div>
-              <div className="opacity-50 grayscale transition-transform">
-                <img 
-                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                  alt="Download on the App Store" 
-                  className="h-14 md:h-16 w-auto"
-                />
-              </div>
+              JOIN THE WAITLIST 
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </a>
           </div>
         </div>

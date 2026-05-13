@@ -266,12 +266,17 @@ export default function FeaturesPage() {
               Join the future of automated trading. Build your first strategy on mobile and deploy it globally in under 5 minutes.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
-              <a href="/download" className="transition-transform hover:scale-105 active:scale-95">
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                  alt="Get it on Google Play" 
-                  className="h-12 w-auto"
-                />
+              <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
+                <div className="absolute -top-3 -right-2 z-10">
+                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+                </div>
+                <div className="opacity-50 grayscale">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Get it on Google Play" 
+                    className="h-12 w-auto"
+                  />
+                </div>
               </a>
               <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
                 <div className="absolute -top-3 -right-2 z-10">

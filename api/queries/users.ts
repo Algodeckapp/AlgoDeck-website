@@ -2,46 +2,49 @@ import { eq } from "drizzle-orm";
 import * as schema from "../../db/schema";
 import type { InsertUser } from "../../db/schema";
 import { getDb } from "./connection";
-import { env } from "../lib/env";
 
-export async function findUserByUnionId(unionId: string) {
+export async function findUserById(id: number) {
   const rows = await getDb()
     .select()
     .from(schema.users)
-    .where(eq(schema.users.unionId, unionId))
+    .where(eq(schema.users.id, id))
     .limit(1);
   return rows.at(0);
 }
 
-export async function upsertUser(data: InsertUser) {
+export async function findUserByEmail(email: string) {
+  const rows = await getDb()
+    .select()
+    .from(schema.users)
+    .where(eq(schema.users.email, email.toLowerCase()))
+    .limit(1);
+  return rows.at(0);
+}
+
+export async function createUser(data: InsertUser) {
   const db = getDb();
   
-  // Check if user exists
-  const existing = await findUserByUnionId(data.unionId);
+  // First user created is always an admin
+  const userCount = await db.$count(schema.users);
+  const role = userCount === 0 ? "admin" : (data.role || "user");
 
-  const values = { ...data };
-  if (
-    values.role === undefined &&
-    values.unionId &&
-    values.unionId === env.ownerUnionId
-  ) {
-    values.role = "admin";
-  }
+  const result = await db.insert(schema.users).values({
+    ...data,
+    email: data.email.toLowerCase(),
+    role,
+  });
 
-  if (existing) {
-    // Update
-    await db
-      .update(schema.users)
-      .set({
-        name: values.name || existing.name,
-        email: values.email || existing.email,
-        avatar: values.avatar || existing.avatar,
-        role: values.role || existing.role,
-        lastSignInAt: new Date(),
-      })
-      .where(eq(schema.users.unionId, data.unionId));
-  } else {
-    // Insert
-    await db.insert(schema.users).values(values);
-  }
+  return result;
+}
+
+export async function updateUser(id: number, data: Partial<InsertUser>) {
+  const db = getDb();
+  await db
+    .update(schema.users)
+    .set({
+      ...data,
+      email: data.email?.toLowerCase(),
+      lastSignInAt: data.lastSignInAt || new Date(),
+    })
+    .where(eq(schema.users.id, id));
 }

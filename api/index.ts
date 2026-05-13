@@ -6,15 +6,11 @@ import { handle } from "hono/vercel";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
-import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "../contracts/constants";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
-
-// Routes (Vercel handles the /api prefix, but we include it for local dev consistency)
-app.get("/api/oauth/callback", createOAuthCallbackHandler());
 
 app.use("/api/trpc/*", async (c) => {
   return fetchRequestHandler({

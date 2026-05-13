@@ -10,12 +10,12 @@ import {
   date,
 } from "drizzle-orm/mysql-core";
 
-// ─── Users (managed by auth system) ───
+// ─── Users (Custom Auth) ───
 export const users = mysqlTable("users", {
   id: serial("id"),
-  unionId: varchar("unionId", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
   name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 320 }),
   avatar: text("avatar"),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

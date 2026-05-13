@@ -1,73 +1,56 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { ShieldCheck, Lock, Terminal } from 'lucide-react'
+import { ShieldCheck, Lock, User, Mail, ArrowRight } from 'lucide-react'
 import { trpc } from '@/providers/trpc'
 import { useNavigate } from 'react-router'
 
-function getOAuthUrl() {
-  try {
-    if (typeof window === "undefined") return "";
-    
-    const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
-    const appID = import.meta.env.VITE_APP_ID;
-
-    if (!kimiAuthUrl || !appID) {
-      console.error("[Auth] Missing VITE_KIMI_AUTH_URL or VITE_APP_ID in environment variables.");
-      alert("System Configuration Error: Login is temporarily unavailable.");
-      return "";
-    }
-
-    const redirectUri = `${window.location.origin}/api/oauth/callback`;
-    const state = btoa(redirectUri);
-
-    const url = new URL(`${kimiAuthUrl}/api/oauth/authorize`);
-    url.searchParams.set("client_id", appID);
-    url.searchParams.set("redirect_uri", redirectUri);
-    url.searchParams.set("response_type", "code");
-    url.searchParams.set("scope", "profile");
-    url.searchParams.set("state", state);
-
-    return url.toString();
-  } catch (err) {
-    console.error("[Auth] Failed to construct OAuth URL:", err);
-    return "";
-  }
-}
-
 export default function Login() {
+  const [isRegister, setIsRegister] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const utils = trpc.useUtils();
 
-  const devLoginMutation = trpc.auth.devLogin.useMutation({
+  const loginMutation = trpc.auth.login.useMutation({
     onSuccess: async () => {
       await utils.invalidate();
       navigate('/admin');
     },
     onError: (err) => {
-      console.error("[DevLogin Error]", err);
-      alert("Developer Login failed: " + err.message);
+      setError(err.message);
     }
   });
 
-  const checkConnection = async () => {
-    try {
-      const res = await fetch("/api/trpc/ping?batch=1");
-      const text = await res.text();
-      
-      try {
-        const json = JSON.parse(text);
-        if (json[0]?.result?.data?.ok || json.ok) {
-          alert("✅ Connection Successful! Backend is reachable.");
-        } else {
-          alert("❌ Connection Failed: API returned unexpected data.\n\nResponse: " + text.slice(0, 200));
-        }
-      } catch (e) {
-        alert("❌ Connection Failed: API returned HTML instead of JSON.\n\nFirst 200 chars: " + text.slice(0, 200));
-      }
-    } catch (err) {
-      alert("❌ Connection Error: " + (err as Error).message);
+  const registerMutation = trpc.auth.register.useMutation({
+    onSuccess: () => {
+      setIsRegister(false);
+      setError("");
+      alert("Account created successfully! Please log in.");
+    },
+    onError: (err) => {
+      setError(err.message);
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    
+    if (isRegister) {
+      registerMutation.mutate(formData);
+    } else {
+      loginMutation.mutate({
+        email: formData.email,
+        password: formData.password,
+      });
     }
   };
 
@@ -83,62 +66,111 @@ export default function Login() {
             <div className="w-16 h-16 rounded-2xl bg-[#3A7BFF]/10 border border-[#3A7BFF]/20 flex items-center justify-center mx-auto mb-6 text-[#3A7BFF]">
               <ShieldCheck size={32} />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2 text-glow">Admin Portal</h1>
-            <p className="text-[#94A3B8]">Secure access for AlgoDeck administrators</p>
+            <h1 className="text-3xl font-bold text-white mb-2 text-glow">
+              {isRegister ? "Create Admin" : "Admin Portal"}
+            </h1>
+            <p className="text-[#94A3B8]">
+              {isRegister ? "Setup your administrative access" : "Secure access for AlgoDeck administrators"}
+            </p>
           </div>
 
           <Card className="bg-[#0A0F2C]/60 backdrop-blur-xl border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.5)] overflow-hidden">
-            <CardHeader className="pt-8 pb-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-[#64748B] text-xs font-bold uppercase tracking-widest mb-2">
-                <Lock size={12} /> Encrypted Session
+            <CardHeader className="pt-8 pb-4 text-center border-b border-white/5">
+              <div className="flex items-center justify-center gap-2 text-[#64748B] text-[10px] font-bold uppercase tracking-widest mb-2">
+                <Lock size={12} className="text-[#3A7BFF]" /> Encrypted Session
               </div>
-              <CardTitle className="text-white">Welcome Back</CardTitle>
+              <CardTitle className="text-white text-xl">
+                {isRegister ? "Get Started" : "Welcome Back"}
+              </CardTitle>
             </CardHeader>
-            <CardContent className="p-8 space-y-4">
-              <Button
-                className="w-full h-14 rounded-xl bg-[#3A7BFF] hover:bg-[#3A7BFF]/90 text-white font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/20"
-                onClick={() => {
-                  const url = getOAuthUrl();
-                  if (url) {
-                    window.location.href = url;
-                  }
-                }}
-              >
-                Sign in with Kimi
-              </Button>
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {isRegister && (
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Full Name</label>
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748B]" size={18} />
+                      <input
+                        type="text"
+                        required
+                        placeholder="John Doe"
+                        className="w-full h-14 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 text-white focus:outline-none focus:border-[#3A7BFF]/50 transition-colors"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                )}
 
-              <div className="relative flex items-center justify-center py-4">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5" /></div>
-                <span className="relative bg-[#0A0F2C] px-4 text-[10px] text-[#64748B] font-bold uppercase tracking-tighter">Dev Tools</span>
-              </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748B]" size={18} />
+                    <input
+                      type="email"
+                      required
+                      placeholder="admin@algodeck.app"
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 text-white focus:outline-none focus:border-[#3A7BFF]/50 transition-colors"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
+                  </div>
+                </div>
 
-              <Button
-                variant="outline"
-                className="w-full h-14 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-base transition-all hover:bg-white/10 hover:scale-[1.02]"
-                onClick={() => devLoginMutation.mutate()}
-                disabled={devLoginMutation.isPending}
-              >
-                {devLoginMutation.isPending ? "Authenticating..." : <span className="flex items-center gap-2"><Terminal size={18} /> Developer Login</span>}
-              </Button>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748B]" size={18} />
+                    <input
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 text-white focus:outline-none focus:border-[#3A7BFF]/50 transition-colors"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    />
+                  </div>
+                </div>
 
-              <button 
-                onClick={checkConnection}
-                className="w-full text-[10px] text-[#3A7BFF] uppercase tracking-widest font-bold opacity-50 hover:opacity-100 transition-opacity mt-2"
-              >
-                Check API Connection
-              </button>
-              
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center animate-shake">
+                    {error}
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
+                  className="w-full h-14 rounded-xl bg-[#3A7BFF] hover:bg-[#3A7BFF]/90 text-white font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/20 mt-4 group"
+                  disabled={loginMutation.isPending || registerMutation.isPending}
+                >
+                  {loginMutation.isPending || registerMutation.isPending ? (
+                    "Processing..."
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      {isRegister ? "Create Account" : "Sign In"} 
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  )}
+                </Button>
+              </form>
+
               <div className="mt-8 pt-8 border-t border-white/5 text-center">
-                <p className="text-[#64748B] text-xs leading-relaxed">
-                  By signing in, you agree to our internal <br />
-                  security protocols and data privacy guidelines.
-                </p>
+                <button
+                  type="button"
+                  className="text-sm font-medium text-[#94A3B8] hover:text-white transition-colors"
+                  onClick={() => {
+                    setIsRegister(!isRegister);
+                    setError("");
+                  }}
+                >
+                  {isRegister ? "Already have an account? Sign In" : "Need administrative access? Create account"}
+                </button>
               </div>
             </CardContent>
           </Card>
           
           <div className="mt-12 text-center">
-            <a href="/" className="text-sm font-bold text-[#3A7BFF] hover:underline">
+            <a href="/" className="text-sm font-bold text-[#3A7BFF] hover:underline opacity-50 hover:opacity-100 transition-opacity">
               ← Back to Homepage
             </a>
           </div>

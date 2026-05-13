@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { ShieldCheck, Lock, User, Mail, ArrowRight } from 'lucide-react'
+import { ShieldCheck, Lock, Mail, ArrowRight } from 'lucide-react'
 import { trpc } from '@/providers/trpc'
 import { useNavigate } from 'react-router'
 
@@ -81,6 +81,8 @@ export default function Login() {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
                   </div>
+                </div>
+
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Password</label>
                   <div className="relative">
@@ -97,7 +99,6 @@ export default function Login() {
                 </div>
 
                 {error && (
-
                   <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center animate-shake">
                     {error}
                   </div>

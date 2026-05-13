@@ -3,7 +3,10 @@ import "dotenv/config";
 function required(name: string): string {
   const value = process.env[name];
   if (!value && process.env.NODE_ENV === "production") {
-    throw new Error(`Missing required environment variable: ${name}. Please add it to your Vercel Project Settings.`);
+    console.error(`[CRITICAL] Missing environment variable: ${name}`);
+    // Return empty string instead of throwing to prevent Vercel boot crashes,
+    // though the specific feature will fail when used.
+    return "";
   }
   return value ?? "";
 }

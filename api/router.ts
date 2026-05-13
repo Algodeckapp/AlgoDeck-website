@@ -4,7 +4,7 @@ import { contactRouter } from "./contact-router";
 import { demoRouter } from "./demo-router";
 import { createRouter, publicQuery } from "./middleware";
 import { getDb } from "./queries/connection";
-import { users } from "@db/schema";
+import { users } from "../db/schema";
 import { sql } from "drizzle-orm";
 
 export const appRouter = createRouter({

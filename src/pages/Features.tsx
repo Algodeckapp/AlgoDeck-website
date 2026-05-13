@@ -138,10 +138,9 @@ export default function FeaturesPage() {
                 Institutional-grade tools reimagined for the modern mobile trader. From natural language strategy building to professional-grade backtesting and risk management.
               </p>
               <div className="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start">
-                <a href="/download" className="glow-button !px-10">Get Started Now</a>
-                <a href="#all-features" className="outline-button !px-10">Explore Grid</a>
-              </div>
-            </div>
+               <Link to="/download" className="glow-button !px-10">Get Started Now</Link>
+               <a href="#all-features" className="outline-button !px-10">Explore Grid</a>
+              </div>            </div>
             
             <div className={`w-full lg:w-1/2 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
               <div className="relative group">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { Target, Shield, Users, Lightbulb, HeartHandshake, Smartphone, Server, Database, Network, Bot, Award, Zap, Globe } from 'lucide-react'
@@ -219,7 +220,7 @@ export default function About() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-              <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10">
+              <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10">
                 <div className="absolute -top-3 -right-2 z-10">
                   <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
                 </div>
@@ -230,8 +231,8 @@ export default function About() {
                     className="h-14 w-auto"
                   />
                 </div>
-              </a>
-              <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
+              </Link>
+              <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
                 <div className="absolute -top-3 -right-2 z-10">
                   <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
                 </div>
@@ -242,7 +243,7 @@ export default function About() {
                     className="h-14 w-auto"
                   />
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
         </section>

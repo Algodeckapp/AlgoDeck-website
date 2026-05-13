@@ -85,6 +85,7 @@ export default function Download() {
                 
                 <form onSubmit={handleAndroidWaitlist} className="space-y-4 mb-8">
                   <input
+                    id="android-email"
                     type="email"
                     placeholder="Enter your email"
                     value={androidEmail}
@@ -101,13 +102,16 @@ export default function Download() {
                   </button>
                 </form>
 
-                <div className="opacity-40 grayscale cursor-not-allowed">
+                <button 
+                  onClick={() => document.getElementById('android-email')?.focus()}
+                  className="opacity-40 grayscale cursor-pointer transition-transform hover:scale-105 active:scale-95 block mx-auto"
+                >
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
                     alt="Get it on Google Play" 
-                    className="h-14 w-auto mx-auto"
+                    className="h-14 w-auto"
                   />
-                </div>
+                </button>
 
                 <div className="mt-8 flex items-center justify-center gap-2 text-[#64748B] text-[10px] uppercase tracking-widest font-bold border-t border-white/5 pt-6">
                   <Smartphone size={14} />
@@ -127,6 +131,7 @@ export default function Download() {
                 </p>
                 <form onSubmit={handleIosWaitlist} className="space-y-4 mb-8">
                   <input
+                    id="ios-email"
                     type="email"
                     placeholder="Enter your email"
                     value={iosEmail}
@@ -143,13 +148,16 @@ export default function Download() {
                   </button>
                 </form>
                 
-                <div className="opacity-40 grayscale cursor-not-allowed">
+                <button 
+                  onClick={() => document.getElementById('ios-email')?.focus()}
+                  className="opacity-40 grayscale cursor-pointer transition-transform hover:scale-105 active:scale-95 block mx-auto"
+                >
                   <img 
                     src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                     alt="Download on the App Store" 
-                    className="h-14 w-auto mx-auto"
+                    className="h-14 w-auto"
                   />
-                </div>
+                </button>
                 
                 <p className="mt-6 text-[#64748B] text-[10px] uppercase tracking-widest font-bold border-t border-white/5 pt-6">
                   Expected Launch: Q3 2026

@@ -5,15 +5,15 @@ export const config = {
   runtime: 'edge',
 };
 
-const app = new Hono().basePath("/api/health");
+const app = new Hono();
 
-app.get("/", (c) => {
+app.get("*", (c) => {
   return c.json({
     status: "ok",
-    message: "Isolated Health Check",
+    path: c.req.path,
+    message: "Minimal Health Check",
     env: {
       DATABASE_URL: !!process.env.DATABASE_URL,
-      NODE_ENV: process.env.NODE_ENV,
     }
   });
 });

@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router'
-import { Check, X } from 'lucide-react'
+import { Check, X, HelpCircle, TrendingUp, DollarSign, Activity } from 'lucide-react'
 
 const tiers = [
   {
     name: 'Free',
     monthlyPrice: 0,
     annualPrice: 0,
-    description: 'Explore the basics of automation.',
+    description: 'Explore the basics of trading automation.',
     features: [
       { label: 'Strategy Builder', included: true },
       { label: 'Standard Backtesting', included: true },
@@ -119,11 +119,11 @@ function PricingCard({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), index * 150)
+          setTimeout(() => setVisible(true), index * 100)
           observer.unobserve(el)
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     )
 
     observer.observe(el)
@@ -133,198 +133,73 @@ function PricingCard({
   return (
     <div
       ref={cardRef}
-      style={{
-        background: '#0F1629',
-        border: tier.popular
-          ? '1px solid #3A7BFF'
-          : '1px solid rgba(58, 123, 255, 0.15)',
-        borderRadius: '16px',
-        padding: '40px 32px',
-        position: 'relative',
-        flex: '1',
-        minWidth: '260px',
-        boxShadow: tier.popular ? '0 0 40px rgba(58, 123, 255, 0.3), 0 0 80px rgba(58, 123, 255, 0.1)' : 'none',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(60px)',
-        transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      className={`glass-panel p-8 md:p-10 flex flex-col h-full transition-all duration-1000 group ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      } ${
+        tier.popular 
+          ? 'border-[#3A7BFF]/40 shadow-[0_0_40px_rgba(58,123,255,0.1)]' 
+          : 'border-white/5'
+      } hover:border-[#3A7BFF]/30 hover:shadow-[0_0_40px_rgba(58,123,255,0.15)]`}
     >
-      {/* Popular badge */}
       {tier.popular && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: '20px',
-            transform: 'translateY(-50%)',
-            background: 'linear-gradient(135deg, #3A7BFF 0%, #17B7BD 100%)',
-            color: 'white',
-            fontSize: '11px',
-            fontWeight: 500,
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
-            padding: '4px 12px',
-            borderRadius: '4px',
-          }}
-        >
-          Most Popular
+        <div className="absolute top-0 right-10 -translate-y-1/2">
+          <span className="bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-wider">
+            Most Popular
+          </span>
         </div>
       )}
 
-      {/* Tier name */}
-      <h3
-        style={{
-          fontSize: '22px',
-          fontWeight: 600,
-          color: '#FFFFFF',
-        }}
-      >
-        {tier.name}
-      </h3>
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-white mb-2">{tier.name}</h3>
+        <p className="text-[#64748B] text-sm leading-relaxed">{tier.description}</p>
+      </div>
 
-      {/* Price */}
-      <div style={{ marginTop: '16px' }}>
+      <div className="mb-8">
         {tier.monthlyPrice !== null ? (
-          <>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '42px',
-                fontWeight: 700,
-                color: '#FFFFFF',
-              }}
-            >
-              ${isAnnual ? Math.round(tier.annualPrice! / 12) : tier.monthlyPrice}
-            </span>
-            <span
-              style={{
-                fontSize: '16px',
-                color: '#64748B',
-                marginLeft: '4px',
-              }}
-            >
-              /month
-            </span>
-            {isAnnual && (
-              <div
-                style={{
-                  fontSize: '14px',
-                  color: '#00D084',
-                  marginTop: '4px',
-                }}
-              >
+          <div className="flex flex-col">
+            <div className="flex items-baseline gap-1">
+              <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                ${isAnnual ? Math.round(tier.annualPrice! / 12) : tier.monthlyPrice}
+              </span>
+              <span className="text-[#64748B] text-lg">/mo</span>
+            </div>
+            {isAnnual && tier.annualPrice! > 0 && (
+              <span className="text-[#00D084] text-xs font-medium mt-2">
                 ${tier.annualPrice}/year (save 2 months)
-              </div>
+              </span>
             )}
-          </>
+          </div>
         ) : (
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '42px',
-              fontWeight: 700,
-              color: '#FFFFFF',
-            }}
-          >
-            Custom
-          </span>
+          <span className="text-4xl font-bold text-white">Custom</span>
         )}
       </div>
 
-      {/* Description */}
-      <p
-        style={{
-          fontSize: '15px',
-          color: '#94A3B8',
-          marginTop: '12px',
-          lineHeight: 1.6,
-        }}
-      >
-        {tier.description}
-      </p>
+      <div className="h-px bg-white/5 w-full mb-8" />
 
-      {/* Divider */}
-      <div
-        style={{
-          height: '1px',
-          background: 'rgba(58, 123, 255, 0.15)',
-          margin: '24px 0',
-        }}
-      />
-
-      {/* Features */}
-      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <ul className="space-y-4 mb-10 flex-grow">
         {tier.features.map((feature) => (
-          <li key={feature.label} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <li key={feature.label} className="flex items-start gap-3 group/feature">
             {feature.included ? (
-              <Check size={16} color="#00D084" />
+              <Check size={18} className="text-[#00D084] mt-0.5 shrink-0" />
             ) : (
-              <X size={16} color="#64748B" />
+              <X size={18} className="text-[#64748B] mt-0.5 shrink-0" />
             )}
-            <span style={{ 
-              fontSize: '14px', 
-              color: feature.included ? '#94A3B8' : '#64748B',
-              textDecoration: feature.included ? 'none' : 'line-through',
-              opacity: feature.included ? 1 : 0.6
-            }}>
+            <span className={`text-sm leading-snug transition-colors ${
+              feature.included ? 'text-[#94A3B8] group-hover/feature:text-white' : 'text-[#64748B] line-through opacity-50'
+            }`}>
               {feature.label}
             </span>
           </li>
         ))}
       </ul>
 
-      {/* CTA */}
       <Link
         to={tier.cta === 'Contact Sales' ? '/contact' : '/download'}
-        style={{
-          display: 'block',
-          width: '100%',
-          marginTop: '32px',
-          padding: '14px 24px',
-          borderRadius: '9999px',
-          fontFamily: 'var(--font-sans)',
-          fontWeight: 500,
-          fontSize: '12px',
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-          textAlign: 'center',
-          textDecoration: 'none',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          ...(tier.primary
-            ? {
-                background: 'linear-gradient(135deg, #3A7BFF 0%, #17B7BD 100%)',
-                color: 'white',
-                border: 'none',
-              }
-            : {
-                background: 'transparent',
-                color: '#94A3B8',
-                border: '1px solid rgba(58, 123, 255, 0.3)',
-              }),
-        }}
-        onMouseEnter={(e) => {
-          const el = e.currentTarget
-          if (tier.primary) {
-            el.style.filter = 'brightness(1.1)'
-            el.style.boxShadow = '0 0 40px rgba(58, 123, 255, 0.3)'
-          } else {
-            el.style.borderColor = '#3A7BFF'
-            el.style.color = 'white'
-          }
-          el.style.transform = 'scale(1.02)'
-        }}
-        onMouseLeave={(e) => {
-          const el = e.currentTarget
-          if (tier.primary) {
-            el.style.filter = 'none'
-            el.style.boxShadow = 'none'
-          } else {
-            el.style.borderColor = 'rgba(58, 123, 255, 0.3)'
-            el.style.color = '#94A3B8'
-          }
-          el.style.transform = 'scale(1)'
-        }}
+        className={`w-full py-4 rounded-full font-bold text-xs uppercase tracking-widest text-center transition-all duration-300 ${
+          tier.primary
+            ? 'bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95'
+            : 'border border-white/10 text-white hover:bg-white/5 hover:border-white/20 active:scale-95'
+        }`}
       >
         {tier.cta}
       </Link>
@@ -334,138 +209,126 @@ function PricingCard({
 
 export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [headerVisible, setHeaderVisible] = useState(false)
+
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeaderVisible(true)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(el)
+    return () => observer.unobserve(el)
+  }, [])
 
   return (
-    <section className="bg-[#0A0F2C] py-16 px-6 md:py-32 md:px-8">
+    <section className="bg-transparent py-24 md:py-32 px-6">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-12">
-        <p className="section-eyebrow">PRICING</p>
-        <h2 className="section-title">Aligned With Your Success</h2>
-        <p className="section-subtitle">
-          Simple subscription + performance fee. You only pay more when you win.
-        </p>
-      </div>
-
-      {/* Toggle */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '16px',
-          marginBottom: '48px',
-        }}
+      <div 
+        ref={headerRef}
+        className={`text-center max-w-3xl mx-auto mb-20 transition-all duration-1000 ${
+          headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
       >
-        <span
-          style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            letterSpacing: '0.05em',
-            color: !isAnnual ? '#FFFFFF' : '#64748B',
-            transition: 'color 0.3s ease',
-          }}
-        >
-          Monthly
-        </span>
+        <span className="section-eyebrow mb-4 block">INVESTMENT PLANS</span>
+        <h2 className="section-title mb-6 text-4xl md:text-6xl">
+          Scale Your <span className="gradient-text">Trading Empire.</span>
+        </h2>
+        <p className="section-subtitle text-lg md:text-xl max-w-2xl mx-auto">
+          Choose the plan that fits your ambition. From individual traders to institutional firms, we provide the infrastructure to win.
+        </p>
 
-        <button
-          onClick={() => setIsAnnual(!isAnnual)}
-          style={{
-            width: '48px',
-            height: '26px',
-            borderRadius: '13px',
-            background: '#0F1629',
-            border: '1px solid rgba(58, 123, 255, 0.3)',
-            position: 'relative',
-            cursor: 'pointer',
-            padding: 0,
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <div
-            style={{
-              width: '20px',
-              height: '20px',
-              borderRadius: '50%',
-              background: '#3A7BFF',
-              position: 'absolute',
-              top: '2px',
-              left: isAnnual ? '24px' : '2px',
-              transition: 'left 0.3s ease',
-              boxShadow: '0 0 8px rgba(58, 123, 255, 0.5)',
-            }}
-          />
-        </button>
-
-        <span
-          style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            letterSpacing: '0.05em',
-            color: isAnnual ? '#FFFFFF' : '#64748B',
-            transition: 'color 0.3s ease',
-          }}
-        >
-          Annual
-        </span>
+        {/* Toggle */}
+        <div className="flex items-center justify-center gap-4 mt-12">
+          <span className={`text-xs font-bold tracking-widest transition-colors ${!isAnnual ? 'text-white' : 'text-[#64748B]'}`}>MONTHLY</span>
+          <button
+            onClick={() => setIsAnnual(!isAnnual)}
+            className="w-14 h-7 rounded-full bg-[#0F1629] border border-[#3A7BFF]/30 relative p-1 transition-all hover:border-[#3A7BFF]/60"
+          >
+            <div
+              className={`w-5 h-5 rounded-full bg-gradient-to-r from-[#3A7BFF] to-[#17B7BD] transition-all duration-300 shadow-[0_0_10px_rgba(58,123,255,0.5)] ${
+                isAnnual ? 'translate-x-7' : 'translate-x-0'
+              }`}
+            />
+          </button>
+          <span className={`text-xs font-bold tracking-widest transition-colors ${isAnnual ? 'text-white' : 'text-[#64748B]'}`}>ANNUAL</span>
+          <span className="bg-[#00D084]/10 text-[#00D084] text-[9px] font-bold px-2 py-0.5 rounded border border-[#00D084]/20 ml-2">SAVE 20%</span>
+        </div>
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {tiers.map((tier, index) => (
           <PricingCard key={tier.name} tier={tier} isAnnual={isAnnual} index={index} />
         ))}
       </div>
 
-      {/* Performance fee note */}
-      <p
-        style={{
-          textAlign: 'center',
-          fontSize: '12px',
-          letterSpacing: '0.05em',
-          color: '#64748B',
-          marginTop: '32px',
-        }}
-      >
-        * Pro and Elite tiers include a 10% performance fee on net monthly profits. Only charged when you win.
-      </p>
-
-      {/* Performance Fee Explanation */}
-      <div className="max-w-3xl mx-auto mt-20 p-10 bg-[var(--color-bg-surface)] rounded-2xl border border-[var(--color-border)]">
-        <h3 style={{ fontSize: '24px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', textAlign: 'center' }}>
-          How Performance Fees Work
-        </h3>
-        <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginBottom: '20px', textAlign: 'center' }}>
-          We only succeed when you succeed. Our performance fee aligns our interests with yours.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8">
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-success)', marginBottom: '8px' }}>10%</div>
-            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Only on NET monthly profits</p>
+      {/* Performance Fee Card */}
+      <div className="max-w-4xl mx-auto mt-32 relative group">
+        <div className="absolute -inset-1 bg-gradient-to-r from-[#3A7BFF]/20 to-[#17B7BD]/20 rounded-[2rem] blur opacity-50" />
+        <div className="glass-panel relative p-8 md:p-16 border-white/5">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="md:w-1/2">
+              <span className="section-eyebrow mb-4 block">PERFORMANCE ALIGNMENT</span>
+              <h3 className="text-3xl font-bold text-white mb-6">How Performance Fees Work</h3>
+              <p className="text-[#94A3B8] leading-relaxed mb-8">
+                We only succeed when you succeed. Our performance fee aligns our interests with yours, ensuring we are constantly optimizing our infrastructure for your profit.
+              </p>
+              <div className="space-y-4">
+                {[
+                  'Only charged on NET monthly profits',
+                  '$0 fee if your accounts do not profit',
+                  'Transparent, automated calculations',
+                  'High-water mark protection'
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-sm text-white/80">
+                    <Check size={16} className="text-[#00D084]" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="md:w-1/2 grid grid-cols-2 gap-4">
+              {[
+                { icon: TrendingUp, val: '10%', label: 'Profit Share', color: '#00D084' },
+                { icon: DollarSign, val: '$0', label: 'Loss Fee', color: '#3A7BFF' },
+                { icon: Activity, val: '24/7', label: 'Monitoring', color: '#8B5CF6' },
+                { icon: HelpCircle, val: '100%', label: 'Alignment', color: '#17B7BD' }
+              ].map((stat, i) => (
+                <div key={stat.label} className="bg-white/5 border border-white/5 rounded-2xl p-6 text-center group hover:border-white/10 transition-colors">
+                  <stat.icon size={24} className="mx-auto mb-4" style={{ color: stat.color }} />
+                  <div className="text-2xl font-bold text-white mb-1">{stat.val}</div>
+                  <div className="text-[10px] text-[#64748B] uppercase tracking-widest">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '8px' }}>$0</div>
-            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Fee if you don't profit</p>
+          
+          <div className="mt-12 pt-12 border-t border-white/5">
+            <p className="text-[#64748B] text-sm text-center italic">
+              "Example: If your bots generate $1,000 in net profit this month, you pay $100 in performance fees. If you lose money or break even, you pay $0."
+            </p>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', fontWeight: 700, color: 'var(--color-accent-purple)', marginBottom: '8px' }}>100%</div>
-            <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Transparent calculation</p>
-          </div>
-        </div>
-        <div className="mt-8 p-5 bg-[#3b82f60d] rounded-lg border border-[#3b82f633]">
-          <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', marginBottom: '12px' }}><strong>Example:</strong></p>
-          <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-            If your bots generate $1,000 in profit this month, you pay $100 in performance fees. If you lose money or break even, you pay $0 in performance fees — only your subscription remains.
-          </p>
         </div>
       </div>
 
-      {/* FAQ */}
-      <div className="max-w-3xl mx-auto mt-20">
-        <h3 className="section-title text-center text-4xl mb-12">
-          Frequently Asked Questions
-        </h3>
-        <div className="flex flex-col gap-6">
+      {/* FAQ Section */}
+      <div className="max-w-4xl mx-auto mt-32">
+        <div className="text-center mb-16">
+          <span className="section-eyebrow mb-4 block">QUESTIONS?</span>
+          <h2 className="section-title text-4xl">Commonly Asked</h2>
+        </div>
+        
+        <div className="grid gap-4">
           {[
             {
               q: 'Can I change plans?',
@@ -488,44 +351,54 @@ export default function Pricing() {
               a: 'Yes! You can download the app and use our Free tier to build and deploy 1 active trading bot. You only need a paid subscription to connect more accounts or run multiple bots.'
             }
           ].map((faq, i) => (
-            <div key={i} className="p-6 bg-[var(--color-bg-surface)] rounded-xl border border-[var(--color-border)]">
-              <h4 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px' }}>{faq.q}</h4>
-              <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>{faq.a}</p>
+            <div 
+              key={i} 
+              className="glass-panel p-6 md:p-8 border-white/5 hover:border-[#3A7BFF]/20 transition-all duration-300"
+            >
+              <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF]" />
+                {faq.q}
+              </h4>
+              <p className="text-[#94A3B8] text-sm leading-relaxed pl-4.5">
+                {faq.a}
+              </p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Final CTA */}
-      <div className="max-w-2xl mx-auto mt-20 text-center pb-20">
-        <h3 className="section-title text-3xl mb-5">
-          Start for Free — Upgrade Anytime
-        </h3>
-        <p className="section-subtitle mb-8">
-          Download the AlgoDeck mobile app and begin your trading automation journey today
+      <div className="max-w-4xl mx-auto mt-40 text-center relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3A7BFF]/5 rounded-full blur-[120px] pointer-events-none" />
+        <h2 className="section-title text-3xl md:text-5xl mb-8">
+          Start Your <span className="gradient-text">Freedom Journey.</span>
+        </h2>
+        <p className="section-subtitle max-w-xl mx-auto mb-12">
+          Join thousands of traders automating their edge with AlgoDeck. The future of trading is mobile, automated, and institutional-grade.
         </p>
-        <div className="flex gap-6 justify-center flex-wrap mt-10">
+        
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mt-12">
           <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
             <div className="absolute -top-3 -right-2 z-10">
-              <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+              <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg uppercase">Coming Soon</span>
             </div>
-            <div className="opacity-50 grayscale">
+            <div className="opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
               <img 
                 src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
                 alt="Get it on Google Play" 
-                className="h-12 w-auto"
+                className="h-14 w-auto"
               />
             </div>
           </Link>
           <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
             <div className="absolute -top-3 -right-2 z-10">
-              <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
+              <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg uppercase">Coming Soon</span>
             </div>
-            <div className="opacity-50 grayscale">
+            <div className="opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
               <img 
                 src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                 alt="Download on the App Store" 
-                className="h-12 w-auto"
+                className="h-14 w-auto"
               />
             </div>
           </Link>

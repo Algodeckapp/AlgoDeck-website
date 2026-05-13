@@ -1,6 +1,7 @@
 import {
   mysqlTable,
   mysqlEnum,
+  bigint,
   serial,
   varchar,
   text,
@@ -11,7 +12,7 @@ import {
 
 // ─── Users (managed by auth system) ───
 export const users = mysqlTable("users", {
-  id: serial("id").primaryKey(),
+  id: serial("id"),
   unionId: varchar("unionId", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 320 }),
@@ -30,7 +31,7 @@ export type InsertUser = typeof users.$inferInsert;
 
 // ─── Newsletter Subscribers ───
 export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
-  id: serial("id").primaryKey(),
+  id: serial("id"),
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }),
   source: varchar("source", { length: 50 }).default("website"),
@@ -43,7 +44,7 @@ export type InsertSubscriber = typeof newsletterSubscribers.$inferInsert;
 
 // ─── Contact Submissions ───
 export const contactSubmissions = mysqlTable("contact_submissions", {
-  id: serial("id").primaryKey(),
+  id: serial("id"),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
   company: varchar("company", { length: 255 }),
@@ -59,7 +60,7 @@ export type InsertContactSubmission = typeof contactSubmissions.$inferInsert;
 
 // ─── Demo Requests ───
 export const demoRequests = mysqlTable("demo_requests", {
-  id: serial("id").primaryKey(),
+  id: serial("id"),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
   company: varchar("company", { length: 255 }),

@@ -96,18 +96,18 @@ export default function TradingViz() {
                   className="h-10 w-auto"
                 />
               </a>
-              <div className="relative">
+              <a href="/download" className="relative transition-transform hover:scale-105 active:scale-95">
                 <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
                   <span className="badge badge-warning text-[8px] px-1.5 py-0">SOON</span>
                 </div>
-                <div className="opacity-40 grayscale cursor-not-allowed">
+                <div className="opacity-40 grayscale">
                   <img 
                     src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                     alt="Download on the App Store" 
                     className="h-9 w-auto"
                   />
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>

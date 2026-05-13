@@ -10,6 +10,7 @@ export const newsletterRouter = createRouter({
       z.object({
         email: z.string().email("Please enter a valid email address"),
         name: z.string().optional(),
+        source: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -23,23 +24,25 @@ export const newsletterRouter = createRouter({
         .limit(1);
 
       if (existing.length > 0) {
-        if (existing[0].isActive) {
-          return { success: true, message: "You're already subscribed!" };
-        }
-        // Reactivate
+        // Update existing record
         await db
           .update(newsletterSubscribers)
-          .set({ isActive: true, name: input.name || existing[0].name })
+          .set({ 
+            isActive: true, 
+            name: input.name || existing[0].name,
+            source: input.source || existing[0].source
+          })
           .where(eq(newsletterSubscribers.email, input.email));
-        return { success: true, message: "Welcome back! Your subscription has been reactivated." };
+        return { success: true, message: "Welcome back! Your preferences have been updated." };
       }
 
       await db.insert(newsletterSubscribers).values({
         email: input.email,
         name: input.name,
+        source: input.source || "website",
       });
 
-      return { success: true, message: "Successfully subscribed to the AlgoDeck newsletter!" };
+      return { success: true, message: "Successfully subscribed!" };
     }),
 
   unsubscribe: publicQuery

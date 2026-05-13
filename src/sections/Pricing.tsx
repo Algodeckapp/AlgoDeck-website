@@ -512,18 +512,18 @@ export default function Pricing() {
               className="h-12 w-auto"
             />
           </a>
-          <div className="relative">
+          <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
             <div className="absolute -top-3 -right-2 z-10">
-              <span className="badge badge-warning text-[8px] px-2 py-0.5">COMING SOON</span>
+              <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
             </div>
-            <div className="opacity-50 grayscale cursor-not-allowed">
+            <div className="opacity-50 grayscale">
               <img 
                 src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                 alt="Download on the App Store" 
                 className="h-12 w-auto"
               />
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>

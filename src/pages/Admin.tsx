@@ -17,7 +17,7 @@ export default function Admin() {
 
   const contactStats = trpc.contact.stats.useQuery(undefined, { enabled: user?.role === 'admin' })
   const demoStats = trpc.demo.stats.useQuery(undefined, { enabled: user?.role === 'admin' })
-  const subscriberCount = trpc.newsletter.count.useQuery(undefined, { enabled: user?.role === 'admin' })
+  const subscribers = trpc.newsletter.list.useQuery(undefined, { enabled: user?.role === 'admin' })
   const contacts = trpc.contact.list.useQuery({ limit: 10 }, { enabled: user?.role === 'admin' })
   const demos = trpc.demo.list.useQuery({ limit: 10 }, { enabled: user?.role === 'admin' })
 
@@ -89,11 +89,18 @@ export default function Admin() {
       color: '#17B7BD',
     },
     {
-      label: 'Newsletter Subscribers',
-      value: subscriberCount.data?.total ?? 0,
-      sub: `${subscriberCount.data?.active ?? 0} active`,
-      icon: Mail,
+      label: 'Android Waitlist',
+      value: subscribers.data?.filter(s => s.source === 'android_waitlist').length ?? 0,
+      sub: 'Beta users',
+      icon: Smartphone,
       color: '#00D084',
+    },
+    {
+      label: 'iOS Waitlist',
+      value: subscribers.data?.filter(s => s.source === 'ios_waitlist').length ?? 0,
+      sub: 'Early birds',
+      icon: Apple,
+      color: '#F59E0B',
     },
   ]
 
@@ -157,6 +164,82 @@ export default function Admin() {
               </div>
             )
           })}
+        </div>
+
+        {/* App Waitlists Section */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+          {/* Android Waitlist */}
+          <div style={{ background: '#0A0F2C', border: '1px solid rgba(58, 123, 255, 0.15)', borderRadius: '12px', padding: '24px', overflowX: 'auto' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Smartphone size={20} className="text-[#00D084]" /> Android Waitlist
+            </h2>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid rgba(58, 123, 255, 0.15)', textAlign: 'left' }}>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', color: '#64748B' }}>EMAIL</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', color: '#64748B' }}>DATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscribers.data?.filter(s => s.source === 'android_waitlist').map(s => (
+                  <tr key={s.id}>
+                    <td style={{ padding: '12px 8px', fontSize: '13px', color: 'white' }}>{s.email}</td>
+                    <td style={{ padding: '12px 8px', fontSize: '12px', color: '#64748B' }}>{new Date(s.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* iOS Waitlist */}
+          <div style={{ background: '#0A0F2C', border: '1px solid rgba(58, 123, 255, 0.15)', borderRadius: '12px', padding: '24px', overflowX: 'auto' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Apple size={20} className="text-[#F59E0B]" /> iOS Waitlist
+            </h2>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid rgba(58, 123, 255, 0.15)', textAlign: 'left' }}>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', color: '#64748B' }}>EMAIL</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', color: '#64748B' }}>DATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscribers.data?.filter(s => s.source === 'ios_waitlist').map(s => (
+                  <tr key={s.id}>
+                    <td style={{ padding: '12px 8px', fontSize: '13px', color: 'white' }}>{s.email}</td>
+                    <td style={{ padding: '12px 8px', fontSize: '12px', color: '#64748B' }}>{new Date(s.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div style={{ background: '#0A0F2C', border: '1px solid rgba(58, 123, 255, 0.15)', borderRadius: '12px', padding: '24px', marginBottom: '24px', overflowX: 'auto' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Mail size={20} className="text-[#3A7BFF]" /> Newsletter Subscribers
+          </h2>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid rgba(58, 123, 255, 0.15)', textAlign: 'left' }}>
+                <th style={{ padding: '12px 16px', fontSize: '11px', color: '#64748B' }}>EMAIL</th>
+                <th style={{ padding: '12px 16px', fontSize: '11px', color: '#64748B' }}>NAME</th>
+                <th style={{ padding: '12px 16px', fontSize: '11px', color: '#64748B' }}>SOURCE</th>
+                <th style={{ padding: '12px 16px', fontSize: '11px', color: '#64748B' }}>DATE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscribers.data?.filter(s => !s.source?.includes('waitlist')).map(s => (
+                <tr key={s.id}>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: 'white' }}>{s.email}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{s.name || '-'}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '12px', color: '#64748B' }}>{s.source}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '12px', color: '#64748B' }}>{new Date(s.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         {/* Contact Submissions Table */}

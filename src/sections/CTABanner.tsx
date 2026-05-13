@@ -134,18 +134,21 @@ export default function CTABanner() {
                 className="h-14 w-auto"
               />
             </a>
-            <div className="relative group">
+            <a 
+              href="/download"
+              className="relative group transition-transform hover:scale-105 active:scale-95"
+            >
               <div className="absolute -top-3 -right-2 z-10">
                 <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
               </div>
-              <div className="opacity-40 grayscale cursor-not-allowed">
+              <div className="opacity-40 grayscale">
                 <img 
                   src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                   alt="Download on the App Store" 
                   className="h-14 w-auto"
                 />
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </section>

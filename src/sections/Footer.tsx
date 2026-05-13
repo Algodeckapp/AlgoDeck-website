@@ -73,7 +73,7 @@ export default function Footer() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
     if (!email.trim()) return
-    subscribeMutation.mutate({ email: email.trim() })
+    subscribeMutation.mutate({ email: email.trim(), source: 'footer' })
   }
 
   const handleNavClick = (href: string) => {

@@ -143,18 +143,21 @@ export default function Navigation() {
                     className="h-9 w-auto"
                   />
                 </Link>
-                <div className="relative group flex items-center">
+                <Link
+                  to="/download"
+                  className="relative group flex items-center transition-transform hover:scale-105 active:scale-95"
+                >
                   <div className="absolute -top-2 -right-1 z-10 scale-75 origin-top-right">
                     <span className="badge badge-warning text-[8px] px-1.5 py-0 shadow-lg">SOON</span>
                   </div>
-                  <div className="opacity-40 grayscale cursor-not-allowed">
+                  <div className="opacity-40 grayscale">
                     <img 
                       src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                       alt="Download on the App Store" 
                       className="h-8 w-auto"
                     />
                   </div>
-                </div>
+                </Link>
               </div>
             )}
           </div>
@@ -255,16 +258,22 @@ export default function Navigation() {
                     className="h-16 w-auto"
                   />
                 </Link>
-                <div className="relative opacity-40 grayscale cursor-not-allowed">
+                <Link
+                  to="/download"
+                  className="relative group transition-transform hover:scale-105 active:scale-95"
+                  onClick={() => setMobileOpen(false)}
+                >
                   <div className="absolute -top-3 -right-2 z-10 scale-75">
-                    <span className="badge badge-warning text-[10px] px-2 py-0.5">COMING SOON</span>
+                    <span className="badge badge-warning text-[10px] px-2 py-0.5 shadow-lg">SOON</span>
                   </div>
-                  <img 
-                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                    alt="Download on the App Store" 
-                    className="h-14 w-auto"
-                  />
-                </div>
+                  <div className="opacity-40 grayscale">
+                    <img 
+                      src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                      alt="Download on the App Store" 
+                      className="h-14 w-auto"
+                    />
+                  </div>
+                </Link>
               </div>
             )}
           </div>

@@ -204,9 +204,15 @@ export default function Footer() {
 
         {/* Bottom Row */}
         <div className="flex flex-col sm:flex-row justify-between items-center py-8 gap-4 text-center sm:text-left">
-          <span className="text-xs text-[#64748B]">
-            © 2026 AlgoDeck. All rights reserved.
-          </span>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <span className="text-xs text-[#64748B]">
+              © 2026 AlgoDeck. All rights reserved.
+            </span>
+            <span className="hidden sm:block text-[#3A7BFF]/20">|</span>
+            <span className="text-[9px] font-mono uppercase tracking-widest text-[#3A7BFF]/40">
+              Build v1.0.5 - Production
+            </span>
+          </div>
           <span className="text-xs text-[#64748B] flex items-center gap-1.5">
             Made with <span className="text-red-500 animate-pulse">❤️</span> for traders
           </span>

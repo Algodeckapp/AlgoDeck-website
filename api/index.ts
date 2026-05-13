@@ -9,11 +9,15 @@ import { env } from "./lib/env";
 import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "@contracts/constants";
 
-const app = new Hono<{ Bindings: HttpBindings }>();
+// For Vercel, we mount at /api because the file is in the /api directory
+const app = new Hono<{ Bindings: HttpBindings }>().basePath("/api");
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
-app.get(Paths.oauthCallback, createOAuthCallbackHandler());
-app.use("/api/trpc/*", async (c) => {
+
+// Routes are now relative to /api
+app.get("/oauth/callback", createOAuthCallbackHandler());
+
+app.use("/trpc/*", async (c) => {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: c.req.raw,
@@ -21,26 +25,25 @@ app.use("/api/trpc/*", async (c) => {
     createContext,
   });
 });
-app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
-// Vercel Export
-export const GET = handle(app);
-export const POST = handle(app);
-export const PUT = handle(app);
-export const DELETE = handle(app);
-export const PATCH = handle(app);
-export const OPTIONS = handle(app);
+app.all("*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
-export default app;
+// Vercel Export (Standard)
+export default handle(app);
 
-// Standalone server for local/non-Vercel production
+// Standalone server for local development
 if (env.isProduction && !process.env.VERCEL) {
   const { serve } = await import("@hono/node-server");
   const { serveStaticFiles } = await import("./lib/vite");
-  serveStaticFiles(app);
+  
+  // Create a separate app for local to handle the /api prefix correctly
+  const localApp = new Hono();
+  localApp.route("/", app);
+  
+  serveStaticFiles(localApp);
 
   const port = parseInt(process.env.PORT || "3000");
-  serve({ fetch: app.fetch, port }, () => {
+  serve({ fetch: localApp.fetch, port }, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
 }

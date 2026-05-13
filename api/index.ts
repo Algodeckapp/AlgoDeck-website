@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { bodyLimit } from "hono/body-limit";
-import { handle } from "hono/vercel";
 import type { HttpBindings } from "@hono/node-server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "./router";
@@ -9,15 +8,14 @@ import { env } from "./lib/env";
 import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "@contracts/constants";
 
-// For Vercel, we mount at /api because the file is in the /api directory
-const app = new Hono<{ Bindings: HttpBindings }>().basePath("/api");
+const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 
-// Routes are now relative to /api
-app.get("/oauth/callback", createOAuthCallbackHandler());
+// Routes (Vercel handles the /api prefix, but we include it for local dev consistency)
+app.get("/api/oauth/callback", createOAuthCallbackHandler());
 
-app.use("/trpc/*", async (c) => {
+app.use("/api/trpc/*", async (c) => {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: c.req.raw,
@@ -26,24 +24,19 @@ app.use("/trpc/*", async (c) => {
   });
 });
 
-app.all("*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
+app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
-// Vercel Export (Standard)
-export default handle(app);
+export default app;
 
-// Standalone server for local development
+// Standalone server for local development/production
 if (env.isProduction && !process.env.VERCEL) {
   const { serve } = await import("@hono/node-server");
   const { serveStaticFiles } = await import("./lib/vite");
   
-  // Create a separate app for local to handle the /api prefix correctly
-  const localApp = new Hono();
-  localApp.route("/", app);
-  
-  serveStaticFiles(localApp);
+  serveStaticFiles(app);
 
   const port = parseInt(process.env.PORT || "3000");
-  serve({ fetch: localApp.fetch, port }, () => {
+  serve({ fetch: app.fetch, port }, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
 }

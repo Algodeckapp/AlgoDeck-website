@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router'
 import ContactModal from '@/components/ContactModal'
 
 export default function CTABanner() {
@@ -124,8 +125,8 @@ export default function CTABanner() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
-            <a 
-              href="/download" 
+            <Link 
+              to="/download" 
               className="relative group transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/10"
             >
               <div className="absolute -top-3 -right-2 z-10">
@@ -138,9 +139,9 @@ export default function CTABanner() {
                   className="h-14 w-auto"
                 />
               </div>
-            </a>
-            <a 
-              href="/download"
+            </Link>
+            <Link 
+              to="/download"
               className="relative group transition-transform hover:scale-105 active:scale-95"
             >
               <div className="absolute -top-3 -right-2 z-10">
@@ -153,7 +154,7 @@ export default function CTABanner() {
                   className="h-14 w-auto"
                 />
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

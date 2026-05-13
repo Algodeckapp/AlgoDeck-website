@@ -505,7 +505,7 @@ export default function Pricing() {
           Download the AlgoDeck mobile app and begin your trading automation journey today
         </p>
         <div className="flex gap-6 justify-center flex-wrap mt-10">
-          <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
+          <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
             <div className="absolute -top-3 -right-2 z-10">
               <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
             </div>
@@ -516,8 +516,8 @@ export default function Pricing() {
                 className="h-12 w-auto"
               />
             </div>
-          </a>
-          <a href="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
+          </Link>
+          <Link to="/download" className="relative group transition-transform hover:scale-105 active:scale-95">
             <div className="absolute -top-3 -right-2 z-10">
               <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
             </div>
@@ -528,7 +528,7 @@ export default function Pricing() {
                 className="h-12 w-auto"
               />
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

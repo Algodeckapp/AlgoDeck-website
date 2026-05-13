@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router'
 
 // ─── Main Hero Section ───
 export default function Hero() {
@@ -198,8 +199,8 @@ export default function Hero() {
           >
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               {/* Play Store (Coming Soon) */}
-              <a 
-                href="/download" 
+              <Link 
+                to="/download" 
                 className="relative group transition-transform hover:scale-105 active:scale-95"
               >
                 <div className="absolute -top-3 -right-2 z-10">
@@ -212,11 +213,11 @@ export default function Hero() {
                     className="h-14 md:h-16 w-auto"
                   />
                 </div>
-              </a>
+              </Link>
 
               {/* App Store (Coming Soon) */}
-              <a 
-                href="/download"
+              <Link 
+                to="/download"
                 className="relative group transition-transform hover:scale-105 active:scale-95"
               >
                 <div className="absolute -top-3 -right-2 z-10">
@@ -229,17 +230,17 @@ export default function Hero() {
                     className="h-14 md:h-16 w-auto"
                   />
                 </div>
-              </a>
+              </Link>
             </div>
 
             {/* Primary Waitlist Button */}
-            <a 
-              href="/download"
+            <Link 
+              to="/download"
               className="glow-button !px-12 !py-4.5 !text-sm font-black tracking-widest flex items-center gap-3 group"
             >
               JOIN THE WAITLIST 
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { ArrowRight } from 'lucide-react'
 
 // ─── Main Hero Section ───
 export default function Hero() {

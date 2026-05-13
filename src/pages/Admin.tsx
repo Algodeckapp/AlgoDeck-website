@@ -176,7 +176,7 @@ export default function Admin() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Name', 'Email', 'Subject', 'Status', 'Date', 'Action'].map((h) => (
+                {['Name', 'Email', 'Company', 'Subject', 'Message', 'Status', 'Date', 'Action'].map((h) => (
                   <th
                     key={h}
                     style={{
@@ -200,7 +200,11 @@ export default function Admin() {
                 <tr key={contact.id}>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#FFFFFF' }}>{contact.name}</td>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{contact.email}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{contact.company || '-'}</td>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{contact.subject}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '12px', color: '#64748B', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={contact.message}>
+                    {contact.message}
+                  </td>
                   <td style={{ padding: '12px 16px' }}>
                     <span
                       style={{
@@ -273,7 +277,7 @@ export default function Admin() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Name', 'Email', 'Company', 'Type', 'Status', 'Date', 'Action'].map((h) => (
+                {['Name', 'Email', 'Company', 'Phone', 'Type', 'Message', 'Status', 'Date', 'Action'].map((h) => (
                   <th
                     key={h}
                     style={{
@@ -298,7 +302,11 @@ export default function Admin() {
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#FFFFFF' }}>{demo.name}</td>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{demo.email}</td>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{demo.company || '-'}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{demo.phone || '-'}</td>
                   <td style={{ padding: '12px 16px', fontSize: '14px', color: '#94A3B8' }}>{demo.traderType || '-'}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '12px', color: '#64748B', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={demo.message || ''}>
+                    {demo.message || '-'}
+                  </td>
                   <td style={{ padding: '12px 16px' }}>
                     <span
                       style={{
@@ -352,7 +360,7 @@ export default function Admin() {
               ))}
               {(!demos.data || demos.data.length === 0) && (
                 <tr>
-                  <td colSpan={7} style={{ padding: '24px 16px', textAlign: 'center', color: '#64748B', fontSize: '14px' }}>
+                  <td colSpan={9} style={{ padding: '24px 16px', textAlign: 'center', color: '#64748B', fontSize: '14px' }}>
                     No demo requests yet
                   </td>
                 </tr>

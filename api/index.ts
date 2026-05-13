@@ -13,6 +13,30 @@ const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 
+app.onError((err, c) => {
+  console.error(`[Hono Error] ${err.name}: ${err.message}`, err.stack);
+  return c.json({
+    error: "Internal Server Error",
+    message: err.message,
+    name: err.name,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+  }, 500);
+});
+
+// Basic health check to debug deployment
+app.get("/api/health", (c) => {
+  const envStatus = {
+    APP_ID: !!process.env.APP_ID,
+    APP_SECRET: !!process.env.APP_SECRET,
+    DATABASE_URL: !!process.env.DATABASE_URL,
+    KIMI_AUTH_URL: !!process.env.KIMI_AUTH_URL,
+    KIMI_OPEN_URL: !!process.env.KIMI_OPEN_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    VERCEL: process.env.VERCEL,
+  };
+  return c.json({ status: "ok", env: envStatus });
+});
+
 // Routes (Vercel handles the /api prefix, but we include it for local dev consistency)
 app.get("/api/oauth/callback", createOAuthCallbackHandler());
 

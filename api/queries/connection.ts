@@ -18,9 +18,12 @@ export function getDb() {
       // Create a connection pool which is more efficient for serverless environments
       const pool = mysql.createPool({
         uri: env.databaseUrl,
-        connectionLimit: 1, // Recommended for serverless to avoid saturating DB connections
+        connectionLimit: 1,
+        connectTimeout: 10000, // 10 seconds timeout
+        waitForConnections: true,
+        queueLimit: 0,
         ssl: env.databaseUrl.includes("ssl") ? undefined : {
-          rejectUnauthorized: false // Helps with many cloud providers like DigitalOcean/Aiven/RDS
+          rejectUnauthorized: false
         }
       });
       

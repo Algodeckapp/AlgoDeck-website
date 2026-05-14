@@ -4,6 +4,7 @@ import Hero from '@/sections/Hero'
 import StatsMarquee from '@/sections/StatsMarquee'
 import Pipeline from '@/sections/Pipeline'
 import Features from '@/sections/Features'
+import Commercial from '@/sections/Commercial'
 import TradingViz from '@/sections/TradingViz'
 import Pricing from '@/sections/Pricing'
 import Testimonials from '@/sections/Testimonials'
@@ -37,10 +38,10 @@ export default function Home() {
         <section id="pipeline">
           <Pipeline />
         </section>
+        <Commercial />
         <section id="platform">
           <Features />
-        </section>
-        <TradingViz />
+        </section>        <TradingViz />
         <section id="pricing">
           <Pricing />
         </section>

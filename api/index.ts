@@ -51,9 +51,30 @@ app.get("/api/ping", async (c) => {
 // TRPC Handler
 app.use("/api/trpc/*", async (c) => {
   try {
+    // Some serverless environments might not provide a full Request object in c.req.raw
+    // We ensure it's a valid Request object that fetchRequestHandler can handle
+    let req = c.req.raw;
+    
+    // Check if req.headers exists and has the 'has' method
+    if (!req.headers || typeof req.headers.has !== 'function') {
+      console.warn("[TRPC] Invalid Request object detected, reconstructing...");
+      const headers = new Headers();
+      // Copy headers from Hono's request wrapper which is more reliable
+      c.req.header(); // populate internal headers
+      Object.entries(c.req.header()).forEach(([key, value]) => {
+        if (value) headers.set(key, value);
+      });
+
+      req = new Request(c.req.url, {
+        method: c.req.method,
+        headers,
+        body: c.req.method !== 'GET' && c.req.method !== 'HEAD' ? await c.req.raw.clone().blob() : undefined,
+      });
+    }
+
     return await fetchRequestHandler({
       endpoint: "/api/trpc",
-      req: c.req.raw,
+      req,
       router: appRouter,
       createContext,
       onError: ({ path, error }) => {

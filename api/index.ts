@@ -51,26 +51,29 @@ app.get("/api/ping", async (c) => {
 // TRPC Handler
 app.use("/api/trpc/*", async (c) => {
   try {
-    // Some serverless environments might not provide a full Request object in c.req.raw
-    // We ensure it's a valid Request object that fetchRequestHandler can handle
-    let req = c.req.raw;
-    
-    // Check if req.headers exists and has the 'has' method
-    if (!req.headers || typeof req.headers.has !== 'function') {
-      console.warn("[TRPC] Invalid Request object detected, reconstructing...");
-      const headers = new Headers();
-      // Copy headers from Hono's request wrapper which is more reliable
-      c.req.header(); // populate internal headers
-      Object.entries(c.req.header()).forEach(([key, value]) => {
-        if (value) headers.set(key, value);
-      });
+    // Manually reconstruct the Request object to ensure it's fully standard and has all methods (like headers.has)
+    const headers = new Headers();
+    Object.entries(c.req.header()).forEach(([key, value]) => {
+      if (value) headers.set(key, value);
+    });
 
-      req = new Request(c.req.url, {
-        method: c.req.method,
-        headers,
-        body: c.req.method !== 'GET' && c.req.method !== 'HEAD' ? await c.req.raw.clone().blob() : undefined,
-      });
+    // Use Hono's built-in methods to get the body reliably
+    let body: any = undefined;
+    if (c.req.method !== "GET" && c.req.method !== "HEAD") {
+      try {
+        body = await c.req.raw.clone().arrayBuffer();
+      } catch (e) {
+        console.warn("[TRPC] Could not clone request body", e);
+      }
     }
+
+    const req = new Request(c.req.url, {
+      method: c.req.method,
+      headers,
+      body,
+      // @ts-ignore - needed for Node.js fetch with bodies
+      duplex: body ? "half" : undefined,
+    });
 
     return await fetchRequestHandler({
       endpoint: "/api/trpc",

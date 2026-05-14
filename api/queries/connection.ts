@@ -29,6 +29,7 @@ export function getDb() {
       
       instance = drizzle(pool, {
         schema: fullSchema,
+        mode: "default",
       });
     } catch (err: any) {
       console.error("[DATABASE CONNECTION ERROR]", err);

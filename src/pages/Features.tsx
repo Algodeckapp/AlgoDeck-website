@@ -121,9 +121,9 @@ export default function FeaturesPage() {
   return (
     <>
       <Navigation />
-      <div className="bg-[#05070F] min-h-screen pt-20 overflow-hidden">
+      <div className="relative bg-[#05070F] min-h-screen overflow-hidden">
         {/* Cinematic Hero */}
-        <section className="relative py-20 md:py-32 px-6">
+        <section className="relative pt-20 md:pt-32 pb-20 md:pb-32 px-6">
           {/* Background effects */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-[#3A7BFF]/10 to-transparent pointer-events-none z-0" />
           

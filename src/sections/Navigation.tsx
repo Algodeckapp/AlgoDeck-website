@@ -57,13 +57,13 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[1000] flex items-center transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[9999] flex items-center transition-colors duration-300 ${
           scrolled 
             ? 'h-16 bg-[#0A0F2C] border-b border-[#3A7BFF]/20 shadow-lg' 
-            : 'h-16 md:h-20 bg-[#05070F]/80 border-b border-white/5 md:border-[#3A7BFF]/10'
+            : 'h-16 md:h-20 bg-[#05070F] border-b border-white/5 md:border-[#3A7BFF]/10'
         } backdrop-blur-xl`}
       >
-        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6">
+        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 relative">
           {/* Logo */}
           <Link
             to="/"
@@ -72,7 +72,8 @@ export default function Navigation() {
             <img
               src="/assets/logo-primary.png"
               alt="AlgoDeck"
-              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-10' : 'h-9 md:h-12'}`}
+              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-10' : 'h-8 md:h-11'}`}
+              style={{ maxWidth: '140px' }}
             />
           </Link>
 
@@ -85,9 +86,10 @@ export default function Navigation() {
                   <Link
                     key={link.href}
                     to={link.href}
-                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-full transition-all relative ${
+                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 transition-all relative ${
                       isActive ? 'text-white bg-[#3A7BFF]/20' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/10'
                     }`}
+                    style={{ borderRadius: '30px' }}
                   >
                     {link.label}
                     {isActive && (
@@ -102,9 +104,10 @@ export default function Navigation() {
                       e.preventDefault()
                       handleNavClick(link.href)
                     }}
-                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 rounded-full transition-all relative ${
+                    className={`font-sans text-sm font-medium tracking-tight px-4 py-2 transition-all relative ${
                       isActive ? 'text-white bg-[#3A7BFF]/20' : 'text-[#94A3B8] hover:text-white hover:bg-[#3A7BFF]/10'
                     }`}
+                    style={{ borderRadius: '30px' }}
                   >
                     {link.label}
                     {isActive && (
@@ -171,7 +174,8 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden w-11 h-11 flex items-center justify-center bg-[#3A7BFF] rounded-xl text-white transition-all shadow-lg shadow-blue-500/30 active:scale-90 shrink-0"
+            className="flex md:hidden w-11 h-11 items-center justify-center bg-[#0A0F2C] border border-[#3A7BFF]/30 text-white transition-all shadow-lg shadow-blue-500/10 active:scale-90 shrink-0 z-[100]"
+            style={{ borderRadius: '25px' }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -194,12 +198,13 @@ export default function Navigation() {
         >
           {navLinks.map((link, index) => {
             const isActive = location.pathname === link.href
-            const commonClasses = `text-2xl font-semibold px-8 py-4 rounded-xl transition-all w-full max-w-sm text-center ${
+            const commonClasses = `text-2xl font-semibold px-8 py-4 transition-all w-full max-w-sm text-center ${
               isActive ? 'text-[#3A7BFF] bg-[#3A7BFF]/10' : 'text-white bg-transparent'
             } ${mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`
             
             const commonStyle = {
-              transitionDelay: mobileOpen ? `${0.1 + index * 0.05}s` : '0s'
+              transitionDelay: mobileOpen ? `${0.1 + index * 0.05}s` : '0s',
+              borderRadius: '30px'
             }
 
             return link.isRoute ? (

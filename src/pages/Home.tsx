@@ -29,23 +29,25 @@ export default function Home() {
   }, [])
 
   return (
-    <div style={{ background: '#05070F', minHeight: '100vh' }}>
+    <>
       <Navigation />
-      <Hero />
-      <StatsMarquee />
-      <section id="pipeline">
-        <Pipeline />
-      </section>
-      <section id="platform">
-        <Features />
-      </section>
-      <TradingViz />
-      <section id="pricing">
-        <Pricing />
-      </section>
-      <Testimonials />
-      <CTABanner />
-      <Footer />
-    </div>
+      <div className="relative bg-[#05070F] min-h-screen overflow-hidden">
+        <Hero />
+        <StatsMarquee />
+        <section id="pipeline">
+          <Pipeline />
+        </section>
+        <section id="platform">
+          <Features />
+        </section>
+        <TradingViz />
+        <section id="pricing">
+          <Pricing />
+        </section>
+        <Testimonials />
+        <CTABanner />
+        <Footer />
+      </div>
+    </>
   )
 }

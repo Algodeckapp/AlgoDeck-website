@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#05070F]">
       <Card className="w-full max-w-sm text-center">
         <CardHeader>
           <CardTitle className="text-4xl font-bold">404</CardTitle>

@@ -105,7 +105,7 @@ export default function Admin() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#05070F', padding: '24px' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#05070F', padding: '24px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>

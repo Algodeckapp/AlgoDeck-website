@@ -212,7 +212,7 @@ export default function Docs() {
   }, [selectedArticle])
 
   return (
-    <div className="bg-[#05070F] min-h-screen">
+    <div className="relative bg-[#05070F] min-h-screen">
       <Navigation />
 
       {selectedArticle ? (

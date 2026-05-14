@@ -94,7 +94,7 @@ export default function Support() {
   )
 
   return (
-    <div style={{ background: 'var(--color-bg-deep)', minHeight: '100vh' }}>
+    <div style={{ position: 'relative', background: 'var(--color-bg-deep)', minHeight: '100vh' }}>
       <Navigation />
 
       {/* Hero Section */}

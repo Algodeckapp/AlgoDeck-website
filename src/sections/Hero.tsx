@@ -248,7 +248,7 @@ export default function Hero() {
         <img
           src="/assets/hero mockup.png"
           alt="AlgoDeck Mobile App Mockup"
-          className="md:mt-0 w-[calc(100%-6px)] md:w-[950px] h-auto rounded-[30px] z-20"
+          className="md:mt-0 w-[calc(100%-6px)] md:w-[950px] h-auto rounded-[30px] z-20 max-w-full"
           style={{ 
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',

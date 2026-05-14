@@ -6,7 +6,7 @@ export default function Privacy() {
   return (
     <>
       <Navigation />
-      <div style={{ background: 'var(--color-bg-deep)', minHeight: '100vh', paddingTop: '80px' }}>
+      <div style={{ position: 'relative', background: 'var(--color-bg-deep)', minHeight: '100vh', paddingTop: '80px' }}>
       {/* Hero */}
       <section style={{ padding: '80px 24px 60px', textAlign: 'center', background: 'var(--color-bg-midnight)' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>

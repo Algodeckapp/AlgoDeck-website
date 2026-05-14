@@ -1,4 +1,5 @@
 import { drizzle } from "drizzle-orm/mysql2";
+import mysql from "mysql2/promise";
 import { env } from "../lib/env.js";
 import * as schema from "../../db/schema.js";
 import * as relations from "../../db/relations.js";
@@ -14,9 +15,17 @@ export function getDb() {
     }
     
     try {
-      instance = drizzle(env.databaseUrl, {
+      // Create a connection pool which is more efficient for serverless environments
+      const pool = mysql.createPool({
+        uri: env.databaseUrl,
+        connectionLimit: 1, // Recommended for serverless to avoid saturating DB connections
+        ssl: env.databaseUrl.includes("ssl") ? undefined : {
+          rejectUnauthorized: false // Helps with many cloud providers like DigitalOcean/Aiven/RDS
+        }
+      });
+      
+      instance = drizzle(pool, {
         schema: fullSchema,
-        mode: "planetscale",
       });
     } catch (err: any) {
       console.error("[DATABASE CONNECTION ERROR]", err);
@@ -25,3 +34,4 @@ export function getDb() {
   }
   return instance;
 }
+

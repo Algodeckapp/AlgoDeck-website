@@ -13,8 +13,14 @@ export const appRouter = createRouter({
     let dbError = null;
 
     try {
-      // Test DB connection and check if users table exists
-      await getDb().select({ count: sql`count(*)` }).from(users).limit(1);
+      const db = getDb();
+      // Test DB connection with timeout
+      const dbCheck = db.select({ count: sql`count(*)` }).from(users).limit(1);
+      const timeout = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("DB check timed out")), 5000)
+      );
+      
+      await Promise.race([dbCheck, timeout]);
       dbStatus = "connected";
     } catch (err: any) {
       dbStatus = "error";
@@ -23,6 +29,7 @@ export const appRouter = createRouter({
 
     return { 
       ok: true, 
+      version: "1.1.2",
       ts: Date.now(),
       database: dbStatus,
       dbError

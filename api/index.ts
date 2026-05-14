@@ -22,8 +22,13 @@ app.get("/api/ping", async (c) => {
   try {
     if (env.databaseUrl) {
       const db = getDb();
-      // Simple query to check connection
-      await db.execute(sql`SELECT 1`);
+      // Use a race to ensure we don't hang for 300s
+      const dbCheck = db.execute(sql`SELECT 1`);
+      const timeout = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Database check timed out after 5s")), 5000)
+      );
+      
+      await Promise.race([dbCheck, timeout]);
       dbStatus = "connected";
     } else {
       dbStatus = "missing_url";
@@ -35,6 +40,7 @@ app.get("/api/ping", async (c) => {
 
   return c.json({
     status: "pong",
+    version: "1.1.2", // Incremented to verify deployment
     time: new Date().toISOString(),
     env: {
       isProduction: env.isProduction,

@@ -57,20 +57,22 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center transition-all duration-300 ${
-          scrolled ? 'h-16 bg-[#0A0F2C]/95 border-b border-[#3A7BFF]/20 shadow-lg' : 'h-20 bg-[#05070F]/60 border-b border-[#3A7BFF]/10'
+        className={`fixed top-0 left-0 right-0 z-[1000] flex items-center transition-all duration-300 ${
+          scrolled 
+            ? 'h-16 bg-[#0A0F2C] border-b border-[#3A7BFF]/20 shadow-lg' 
+            : 'h-16 md:h-20 bg-[#05070F]/80 border-b border-white/5 md:border-[#3A7BFF]/10'
         } backdrop-blur-xl`}
       >
-        <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-6">
+        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center transition-transform hover:scale-105"
+            className="flex items-center transition-transform hover:scale-105 shrink-0"
           >
             <img
               src="/assets/logo-primary.png"
               alt="AlgoDeck"
-              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}
+              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-10' : 'h-9 md:h-12'}`}
             />
           </Link>
 
@@ -169,10 +171,11 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden w-10 h-10 flex items-center justify-center bg-[#3A7BFF]/10 border border-[#3A7BFF]/20 rounded-lg text-white transition-all hover:bg-[#3A7BFF]/15 hover:border-[#3A7BFF]"
+            className="md:hidden w-11 h-11 flex items-center justify-center bg-[#3A7BFF] rounded-xl text-white transition-all shadow-lg shadow-blue-500/30 active:scale-90 shrink-0"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>

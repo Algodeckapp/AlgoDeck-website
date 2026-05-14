@@ -3,6 +3,7 @@ import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { Mail, Users, Send, CheckCircle2, ShieldCheck, Clock } from 'lucide-react'
 import { trpc } from '@/providers/trpc'
+import { toast } from 'sonner'
 
 export default function Contact() {
   const [loaded, setLoaded] = useState(false)
@@ -23,6 +24,10 @@ export default function Contact() {
     onSuccess: () => {
       setSubmitted(true)
     },
+    onError: (err) => {
+      console.error('Contact submission error:', err)
+      toast.error(err.message || 'Failed to send message. Please try again.')
+    }
   })
 
   const handleSubmit = (e: React.FormEvent) => {

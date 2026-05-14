@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { trpc } from '@/providers/trpc'
+import { toast } from 'sonner'
 
 export default function Download() {
   const [androidEmail, setAndroidEmail] = useState('')
@@ -20,14 +21,28 @@ export default function Download() {
   const handleAndroidWaitlist = (e: React.FormEvent) => {
     e.preventDefault()
     subscribeMutation.mutate({ email: androidEmail, source: 'android_waitlist' }, {
-      onSuccess: () => setAndroidSubmitted(true)
+      onSuccess: () => {
+        setAndroidSubmitted(true)
+        toast.success("You've been added to the Android waitlist!")
+      },
+      onError: (err) => {
+        console.error('Android waitlist error:', err)
+        toast.error(err.message || 'Failed to join waitlist. Please try again.')
+      }
     })
   }
 
   const handleIosWaitlist = (e: React.FormEvent) => {
     e.preventDefault()
     subscribeMutation.mutate({ email: iosEmail, source: 'ios_waitlist' }, {
-      onSuccess: () => setIosSubmitted(true)
+      onSuccess: () => {
+        setIosSubmitted(true)
+        toast.success("You've been added to the iOS waitlist!")
+      },
+      onError: (err) => {
+        console.error('iOS waitlist error:', err)
+        toast.error(err.message || 'Failed to join waitlist. Please try again.')
+      }
     })
   }
 

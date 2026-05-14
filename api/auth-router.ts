@@ -1,11 +1,11 @@
 import * as cookie from "cookie";
 import { z } from "zod";
-import { Session } from "../contracts/constants";
-import { getSessionCookieOptions } from "./lib/cookies";
-import { createRouter, authedQuery, publicQuery } from "./middleware";
-import { findUserByEmail, createUser, updateUser } from "./queries/users";
-import { signSessionToken } from "./lib/session";
-import { hashPassword, verifyPassword } from "./lib/crypto";
+import { Session } from "../contracts/constants.js";
+import { getSessionCookieOptions } from "./lib/cookies.js";
+import { createRouter, authedQuery, publicQuery } from "./middleware.js";
+import { findUserByEmail, createUser, updateUser } from "./queries/users.js";
+import { signSessionToken } from "./lib/session.js";
+import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
 
 export const authRouter = createRouter({

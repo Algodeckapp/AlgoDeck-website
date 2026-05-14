@@ -1,10 +1,10 @@
-import { authRouter } from "./auth-router";
-import { newsletterRouter } from "./newsletter-router";
-import { contactRouter } from "./contact-router";
-import { demoRouter } from "./demo-router";
-import { createRouter, publicQuery } from "./middleware";
-import { getDb } from "./queries/connection";
-import { users } from "../db/schema";
+import { authRouter } from "./auth-router.js";
+import { newsletterRouter } from "./newsletter-router.js";
+import { contactRouter } from "./contact-router.js";
+import { demoRouter } from "./demo-router.js";
+import { createRouter, publicQuery } from "./middleware.js";
+import { getDb } from "./queries/connection.js";
+import { users } from "../db/schema.js";
 import { sql } from "drizzle-orm";
 
 export const appRouter = createRouter({

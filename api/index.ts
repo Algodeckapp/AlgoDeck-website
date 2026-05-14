@@ -4,10 +4,10 @@ import type { HttpBindings } from "@hono/node-server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { handle } from "hono/vercel";
 import { sql } from "drizzle-orm";
-import { appRouter } from "./router";
-import { createContext } from "./context";
-import { env } from "./lib/env";
-import { getDb } from "./queries/connection";
+import { appRouter } from "./router.js";
+import { createContext } from "./context.js";
+import { env } from "./lib/env.js";
+import { getDb } from "./queries/connection.js";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 

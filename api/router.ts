@@ -3,9 +3,6 @@ import { newsletterRouter } from "./newsletter-router.js";
 import { contactRouter } from "./contact-router.js";
 import { demoRouter } from "./demo-router.js";
 import { createRouter, publicQuery } from "./middleware.js";
-import { getDb } from "./queries/connection.js";
-import { users } from "../db/schema.js";
-import { sql } from "drizzle-orm";
 
 export const appRouter = createRouter({
   ping: publicQuery.query(async () => {

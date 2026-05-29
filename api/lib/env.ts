@@ -17,7 +17,5 @@ export const env = {
   appSecret: getEnv("APP_SECRET", "temporary-secret-for-boot-only-change-this"),
   isProduction: process.env.NODE_ENV === "production",
   databaseUrl: getEnv("DATABASE_URL"),
-  kimiAuthUrl: getEnv("KIMI_AUTH_URL"),
-  kimiOpenUrl: getEnv("KIMI_OPEN_URL"),
   ownerUnionId: getEnv("OWNER_UNION_ID"),
 };

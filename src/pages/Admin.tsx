@@ -66,7 +66,7 @@ export default function Admin() {
             </button>
           </div>
           <p className="mt-8 text-[10px] text-[#64748B] uppercase tracking-widest font-bold">
-            Security ID: {user?.unionId?.slice(0, 8) || 'ANONYMOUS'}
+            Security ID: {user?.id || 'ANONYMOUS'}
           </p>
         </div>
       </div>

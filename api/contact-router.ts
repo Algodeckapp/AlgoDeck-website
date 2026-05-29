@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { getDb } from "./queries/connection.js";
-import { contactSubmissions } from "../db/schema.js";
-import { eq, count, desc, type SQL } from "drizzle-orm";
+import { readJson, writeJson, db } from "./lib/json-db.js";
 
 export const contactRouter = createRouter({
   submit: publicQuery
@@ -16,15 +14,16 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const db = getDb();
-      const result = await db.insert(contactSubmissions).values({
-        name: input.name,
-        email: input.email,
-        company: input.company,
-        subject: input.subject,
-        message: input.message,
-      });
-      return { success: true, id: Number(result[0].insertId) };
+      const submissions = await readJson(db.submissions);
+      const newSubmission = {
+        id: Date.now(),
+        ...input,
+        status: 'new',
+        createdAt: new Date().toISOString(),
+      };
+      submissions.push(newSubmission);
+      await writeJson(db.submissions, submissions);
+      return { success: true, id: newSubmission.id };
     }),
 
   list: adminQuery
@@ -38,22 +37,11 @@ export const contactRouter = createRouter({
         .optional()
     )
     .query(async ({ input }) => {
-      const db = getDb();
-      const limit = input?.limit ?? 50;
-      const offset = input?.offset ?? 0;
-      const conditions: SQL[] = [];
-
+      let submissions = await readJson(db.submissions);
       if (input?.status) {
-        conditions.push(eq(contactSubmissions.status, input.status as "new" | "in_progress" | "resolved"));
+        submissions = submissions.filter((s: any) => s.status === input.status);
       }
-
-      return db
-        .select()
-        .from(contactSubmissions)
-        .where(conditions.length > 0 ? conditions[0] : undefined)
-        .orderBy(desc(contactSubmissions.createdAt))
-        .limit(limit)
-        .offset(offset);
+      return submissions.reverse().slice(input?.offset ?? 0, (input?.offset ?? 0) + (input?.limit ?? 50));
     }),
 
   updateStatus: adminQuery
@@ -64,34 +52,22 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const db = getDb();
-      await db
-        .update(contactSubmissions)
-        .set({ status: input.status })
-        .where(eq(contactSubmissions.id, input.id));
+      const submissions = await readJson(db.submissions);
+      const index = submissions.findIndex((s: any) => s.id === input.id);
+      if (index !== -1) {
+        submissions[index].status = input.status;
+        await writeJson(db.submissions, submissions);
+      }
       return { success: true };
     }),
 
   stats: adminQuery.query(async () => {
-    const db = getDb();
-    const totalResult = await db.select({ value: count() }).from(contactSubmissions);
-    const newResult = await db
-      .select({ value: count() })
-      .from(contactSubmissions)
-      .where(eq(contactSubmissions.status, "new"));
-    const inProgressResult = await db
-      .select({ value: count() })
-      .from(contactSubmissions)
-      .where(eq(contactSubmissions.status, "in_progress"));
-    const resolvedResult = await db
-      .select({ value: count() })
-      .from(contactSubmissions)
-      .where(eq(contactSubmissions.status, "resolved"));
+    const submissions = await readJson(db.submissions);
     return {
-      total: totalResult[0].value,
-      new: newResult[0].value,
-      inProgress: inProgressResult[0].value,
-      resolved: resolvedResult[0].value,
+      total: submissions.length,
+      new: submissions.filter((s: any) => s.status === 'new').length,
+      inProgress: submissions.filter((s: any) => s.status === 'in_progress').length,
+      resolved: submissions.filter((s: any) => s.status === 'resolved').length,
     };
   }),
 });

@@ -3,10 +3,11 @@ import { z } from "zod";
 import { Session } from "../contracts/constants.js";
 import { getSessionCookieOptions } from "./lib/cookies.js";
 import { createRouter, authedQuery, publicQuery } from "./middleware.js";
-import { findUserByEmail, createUser, updateUser } from "./queries/users.js";
+import { findUserByEmail, updateUser } from "./queries/users.js"; // Note: This still points to the old queries. We should probably update this to use json-db.ts directly if we want to be fully consistent, but for now we'll maintain the structure.
 import { signSessionToken } from "./lib/session.js";
 import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
+import { readJson, writeJson, db } from "./lib/json-db.js";
 
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
@@ -17,7 +18,9 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const user = await findUserByEmail(input.email);
+      const users = await readJson(db.users);
+      const user = users.find((u: any) => u.email === input.email);
+
       if (!user) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
@@ -32,9 +35,6 @@ export const authRouter = createRouter({
           message: "Invalid email or password",
         });
       }
-
-      // Update last sign in
-      await updateUser(user.id, { lastSignInAt: new Date() });
 
       const token = await signSessionToken({
         id: user.id,
@@ -52,6 +52,30 @@ export const authRouter = createRouter({
           maxAge: Session.maxAgeMs / 1000,
         }),
       );
+      
+      return { success: true };
+    }),
+
+  changePassword: authedQuery
+    .input(z.object({
+      currentPassword: z.string(),
+      newPassword: z.string().min(8),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const users = await readJson(db.users);
+      const user = users.find((u: any) => u.id === ctx.user?.id);
+
+      if (!user) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
+      }
+
+      const isValid = await verifyPassword(input.currentPassword, user.passwordHash);
+      if (!isValid) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect current password" });
+      }
+
+      user.passwordHash = await hashPassword(input.newPassword);
+      await writeJson(db.users, users);
       
       return { success: true };
     }),

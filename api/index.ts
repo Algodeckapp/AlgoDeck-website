@@ -56,48 +56,16 @@ app.get("/api/ping", async (c) => {
 });
 
 // TRPC Handler
-app.use("/api/trpc/*", async (c) => {
-  try {
-    // Manually reconstruct the Request object to ensure it's fully standard and has all methods (like headers.has)
-    const headers = new Headers();
-    Object.entries(c.req.header()).forEach(([key, value]) => {
-      if (value) headers.set(key, value);
-    });
-
-    // Use Hono's built-in methods to get the body reliably
-    let body: any = undefined;
-    if (c.req.method !== "GET" && c.req.method !== "HEAD") {
-      try {
-        body = await c.req.raw.clone().arrayBuffer();
-      } catch (e) {
-        console.warn("[TRPC] Could not clone request body", e);
-      }
-    }
-
-    const req = new Request(c.req.url, {
-      method: c.req.method,
-      headers,
-      body,
-      // @ts-ignore - needed for Node.js fetch with bodies
-      duplex: body ? "half" : undefined,
-    });
-
-    return await fetchRequestHandler({
-      endpoint: "/api/trpc",
-      req,
-      router: appRouter,
-      createContext,
-      onError: ({ path, error }) => {
-        console.error(`[TRPC ERROR] Path: ${path || "unknown"}, Code: ${error.code}, Message: ${error.message}`);
-        if (error.cause) {
-          console.error(`[TRPC CAUSE]`, error.cause);
-        }
-      },
-    });
-  } catch (err: any) {
-    console.error("[TRPC ADAPTER ERROR]", err);
-    return c.json({ error: "TRPC Handler Failed", message: err.message }, 500);
-  }
+app.all("/api/trpc/*", async (c) => {
+  return await fetchRequestHandler({
+    endpoint: "/api/trpc",
+    req: c.req.raw,
+    router: appRouter,
+    createContext,
+    onError: ({ path, error }) => {
+      console.error(`[TRPC ERROR] Path: ${path || "unknown"}, Code: ${error.code}, Message: ${error.message}`);
+    },
+  });
 });
 
 // Error handling

@@ -10,6 +10,7 @@ import { env } from "./lib/env.js";
 import { getDb } from "./queries/connection.js";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
+console.log(`[BOOT] Hono server starting at ${new Date().toISOString()}`);
 
 // Basic middleware
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));

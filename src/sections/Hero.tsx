@@ -170,12 +170,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <img
-          src="/assets/hero mockup.png"
-          alt="AlgoDeck Mobile App Mockup"
-          className="w-full max-w-[300px] md:max-w-[450px] h-auto z-20 mt-8"
-          style={{ animation: 'imageBounce 4s ease-in-out infinite' }}
-        />
+        {/* Hero Mockup Image Removed */}
       </div>
 
       <style>{`

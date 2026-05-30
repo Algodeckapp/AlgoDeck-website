@@ -13,18 +13,6 @@ export const appRouter = createRouter({
       mode: "standalone"
     };
   }),
-  seed: publicQuery.mutation(async () => {
-    const users = [
-      {
-        "id": 1,
-        "email": "admin@algodeck.app",
-        "passwordHash": "$2b$10$BVfb4fQ9VL32lfVOWR7I.enpl47f69c0PGzXlbkOVmVcfhaZzsaCG",
-        "role": "admin"
-      }
-    ];
-    await redis.set("users", users);
-    return { success: true };
-  }),
   auth: authRouter,
   newsletter: newsletterRouter,
   contact: contactRouter,

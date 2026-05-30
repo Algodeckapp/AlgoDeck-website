@@ -1,13 +1,12 @@
 import { Hono } from "hono";
 import { bodyLimit } from "hono/body-limit";
-import type { HttpBindings } from "@hono/node-server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { handle } from "hono/vercel";
 import { appRouter } from "./router.js";
 import { createContext } from "./context.js";
 import { env } from "./lib/env.js";
 
-const app = new Hono<{ Bindings: HttpBindings }>();
+const app = new Hono();
 console.log(`[BOOT] Hono server starting at ${new Date().toISOString()}`);
 
 // Basic middleware
@@ -51,6 +50,5 @@ app.onError((err, c) => {
 
 app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
-// Vercel export
-const handler = handle(app);
-export default process.env.VERCEL ? handler : app;
+// Vercel export - Correctly using the handle wrapper
+export default handle(app);

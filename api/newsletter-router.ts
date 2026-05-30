@@ -1,62 +1,48 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { readJson, writeJson, db } from "./lib/json-db.js";
+import { db } from "./lib/db.js";
+import { sql } from "drizzle-orm";
 
 export const newsletterRouter = createRouter({
   subscribe: publicQuery
     .input(
       z.object({
-        email: z.string().email("Please enter a valid email address"),
+        email: z.string().email(),
         name: z.string().optional(),
         source: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
-      const subscribers = await readJson(db.users); // Reusing users.json for newsletter for now
-      const existingIndex = subscribers.findIndex((s: any) => s.email === input.email);
-
-      if (existingIndex !== -1) {
-        subscribers[existingIndex] = {
-          ...subscribers[existingIndex],
-          isActive: true,
-          name: input.name || subscribers[existingIndex].name,
-          source: input.source || subscribers[existingIndex].source,
-          updatedAt: new Date().toISOString()
-        };
-        await writeJson(db.users, subscribers);
-        return { success: true, message: "Welcome back! Your preferences have been updated." };
-      }
-
-      subscribers.push({
-        ...input,
-        isActive: true,
-        createdAt: new Date().toISOString(),
-      });
-      await writeJson(db.users, subscribers);
+      await db.execute(sql`
+        INSERT INTO newsletter_subscribers (email, name, source, is_active)
+        VALUES (${input.email}, ${input.name || ''}, ${input.source || 'website'}, true)
+        ON CONFLICT (email) DO UPDATE SET 
+        is_active = true, 
+        name = EXCLUDED.name,
+        source = EXCLUDED.source
+      `);
       return { success: true, message: "Successfully subscribed!" };
     }),
 
   unsubscribe: publicQuery
     .input(z.object({ email: z.string().email() }))
     .mutation(async ({ input }) => {
-      const subscribers = await readJson(db.users);
-      const index = subscribers.findIndex((s: any) => s.email === input.email);
-      if (index !== -1) {
-        subscribers[index].isActive = false;
-        await writeJson(db.users, subscribers);
-      }
+      await db.execute(sql`
+        UPDATE newsletter_subscribers SET is_active = false WHERE email = ${input.email}
+      `);
       return { success: true };
     }),
 
   list: adminQuery.query(async () => {
-    return await readJson(db.users);
+    return await db.execute(sql`SELECT * FROM newsletter_subscribers ORDER BY created_at`);
   }),
 
   count: adminQuery.query(async () => {
-    const subscribers = await readJson(db.users);
+    const total = await db.execute(sql`SELECT COUNT(*) FROM newsletter_subscribers`);
+    const active = await db.execute(sql`SELECT COUNT(*) FROM newsletter_subscribers WHERE is_active = true`);
     return {
-      total: subscribers.length,
-      active: subscribers.filter((s: any) => s.isActive).length,
+      total: Number(total[0].count),
+      active: Number(active[0].count),
     };
   }),
 });

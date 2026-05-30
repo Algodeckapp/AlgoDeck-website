@@ -15,6 +15,7 @@ function getEnv(name: string, fallback = ""): string {
 export const env = {
   appId: getEnv("APP_ID", "missing-app-id"),
   appSecret: getEnv("APP_SECRET", "temporary-secret-for-boot-only-change-this"),
+  resendApiKey: getEnv("RESEND_API_KEY"),
   isProduction: process.env.NODE_ENV === "production",
   databaseUrl: getEnv("DATABASE_URL"),
   ownerUnionId: getEnv("OWNER_UNION_ID"),

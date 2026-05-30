@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { readJson, writeJson, db } from "./lib/json-db.js";
+import { db } from "./lib/db.js";
+import { sql } from "drizzle-orm";
+import { sendEmail } from "./lib/email.js";
 
 export const contactRouter = createRouter({
   submit: publicQuery
@@ -14,16 +16,17 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const submissions = await readJson(db.submissions);
-      const newSubmission = {
-        id: Date.now(),
-        ...input,
-        status: 'new',
-        createdAt: new Date().toISOString(),
-      };
-      submissions.push(newSubmission);
-      await writeJson(db.submissions, submissions);
-      return { success: true, id: newSubmission.id };
+      await db.execute(sql`
+        INSERT INTO contact_submissions (name, email, company, subject, message, status)
+        VALUES (${input.name}, ${input.email}, ${input.company || ''}, ${input.subject}, ${input.message}, 'new')
+      `);
+
+      await sendEmail(
+        input.email,
+        `Re: ${input.subject} - AlgoDeck Support`,
+        `<p>Hi ${input.name},</p><p>Thanks for reaching out! We have received your message and a member of our team will get back to you shortly.</p>`
+      );
+      return { success: true };
     }),
 
   list: adminQuery
@@ -37,11 +40,7 @@ export const contactRouter = createRouter({
         .optional()
     )
     .query(async ({ input }) => {
-      let submissions = await readJson(db.submissions);
-      if (input?.status) {
-        submissions = submissions.filter((s: any) => s.status === input.status);
-      }
-      return submissions.reverse().slice(input?.offset ?? 0, (input?.offset ?? 0) + (input?.limit ?? 50));
+      return await db.execute(sql`SELECT * FROM contact_submissions ORDER BY created_at DESC LIMIT ${input?.limit ?? 50} OFFSET ${input?.offset ?? 0}`);
     }),
 
   updateStatus: adminQuery
@@ -52,22 +51,21 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const submissions = await readJson(db.submissions);
-      const index = submissions.findIndex((s: any) => s.id === input.id);
-      if (index !== -1) {
-        submissions[index].status = input.status;
-        await writeJson(db.submissions, submissions);
-      }
+      await db.execute(sql`UPDATE contact_submissions SET status = ${input.status} WHERE id = ${input.id}`);
       return { success: true };
     }),
 
   stats: adminQuery.query(async () => {
-    const submissions = await readJson(db.submissions);
+    const total = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions`);
+    const newCount = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'new'`);
+    const inProgress = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'in_progress'`);
+    const resolved = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'resolved'`);
+    
     return {
-      total: submissions.length,
-      new: submissions.filter((s: any) => s.status === 'new').length,
-      inProgress: submissions.filter((s: any) => s.status === 'in_progress').length,
-      resolved: submissions.filter((s: any) => s.status === 'resolved').length,
+      total: Number(total[0].count),
+      new: Number(newCount[0].count),
+      inProgress: Number(inProgress[0].count),
+      resolved: Number(resolved[0].count),
     };
   }),
 });

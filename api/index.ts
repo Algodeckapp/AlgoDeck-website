@@ -4,10 +4,8 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { handle } from "hono/vercel";
 import { appRouter } from "./router.js";
 import { createContext } from "./context.js";
-import { env } from "./lib/env.js";
 
 const app = new Hono();
-console.log(`[BOOT] Hono server starting at ${new Date().toISOString()}`);
 
 // Basic middleware
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
@@ -18,29 +16,14 @@ app.get("/api/ping", async (c) => {
     status: "pong",
     version: "1.2.0",
     time: new Date().toISOString(),
-    env: {
-      isProduction: env.isProduction,
-      hasSecret: !!process.env.APP_SECRET,
-    },
   });
 });
 
 // TRPC Handler
 app.all("/api/trpc/*", async (c) => {
-  const request = c.req.raw;
-  // Vercel/Node environment sometimes has issues with raw request headers. 
-  // Construct a safe, standard Request object.
-  const req = new Request(request.url, {
-    method: request.method,
-    headers: request.headers,
-    body: request.body,
-    // @ts-ignore
-    duplex: 'half'
-  });
-
   return await fetchRequestHandler({
     endpoint: "/api/trpc",
-    req,
+    req: c.req.raw,
     router: appRouter,
     createContext,
     onError: ({ path, error }) => {
@@ -52,19 +35,8 @@ app.all("/api/trpc/*", async (c) => {
 // Error handling
 app.onError((err, c) => {
   console.error(`[HONO ERROR] ${err.name}: ${err.message}`);
-  return c.json({
-    error: "Internal Server Error",
-    message: err.message,
-    name: err.name,
-  }, 500);
+  return c.json({ error: "Internal Server Error" }, 500);
 });
 
-app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
-
-// Vercel export - Correctly using the handle wrapper
-const handler = handle(app);
-export const POST = handler;
-export const GET = handler;
-export const PUT = handler;
-export const DELETE = handler;
-export default handler;
+// Vercel export
+export default handle(app);

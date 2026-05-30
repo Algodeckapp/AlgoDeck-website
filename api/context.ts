@@ -2,7 +2,8 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import * as cookie from "cookie";
 import { Session } from "../contracts/constants.js";
 import { verifySessionToken } from "./lib/session.js";
-import { readJson, db } from "./lib/json-db.js";
+import { db } from "./lib/db.js";
+import { sql } from "drizzle-orm";
 
 export type TrpcContext = {
   req: Request;
@@ -22,8 +23,10 @@ export async function createContext(
     if (token) {
       const claim = await verifySessionToken(token);
       if (claim) {
-        const users = await readJson(db.users);
-        ctx.user = users.find((u: any) => u.id === claim.id);
+        const result = await db.execute(sql`SELECT * FROM users WHERE id = ${claim.id} LIMIT 1`);
+        if (result.length > 0) {
+            ctx.user = result[0];
+        }
       }
     }
   } catch (error) {

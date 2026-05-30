@@ -6,7 +6,8 @@ import { createRouter, authedQuery, publicQuery } from "./middleware.js";
 import { signSessionToken } from "./lib/session.js";
 import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
-import { readJson, writeJson, db } from "./lib/json-db.js";
+import { db } from "./lib/db.js";
+import { sql } from "drizzle-orm";
 
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
@@ -17,8 +18,8 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const users = await readJson(db.users);
-      const user = users.find((u: any) => u.email === input.email.toLowerCase());
+      const result = await db.execute(sql`SELECT * FROM users WHERE email = ${input.email.toLowerCase()} LIMIT 1`);
+      const user = result.length > 0 ? result[0] : null;
 
       if (!user) {
         throw new TRPCError({
@@ -27,7 +28,7 @@ export const authRouter = createRouter({
         });
       }
 
-      const isValid = await verifyPassword(input.password, user.passwordHash);
+      const isValid = await verifyPassword(input.password, user.passwordHash as string);
       if (!isValid) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
@@ -36,8 +37,8 @@ export const authRouter = createRouter({
       }
 
       const token = await signSessionToken({
-        id: user.id,
-        email: user.email,
+        id: user.id as number,
+        email: user.email as string,
       });
 
       const opts = getSessionCookieOptions(ctx.req.headers);
@@ -61,8 +62,7 @@ export const authRouter = createRouter({
       newPassword: z.string().min(8),
     }))
     .mutation(async ({ input, ctx }) => {
-      const users = await readJson(db.users);
-      const user = users.find((u: any) => u.id === ctx.user?.id);
+      const user = ctx.user;
 
       if (!user) {
         throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
@@ -73,8 +73,8 @@ export const authRouter = createRouter({
         throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect current password" });
       }
 
-      user.passwordHash = await hashPassword(input.newPassword);
-      await writeJson(db.users, users);
+      const newHash = await hashPassword(input.newPassword);
+      await db.execute(sql`UPDATE users SET password_hash = ${newHash} WHERE id = ${user.id}`);
       
       return { success: true };
     }),

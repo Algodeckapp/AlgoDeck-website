@@ -16,11 +16,12 @@ export default function Download() {
     setLoaded(true)
   }, [])
 
-  const subscribeMutation = trpc.newsletter.subscribe.useMutation()
+  const androidSubscribeMutation = trpc.newsletter.subscribe.useMutation()
+  const iosSubscribeMutation = trpc.newsletter.subscribe.useMutation()
 
   const handleAndroidWaitlist = (e: React.FormEvent) => {
     e.preventDefault()
-    subscribeMutation.mutate({ email: androidEmail, source: 'android_waitlist' }, {
+    androidSubscribeMutation.mutate({ email: androidEmail, source: 'android_waitlist' }, {
       onSuccess: () => {
         setAndroidSubmitted(true)
         toast.success("You've been added to the Android waitlist!")
@@ -34,7 +35,7 @@ export default function Download() {
 
   const handleIosWaitlist = (e: React.FormEvent) => {
     e.preventDefault()
-    subscribeMutation.mutate({ email: iosEmail, source: 'ios_waitlist' }, {
+    iosSubscribeMutation.mutate({ email: iosEmail, source: 'ios_waitlist' }, {
       onSuccess: () => {
         setIosSubmitted(true)
         toast.success("You've been added to the iOS waitlist!")
@@ -110,10 +111,10 @@ export default function Download() {
                   />
                   <button 
                     type="submit" 
-                    disabled={subscribeMutation.isPending}
+                    disabled={androidSubscribeMutation.isPending}
                     className="glow-button w-full !py-4.5 !text-sm"
                   >
-                    {androidSubmitted ? "YOU'RE ON THE LIST!" : "JOIN ANDROID WAITLIST"}
+                    {androidSubscribeMutation.isPending ? "SUBMITTING..." : (androidSubmitted ? "YOU'RE ON THE LIST!" : "JOIN ANDROID WAITLIST")}
                   </button>
                 </form>
 
@@ -156,10 +157,10 @@ export default function Download() {
                   />
                   <button 
                     type="submit" 
-                    disabled={subscribeMutation.isPending}
+                    disabled={iosSubscribeMutation.isPending}
                     className="glow-button w-full !py-4.5 !text-sm"
                   >
-                    {iosSubmitted ? "YOU'RE ON THE LIST!" : "JOIN iOS WAITLIST"}
+                    {iosSubscribeMutation.isPending ? "SUBMITTING..." : (iosSubmitted ? "YOU'RE ON THE LIST!" : "JOIN iOS WAITLIST")}
                   </button>
                 </form>
                 
@@ -273,4 +274,3 @@ export default function Download() {
     </>
   )
 }
-

@@ -1,25 +1,28 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { db } from "./lib/db.js";
-import { sql } from "drizzle-orm";
+import { redis } from "./lib/db.js";
 import { sendEmail } from "./lib/email.js";
 
 export const contactRouter = createRouter({
   submit: publicQuery
     .input(
       z.object({
-        name: z.string().min(1, "Name is required").max(255),
-        email: z.string().email("Please enter a valid email"),
+        name: z.string().min(1).max(255),
+        email: z.string().email(),
         company: z.string().max(255).optional(),
-        subject: z.string().min(1, "Subject is required").max(100),
-        message: z.string().min(10, "Message must be at least 10 characters").max(5000),
+        subject: z.string().min(1).max(100),
+        message: z.string().min(10).max(5000),
       })
     )
     .mutation(async ({ input }) => {
-      await db.execute(sql`
-        INSERT INTO contact_submissions (name, email, company, subject, message, status)
-        VALUES (${input.name}, ${input.email}, ${input.company || ''}, ${input.subject}, ${input.message}, 'new')
-      `);
+      const submissions = (await redis.get<any[]>("contact_submissions")) || [];
+      const newSubmission = {
+        id: Date.now(),
+        ...input,
+        status: "new",
+        createdAt: new Date().toISOString(),
+      };
+      await redis.set("contact_submissions", [...submissions, newSubmission]);
 
       await sendEmail(
         input.email,
@@ -40,7 +43,11 @@ export const contactRouter = createRouter({
         .optional()
     )
     .query(async ({ input }) => {
-      return await db.execute(sql`SELECT * FROM contact_submissions ORDER BY created_at DESC LIMIT ${input?.limit ?? 50} OFFSET ${input?.offset ?? 0}`);
+      let submissions = (await redis.get<any[]>("contact_submissions")) || [];
+      if (input?.status) {
+        submissions = submissions.filter((s: any) => s.status === input.status);
+      }
+      return submissions.reverse().slice(input?.offset ?? 0, (input?.offset ?? 0) + (input?.limit ?? 50));
     }),
 
   updateStatus: adminQuery
@@ -51,21 +58,22 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      await db.execute(sql`UPDATE contact_submissions SET status = ${input.status} WHERE id = ${input.id}`);
+      const submissions = (await redis.get<any[]>("contact_submissions")) || [];
+      const index = submissions.findIndex((s: any) => s.id === input.id);
+      if (index !== -1) {
+        submissions[index].status = input.status;
+        await redis.set("contact_submissions", submissions);
+      }
       return { success: true };
     }),
 
   stats: adminQuery.query(async () => {
-    const total = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions`);
-    const newCount = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'new'`);
-    const inProgress = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'in_progress'`);
-    const resolved = await db.execute(sql`SELECT COUNT(*) FROM contact_submissions WHERE status = 'resolved'`);
-    
+    const submissions = (await redis.get<any[]>("contact_submissions")) || [];
     return {
-      total: Number(total[0].count),
-      new: Number(newCount[0].count),
-      inProgress: Number(inProgress[0].count),
-      resolved: Number(resolved[0].count),
+      total: submissions.length,
+      new: submissions.filter((s: any) => s.status === "new").length,
+      inProgress: submissions.filter((s: any) => s.status === "in_progress").length,
+      resolved: submissions.filter((s: any) => s.status === "resolved").length,
     };
   }),
 });

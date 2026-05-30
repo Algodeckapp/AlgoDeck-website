@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { db } from "./lib/db.js";
-import { sql } from "drizzle-orm";
+import { redis } from "./lib/db.js";
 
 export const newsletterRouter = createRouter({
   subscribe: publicQuery
@@ -13,36 +12,51 @@ export const newsletterRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      await db.execute(sql`
-        INSERT INTO newsletter_subscribers (email, name, source, is_active)
-        VALUES (${input.email}, ${input.name || ''}, ${input.source || 'website'}, true)
-        ON CONFLICT (email) DO UPDATE SET 
-        is_active = true, 
-        name = EXCLUDED.name,
-        source = EXCLUDED.source
-      `);
+      const subscribers = (await redis.get<any[]>("newsletter_subscribers")) || [];
+      const existingIndex = subscribers.findIndex((s: any) => s.email === input.email);
+
+      if (existingIndex !== -1) {
+        subscribers[existingIndex] = {
+          ...subscribers[existingIndex],
+          isActive: true,
+          name: input.name || subscribers[existingIndex].name,
+          source: input.source || subscribers[existingIndex].source,
+          updatedAt: new Date().toISOString()
+        };
+        await redis.set("newsletter_subscribers", subscribers);
+        return { success: true, message: "Welcome back! Your preferences have been updated." };
+      }
+
+      subscribers.push({
+        ...input,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+      });
+      await redis.set("newsletter_subscribers", subscribers);
       return { success: true, message: "Successfully subscribed!" };
     }),
 
   unsubscribe: publicQuery
     .input(z.object({ email: z.string().email() }))
     .mutation(async ({ input }) => {
-      await db.execute(sql`
-        UPDATE newsletter_subscribers SET is_active = false WHERE email = ${input.email}
-      `);
+      const subscribers = (await redis.get<any[]>("newsletter_subscribers")) || [];
+      const index = subscribers.findIndex((s: any) => s.email === input.email);
+      if (index !== -1) {
+        subscribers[index].isActive = false;
+        await redis.set("newsletter_subscribers", subscribers);
+      }
       return { success: true };
     }),
 
   list: adminQuery.query(async () => {
-    return await db.execute(sql`SELECT * FROM newsletter_subscribers ORDER BY created_at`);
+    return (await redis.get<any[]>("newsletter_subscribers")) || [];
   }),
 
   count: adminQuery.query(async () => {
-    const total = await db.execute(sql`SELECT COUNT(*) FROM newsletter_subscribers`);
-    const active = await db.execute(sql`SELECT COUNT(*) FROM newsletter_subscribers WHERE is_active = true`);
+    const subscribers = (await redis.get<any[]>("newsletter_subscribers")) || [];
     return {
-      total: Number(total[0].count),
-      active: Number(active[0].count),
+      total: subscribers.length,
+      active: subscribers.filter((s: any) => s.isActive).length,
     };
   }),
 });

@@ -6,8 +6,7 @@ import { createRouter, authedQuery, publicQuery } from "./middleware.js";
 import { signSessionToken } from "./lib/session.js";
 import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
-import { db } from "./lib/db.js";
-import { sql } from "drizzle-orm";
+import { redis } from "./lib/db.js";
 
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
@@ -18,8 +17,8 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const result = await db.execute(sql`SELECT * FROM users WHERE email = ${input.email.toLowerCase()} LIMIT 1`);
-      const user = result.length > 0 ? result[0] : null;
+      const users = (await redis.get<any[]>("users")) || [];
+      const user = users.find((u: any) => u.email === input.email.toLowerCase());
 
       if (!user) {
         throw new TRPCError({
@@ -62,19 +61,21 @@ export const authRouter = createRouter({
       newPassword: z.string().min(8),
     }))
     .mutation(async ({ input, ctx }) => {
-      const user = ctx.user;
+      const users = (await redis.get<any[]>("users")) || [];
+      const userIndex = users.findIndex((u: any) => u.id === ctx.user?.id);
 
-      if (!user) {
+      if (userIndex === -1) {
         throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
       }
 
+      const user = users[userIndex];
       const isValid = await verifyPassword(input.currentPassword, user.passwordHash);
       if (!isValid) {
         throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect current password" });
       }
 
-      const newHash = await hashPassword(input.newPassword);
-      await db.execute(sql`UPDATE users SET password_hash = ${newHash} WHERE id = ${user.id}`);
+      users[userIndex].passwordHash = await hashPassword(input.newPassword);
+      await redis.set("users", users);
       
       return { success: true };
     }),

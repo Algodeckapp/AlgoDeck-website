@@ -1,11 +1,7 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import { env } from "../lib/env.js";
+import { Redis } from '@upstash/redis';
 
-if (!env.databaseUrl) {
-  throw new Error("DATABASE_URL is not set in environment variables");
-}
-
-// Disable prefetch as it is not supported for serverless functions
-const queryClient = postgres(env.databaseUrl, { prepare: false });
-export const db = drizzle(queryClient);
+// Vercel KV environment variables
+export const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});

@@ -1,6 +1,7 @@
 import { authRouter } from "./auth-router.js";
 import { newsletterRouter } from "./newsletter-router.js";
 import { contactRouter } from "./contact-router.js";
+import { demoRouter } from "./demo-router.js";
 import { createRouter, publicQuery } from "./middleware.js";
 
 export const appRouter = createRouter({
@@ -15,6 +16,7 @@ export const appRouter = createRouter({
   auth: authRouter,
   newsletter: newsletterRouter,
   contact: contactRouter,
+  demo: demoRouter,
 });
 
 export type AppRouter = typeof appRouter;

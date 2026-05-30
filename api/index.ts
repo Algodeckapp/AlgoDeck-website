@@ -62,4 +62,9 @@ app.onError((err, c) => {
 app.all("/api/*", (c) => c.json({ error: "Not Found", path: c.req.path }, 404));
 
 // Vercel export - Correctly using the handle wrapper
-export default handle(app);
+const handler = handle(app);
+export const POST = handler;
+export const GET = handler;
+export const PUT = handler;
+export const DELETE = handler;
+export default handler;

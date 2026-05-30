@@ -115,7 +115,7 @@ export default function Login() {
                   disabled={loginMutation.isPending}
                 >
                   {loginMutation.isPending ? (
-                    "Processing..."
+                    "Signing In..."
                   ) : (
                     <span className="flex items-center justify-center gap-2">
                       Sign In 

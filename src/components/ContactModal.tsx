@@ -177,7 +177,7 @@ export default function ContactModal({ onClose }: ContactModalProps) {
                 disabled={demoMutation.isPending}
                 className="glow-button w-full mt-2"
               >
-                {demoMutation.isPending ? 'Submitting...' : 'Request Demo'}
+                {demoMutation.isPending ? 'REQUESTING...' : 'Request Demo'}
               </button>
             </form>
           </>

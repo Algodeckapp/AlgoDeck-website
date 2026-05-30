@@ -190,7 +190,7 @@ export default function Contact() {
                       disabled={submitMutation.isPending}
                       className="glow-button !w-full !h-14 font-bold flex items-center justify-center gap-2"
                     >
-                      {submitMutation.isPending ? 'TRANSMITTING...' : 'SEND SECURE MESSAGE'} <Send size={18} />
+                      {submitMutation.isPending ? 'SENDING...' : 'SEND SECURE MESSAGE'} <Send size={18} />
                     </button>
                   </form>
                 </div>

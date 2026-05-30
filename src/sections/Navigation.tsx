@@ -72,8 +72,8 @@ export default function Navigation() {
             <img
               src="/assets/logo-primary.png"
               alt="AlgoDeck"
-              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-10' : 'h-8 md:h-11'}`}
-              style={{ maxWidth: '140px' }}
+              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-9 md:h-12' : 'h-10 md:h-14'}`}
+              style={{ maxWidth: '200px' }}
             />
           </Link>
 
@@ -192,7 +192,7 @@ export default function Navigation() {
       >
         {/* Mobile menu content */}
         <div
-          className={`flex-1 flex flex-col items-center justify-center gap-2 px-6 pt-20 transition-transform duration-500 ${
+          className={`flex-1 flex flex-col items-center justify-start gap-2 px-6 pt-24 pb-8 overflow-y-auto w-full transition-transform duration-500 ${
             mobileOpen ? 'translate-y-0' : '-translate-y-5'
           }`}
         >
@@ -235,7 +235,7 @@ export default function Navigation() {
 
           {/* Mobile auth buttons */}
           <div
-            className={`flex flex-col gap-3 mt-10 w-full max-w-sm transition-all duration-300 ${
+            className={`flex flex-col gap-6 mt-10 w-full max-w-xs transition-all duration-300 ${
               mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
             style={{ transitionDelay: mobileOpen ? '0.3s' : '0s' }}
@@ -262,9 +262,12 @@ export default function Navigation() {
               <div className="flex flex-col gap-6 items-center">
                 <Link
                   to="/download"
-                  className="transition-transform hover:scale-105 active:scale-95"
+                  className="relative group transition-transform hover:scale-105 active:scale-95"
                   onClick={() => setMobileOpen(false)}
                 >
+                  <div className="absolute -top-3 -right-2 z-10 scale-75">
+                    <span className="badge badge-warning text-[10px] px-2 py-0.5 shadow-lg">SOON</span>
+                  </div>
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
                     alt="Get it on Google Play" 

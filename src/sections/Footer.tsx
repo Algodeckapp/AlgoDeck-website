@@ -187,7 +187,7 @@ export default function Footer() {
                   disabled={subscribeMutation.isPending}
                   className="bg-[#3A7BFF] hover:brightness-110 text-white text-xs font-medium rounded-lg px-5 py-2.5 transition-all disabled:opacity-50 whitespace-nowrap"
                 >
-                  {subscribeMutation.isPending ? '...' : 'Subscribe'}
+                  {subscribeMutation.isPending ? 'SUBSCRIBING...' : 'Subscribe'}
                 </button>
               </form>
             )}

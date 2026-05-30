@@ -127,10 +127,13 @@ export default function Hero() {
       style={{
         position: 'relative',
         width: '100%',
-        height: '100vh',
-        minHeight: '700px',
-        overflow: 'hidden',
+        minHeight: '100vh',
+        paddingTop: '80px', // Add top padding for nav
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         background: '#05070F',
+        overflow: 'hidden',
       }}
     >
       {/* Three.js Particle Canvas (always behind) */}
@@ -145,19 +148,20 @@ export default function Hero() {
         }}
       />
 
-      {/* ═══ ROBOT + MONITORS CONTAINER (centered, massive) ═══ */}
       {/* ═══ HERO CONTENT CONTAINER ═══ */}
-      <div className="relative z-10 max-w-[1600px] mx-auto h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-16 pt-28 md:pt-0 gap-[10px] md:gap-16">
-        {/* Text content */}
-        <div className="w-full md:max-w-[600px] text-center md:text-left pointer-events-auto">
+      <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center justify-start px-6 gap-4">
+        
+        {/* Text content - Optimized for mobile */}
+        <div className="w-full text-center pointer-events-auto">
           {/* Eyebrow */}
           <span
             className={`section-eyebrow transition-all duration-700 ${
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            } block mb-4`}
+            } block mb-2`}
             style={{
               transitionDelay: '0.5s',
               textShadow: '0 2px 10px rgba(5,7,15,0.8)',
+              fontSize: '10px'
             }}
           >
             AUTOMATED TRADING INTELLIGENCE
@@ -165,200 +169,56 @@ export default function Hero() {
 
           {/* Headline */}
           <h1
-            className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight transition-all duration-1000 ${
+            className={`text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight transition-all duration-1000 ${
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{
               transitionDelay: '0.7s',
-              textShadow: '0 4px 20px rgba(5,7,15,0.9), 0 2px 8px rgba(0,0,0,0.5)',
+              textShadow: '0 4px 20px rgba(5,7,15,0.9)',
             }}
           >
             Automate Your Trading <br className="hidden md:block" />
             <span className="gradient-text">Empire</span>
           </h1>
 
-          {/* Subheadline */}
-          <p
-            className={`text-base md:text-lg text-[#CBD5E1] leading-relaxed mt-6 md:mt-8 transition-all duration-1000 ${
-              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            } max-w-lg mx-auto md:mx-0`}
-            style={{
-              transitionDelay: '0.9s',
-              textShadow: '0 2px 10px rgba(5,7,15,0.8)',
-            }}
-          >
-            Build, backtest, and deploy AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
-          </p>
-
-          {/* CTA Row */}
+          {/* CTA Row - Tighter spacing for mobile */}
           <div
-            className={`flex flex-col items-center md:items-start gap-8 mt-10 md:mt-12 transition-all duration-700 ${
+            className={`flex flex-col items-center gap-4 mt-6 transition-all duration-700 ${
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
             style={{ transitionDelay: '1.1s' }}
           >
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-              {/* Play Store (Coming Soon) */}
-              <Link 
-                to="/download" 
-                className="relative group transition-transform hover:scale-105 active:scale-95"
-              >
-                <div className="absolute -top-3 -right-2 z-10">
-                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
-                </div>
-                <div className="opacity-50 grayscale transition-transform">
-                  <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                    alt="Get it on Google Play" 
-                    className="h-14 md:h-16 w-auto"
-                  />
-                </div>
-              </Link>
-
-              {/* App Store (Coming Soon) */}
-              <Link 
-                to="/download"
-                className="relative group transition-transform hover:scale-105 active:scale-95"
-              >
-                <div className="absolute -top-3 -right-2 z-10">
-                  <span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">COMING SOON</span>
-                </div>
-                <div className="opacity-50 grayscale transition-transform">
-                  <img 
-                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                    alt="Download on the App Store" 
-                    className="h-14 md:h-16 w-auto"
-                  />
-                </div>
-              </Link>
-            </div>
-
             {/* Primary Waitlist Button */}
             <Link 
               to="/download"
-              className="glow-button !px-12 !py-4.5 !text-sm font-black tracking-widest flex items-center gap-3 group"
+              className="glow-button !px-8 !py-3 !text-xs font-black tracking-widest flex items-center gap-2 group"
             >
               JOIN THE WAITLIST 
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
 
-        {/* Hero Mockup Image - Standalone Responsive */}
+        {/* Hero Mockup Image - Responsive scaling */}
         <img
           src="/assets/hero mockup.png"
           alt="AlgoDeck Mobile App Mockup"
-          className="md:mt-0 w-[calc(100%-6px)] md:w-[950px] h-auto rounded-[30px] z-20 max-w-full"
+          className="w-full max-w-[320px] md:max-w-[500px] h-auto z-20"
           style={{ 
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
             transitionDelay: '1s',
-            animation: loaded ? 'imageBounce 4s ease-in-out infinite' : 'none'
+            animation: loaded ? 'imageBounce 4s ease-in-out infinite' : 'none',
+            marginTop: '1rem',
+            marginBottom: '1rem'
           }}
         />
-      </div>
-
-      {/* Scroll Indicator */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '32px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '12px',
-          zIndex: 10,
-          opacity: loaded ? 1 : 0,
-          transition: 'opacity 1s ease',
-          transitionDelay: '2s',
-        }}
-      >
-        <div
-          style={{
-            width: '1px',
-            height: '40px',
-            background: 'rgba(58, 123, 255, 0.3)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              width: '5px',
-              height: '5px',
-              borderRadius: '50%',
-              background: '#3A7BFF',
-              position: 'absolute',
-              left: '-2px',
-              animation: 'scrollDown 2s ease-in-out infinite',
-            }}
-          />
-        </div>
-        <span style={{ fontSize: '11px', letterSpacing: '0.05em', color: '#64748B', textTransform: 'uppercase' }}>
-          Scroll to explore
-        </span>
       </div>
 
       {/* Robot swerve keyframes injected via style */}
       <style>{`
         @keyframes imageBounce {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-
-        @keyframes float3D {
-          0%, 100% { transform: translateY(0px) rotateX(0deg); }
-          50% { transform: translateY(-20px) rotateX(2deg); }
-        }
-
-        @keyframes robotSwerve {
-          0% {
-            transform: translateX(0px);
-          }
-          20% {
-            transform: translateX(-40px);
-          }
-          40% {
-            transform: translateX(-40px);
-          }
-          50% {
-            transform: translateX(0px);
-          }
-          70% {
-            transform: translateX(40px);
-          }
-          90% {
-            transform: translateX(40px);
-          }
-          100% {
-            transform: translateX(0px);
-          }
-        }
-
-        @keyframes monitorFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-
-        .monitor-left, .monitor-right {
-          animation: monitorFloat 5s ease-in-out infinite;
-        }
-
-        @media (max-width: 1024px) {
-          .robot-sway {
-            transform: scale(0.85) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .robot-sway {
-            transform: scale(0.7) !important;
-          }
-          .monitor-left, .monitor-right {
-            display: none !important;
-          }
+          50% { transform: translateY(-10px); }
         }
       `}</style>
     </section>

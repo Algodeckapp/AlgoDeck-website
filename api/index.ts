@@ -27,9 +27,20 @@ app.get("/api/ping", async (c) => {
 
 // TRPC Handler
 app.all("/api/trpc/*", async (c) => {
+  const request = c.req.raw;
+  // Vercel/Node environment sometimes has issues with raw request headers. 
+  // Construct a safe, standard Request object.
+  const req = new Request(request.url, {
+    method: request.method,
+    headers: request.headers,
+    body: request.body,
+    // @ts-ignore
+    duplex: 'half'
+  });
+
   return await fetchRequestHandler({
     endpoint: "/api/trpc",
-    req: c.req.raw,
+    req,
     router: appRouter,
     createContext,
     onError: ({ path, error }) => {

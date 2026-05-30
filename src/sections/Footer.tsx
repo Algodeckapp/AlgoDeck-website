@@ -53,6 +53,13 @@ function SocialIcon({ type }: { type: string }) {
         <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
       </svg>
     ),
+    instagram: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
   }
 
   return icons[type] || null
@@ -105,9 +112,9 @@ export default function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               {[
-                { type: 'twitter', href: 'https://twitter.com/algodeck' },
-                { type: 'discord', href: 'https://discord.gg/algodeck' },
-                { type: 'github', href: 'https://github.com/algodeck' },
+                { type: 'twitter', href: 'https://x.com/Algodeckapp' },
+                { type: 'instagram', href: 'https://www.instagram.com/algodeck.app/' },
+                { type: 'github', href: 'https://github.com/Algodeckapp' },
               ].map((social) => (
                 <a
                   key={social.type}

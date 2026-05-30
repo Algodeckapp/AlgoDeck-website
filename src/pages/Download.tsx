@@ -63,23 +63,16 @@ export default function Download() {
 
         {/* Hero Section */}
         <section className="relative z-10 pt-16 md:pt-24 pb-12 md:pb-20 px-6">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
-            <div className={`w-full md:max-w-2xl text-center md:text-left transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-6">
+            <div className={`w-full transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <span className="section-eyebrow mb-4 block">GET THE APP</span>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
                 Trade Anytime, <br />
                 <span className="gradient-text">Anywhere.</span>
               </h1>
-              <p className="section-subtitle text-lg md:text-xl mt-8 max-w-xl mx-auto md:mx-0">
+              <p className="section-subtitle text-lg md:text-xl mt-6 max-w-2xl mx-auto">
                 AlgoDeck brings institutional-grade trading automation to your fingertips. Download the mobile app and start trading with AI-powered intelligence today.
               </p>
-            </div>
-            <div className={`w-full md:w-1/2 flex justify-center transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-              <img
-                src="/assets/hero mockup.png"
-                alt="AlgoDeck App"
-                className="w-full max-w-[400px] md:max-w-[500px] h-auto rounded-[2.5rem] shadow-[0_40px_100px_rgba(58,123,255,0.15)] border border-white/10"
-              />
             </div>
           </div>
         </section>

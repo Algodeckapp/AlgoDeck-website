@@ -128,98 +128,58 @@ export default function Hero() {
         position: 'relative',
         width: '100%',
         minHeight: '100vh',
-        paddingTop: '80px', // Add top padding for nav
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         background: '#05070F',
         overflow: 'hidden',
+        paddingTop: '120px',
+        paddingBottom: '40px'
       }}
     >
-      {/* Three.js Particle Canvas (always behind) */}
       <canvas
         ref={canvasRef}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 0,
-          opacity: loaded ? 1 : 0,
-          transition: 'opacity 1.5s ease',
-        }}
+        style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: loaded ? 1 : 0, transition: 'opacity 1.5s ease' }}
       />
 
-      {/* ═══ HERO CONTENT CONTAINER ═══ */}
-      <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center justify-start px-6 gap-4">
-        
-        {/* Text content - Optimized for mobile */}
+      <div className="relative z-10 w-full max-w-[1400px] flex flex-col items-center justify-start px-6 gap-6">
         <div className="w-full text-center pointer-events-auto">
-          {/* Eyebrow */}
-          <span
-            className={`section-eyebrow transition-all duration-700 ${
-              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            } block mb-2`}
-            style={{
-              transitionDelay: '0.5s',
-              textShadow: '0 2px 10px rgba(5,7,15,0.8)',
-              fontSize: '10px'
-            }}
-          >
-            AUTOMATED TRADING INTELLIGENCE
-          </span>
-
-          {/* Headline */}
-          <h1
-            className={`text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight transition-all duration-1000 ${
-              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{
-              transitionDelay: '0.7s',
-              textShadow: '0 4px 20px rgba(5,7,15,0.9)',
-            }}
-          >
+          <span className="section-eyebrow block mb-4" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>AUTOMATED TRADING INTELLIGENCE</span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight" style={{ textShadow: '0 4px 20px rgba(5,7,15,0.9)' }}>
             Automate Your Trading <br className="hidden md:block" />
             <span className="gradient-text">Empire</span>
           </h1>
+          <p className="text-base md:text-lg text-[#CBD5E1] leading-relaxed mt-6 max-w-2xl mx-auto" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>
+            Build, backtest, and deploy AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
+          </p>
 
-          {/* CTA Row - Tighter spacing for mobile */}
-          <div
-            className={`flex flex-col items-center gap-4 mt-6 transition-all duration-700 ${
-              loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            }`}
-            style={{ transitionDelay: '1.1s' }}
-          >
-            {/* Primary Waitlist Button */}
-            <Link 
-              to="/download"
-              className="glow-button !px-8 !py-3 !text-xs font-black tracking-widest flex items-center gap-2 group"
-            >
-              JOIN THE WAITLIST 
+          <div className="flex flex-col items-center gap-6 mt-10">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link to="/download" className="relative transition-transform hover:scale-105 active:scale-95 opacity-80 hover:opacity-100">
+                <div className="absolute -top-3 -right-2 z-10"><span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">SOON</span></div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-14 w-auto" />
+              </Link>
+              <Link to="/download" className="relative transition-transform hover:scale-105 active:scale-95 opacity-80 hover:opacity-100">
+                <div className="absolute -top-3 -right-2 z-10"><span className="badge badge-warning text-[8px] px-2 py-0.5 shadow-lg">SOON</span></div>
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-14 w-auto" />
+              </Link>
+            </div>
+            <Link to="/download" className="glow-button !px-12 !py-4 font-black tracking-widest flex items-center gap-3">
+              JOIN THE WAITLIST <ArrowRight size={18} />
             </Link>
           </div>
         </div>
 
-        {/* Hero Mockup Image - Responsive scaling */}
         <img
           src="/assets/hero mockup.png"
           alt="AlgoDeck Mobile App Mockup"
-          className="w-full max-w-[320px] md:max-w-[500px] h-auto z-20"
-          style={{ 
-            opacity: loaded ? 1 : 0,
-            transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-            transitionDelay: '1s',
-            animation: loaded ? 'imageBounce 4s ease-in-out infinite' : 'none',
-            marginTop: '1rem',
-            marginBottom: '1rem'
-          }}
+          className="w-full max-w-[300px] md:max-w-[450px] h-auto z-20 mt-8"
+          style={{ animation: 'imageBounce 4s ease-in-out infinite' }}
         />
       </div>
 
-      {/* Robot swerve keyframes injected via style */}
       <style>{`
-        @keyframes imageBounce {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
+        @keyframes imageBounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
       `}</style>
     </section>
   )

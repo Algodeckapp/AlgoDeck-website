@@ -3,7 +3,6 @@ import { z } from "zod";
 import { Session } from "../contracts/constants.js";
 import { getSessionCookieOptions } from "./lib/cookies.js";
 import { createRouter, authedQuery, publicQuery } from "./middleware.js";
-import { findUserByEmail, updateUser } from "./queries/users.js"; // Note: This still points to the old queries. We should probably update this to use json-db.ts directly if we want to be fully consistent, but for now we'll maintain the structure.
 import { signSessionToken } from "./lib/session.js";
 import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
@@ -19,7 +18,7 @@ export const authRouter = createRouter({
     }))
     .mutation(async ({ input, ctx }) => {
       const users = await readJson(db.users);
-      const user = users.find((u: any) => u.email === input.email);
+      const user = users.find((u: any) => u.email === input.email.toLowerCase());
 
       if (!user) {
         throw new TRPCError({

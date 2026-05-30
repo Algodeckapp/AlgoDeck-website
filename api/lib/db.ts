@@ -1,7 +1,4 @@
 import { Redis } from '@upstash/redis';
 
-// Vercel KV environment variables
-export const redis = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-});
+// Vercel KV environment variables (automatically handled by fromEnv)
+export const redis = Redis.fromEnv();

@@ -1,0 +1,23 @@
+# AlgoDeck - Mobile-First Trading Automation Platform
+
+## Business Overview
+AlgoDeck is a modern, high-performance mobile trading automation platform designed for individual traders. We empower users to build, backtest, and deploy their own custom trading bots directly to their MetaTrader 4 (MT4) and MetaTrader 5 (MT5) accounts.
+
+## Core Value Proposition (What Sets Us Apart)
+- Mobile-First Approach: Unlike traditional trading automation solutions that are desktop-heavy, AlgoDeck is built from the ground up for mobile (Android & iOS). You control your entire trading empire from your pocket.
+- Custom Bot Builder: We give you the tools to turn your unique trading ideas into functional, automated bots without writing a single line of code.
+- Seamless MT4/MT5 Integration: Direct, secure connectivity to MT4/MT5 accounts allows for instant deployment of your custom strategies.
+- Risk Management: Built-in tools for automated risk management (stop-loss, take-profit, max drawdown) to protect your capital.
+
+## Target Audience
+Individual traders, retail investors, and automated trading enthusiasts who want professional-grade tools to execute their own custom strategies with the convenience of a mobile app.
+
+## Key Features
+- Visual Strategy Builder: An intuitive interface for defining your own specific rules, logic, and conditions for your custom bots.
+- Cloud-Based Bot Hosting: Your custom strategies run in the cloud, ensuring your bots are active 24/7 without needing to keep a desktop application or VPS running.
+- Real-Time Analytics: Monitor backtest results, live performance, and risk metrics on the go.
+- Secure API Authentication: Robust security for broker account connectivity.
+
+## Brand Values
+- Professionalism, high-performance, reliability, and precision.
+- Theme: Dark navy background (#0A0E27) with vibrant accents (Blue, Purple).

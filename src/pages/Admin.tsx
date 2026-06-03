@@ -37,6 +37,7 @@ export default function Admin() {
   const demoStats = trpc.demo.stats.useQuery(undefined, { enabled: user?.role === 'admin' })
   const demoList = trpc.demo.list.useQuery(undefined, { enabled: user?.role === 'admin' })
   const subscribers = trpc.newsletter.list.useQuery(undefined, { enabled: user?.role === 'admin' })
+  const ping = trpc.ping.useQuery(undefined, { enabled: user?.role === 'admin' })
   
   if (isLoading) {
     return (
@@ -91,11 +92,19 @@ export default function Admin() {
     <div className="relative min-h-screen bg-[#05070F] p-4 md:p-6 lg:p-8">
       <Toaster position="top-right" theme="dark" />
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <Link to="/" className="text-[#94A3B8] hover:text-white transition-colors">
-            <ArrowLeft size={20} />
-          </Link>
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">Admin Dashboard</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-[#94A3B8] hover:text-white transition-colors">
+              <ArrowLeft size={20} />
+            </Link>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">Admin Dashboard</h1>
+          </div>
+
+          {/* Database Health Badge */}
+          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${ping.data?.storage.connected ? 'bg-green-500/10 border-green-500/20 text-green-500' : 'bg-red-500/10 border-red-500/20 text-red-500'} text-[10px] font-bold uppercase tracking-wider transition-all`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${ping.data?.storage.connected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
+            DB Status: {ping.data?.storage.type === 'redis' ? 'Live (Redis)' : 'Local (JSON)'}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">

@@ -80,7 +80,7 @@ export default function Login() {
                     <input
                       type="email"
                       required
-                      placeholder="admin@algodeck.app"
+                      placeholder=""
                       className="w-full h-14 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 text-white focus:outline-none focus:border-[#3A7BFF]/50 transition-colors"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}

@@ -1,38 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { trpc } from '@/providers/trpc'
 import { Link } from 'react-router'
 import { ArrowLeft, MessageSquare, Calendar, Apple, Smartphone, ShieldCheck, Users, Mail } from 'lucide-react'
-import { Toaster, toast } from 'sonner';
+import { Toaster } from 'sonner';
 
 export default function Admin() {
   const navigate = useNavigate()
   const { user, isLoading, logout } = useAuth()
-  const [changePasswordData, setChangePasswordData] = useState({ currentPassword: "", newPassword: "" });
-  const [passwordChanged, setPasswordChanged] = useState(false);
 
   useEffect(() => {
     if (!isLoading && (!user || user.role !== 'admin')) {
       navigate('/')
     }
   }, [user, isLoading, navigate])
-
-  const changePasswordMutation = trpc.auth.changePassword.useMutation({
-    onSuccess: () => {
-      toast.success("Password changed successfully!");
-      setChangePasswordData({ currentPassword: "", newPassword: "" });
-      setPasswordChanged(true);
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    }
-  });
-
-  const handleChangePassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    changePasswordMutation.mutate(changePasswordData);
-  };
 
   const contactStats = trpc.contact.stats.useQuery(undefined, { enabled: user?.role === 'admin' })
   const contactList = trpc.contact.list.useQuery(undefined, { enabled: user?.role === 'admin' })
@@ -109,45 +91,9 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-          {/* Change Password Card */}
-          {!passwordChanged && (
-            <div className="lg:col-span-1 bg-[#0A0F2C] border border-[#3A7BFF]/15 rounded-xl p-6 transition-all">
-              <h2 className="text-lg font-semibold text-white mb-6">Change Password</h2>
-              <form onSubmit={handleChangePassword} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-[#64748B] uppercase tracking-wider">Current Password</label>
-                  <input 
-                    type="password" 
-                    value={changePasswordData.currentPassword} 
-                    onChange={(e) => setChangePasswordData({...changePasswordData, currentPassword: e.target.value})} 
-                    required 
-                    className="bg-[#0F1629] border border-[#3A7BFF]/20 px-3 py-2.5 rounded-lg text-white text-sm outline-none focus:border-[#3A7BFF]/50 transition-colors"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-[#64748B] uppercase tracking-wider">New Password</label>
-                  <input 
-                    type="password" 
-                    value={changePasswordData.newPassword} 
-                    onChange={(e) => setChangePasswordData({...changePasswordData, newPassword: e.target.value})} 
-                    required 
-                    className="bg-[#0F1629] border border-[#3A7BFF]/20 px-3 py-2.5 rounded-lg text-white text-sm outline-none focus:border-[#3A7BFF]/50 transition-colors"
-                  />
-                </div>
-                <button 
-                  type="submit" 
-                  disabled={changePasswordMutation.isPending} 
-                  className="bg-[#3A7BFF] hover:bg-[#3A7BFF]/90 text-white font-semibold py-2.5 rounded-lg text-sm transition-all disabled:opacity-50 mt-2"
-                >
-                  {changePasswordMutation.isPending ? "Changing..." : "Update Password"}
-                </button>
-              </form>
-            </div>
-          )}
-
+        <div className="mb-10">
           {/* Stat Cards Grid */}
-          <div className={`${passwordChanged ? 'lg:col-span-3' : 'lg:col-span-2'} grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 transition-all duration-500`}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {statCards.map((stat) => {
               const Icon = stat.icon
               return (

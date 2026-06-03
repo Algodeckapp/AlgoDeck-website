@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
 import { sendEmail } from "./lib/email.js";
 import { kv } from "./lib/db.js";
+import { templates } from "./lib/email-templates.js";
 
 export const contactRouter = createRouter({
   submit: publicQuery
@@ -15,7 +16,7 @@ export const contactRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      // 1. Save to KV (Redis in Prod, JSON in Local)
+      // 1. Save to KV
       try {
         const submissions = (await kv.get<any[]>("contact_submissions")) || [];
         const newSubmission = {
@@ -33,26 +34,25 @@ export const contactRouter = createRouter({
       await sendEmail(
         input.email,
         `Re: ${input.subject} - AlgoDeck Support`,
-        `<p>Hi ${input.name},</p><p>Thanks for reaching out! We have received your message and a member of our team will get back to you shortly.</p><hr/><p><strong>Your Message:</strong></p><p>${input.message}</p>`
+        templates.contactUser(input.name, input.subject, input.message)
       );
 
       // 3. Send notification to admin
       await sendEmail(
         "admin@algodeck.app",
         `NEW CONTACT: ${input.subject}`,
-        `
-        <h2>New Contact Submission</h2>
-        <p><strong>Name:</strong> ${input.name}</p>
-        <p><strong>Email:</strong> ${input.email}</p>
-        <p><strong>Company:</strong> ${input.company || 'N/A'}</p>
-        <p><strong>Subject:</strong> ${input.subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${input.message}</p>
-        `
+        templates.adminNotification("New Contact Submission", [
+          { label: "Name", value: input.name },
+          { label: "Email", value: input.email },
+          { label: "Company", value: input.company || "N/A" },
+          { label: "Subject", value: input.subject },
+          { label: "Message", value: input.message },
+        ])
       );
 
       return { success: true };
     }),
+...
 
   list: adminQuery
     .input(

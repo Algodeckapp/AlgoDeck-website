@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
 import { sendEmail } from "./lib/email.js";
 import { kv } from "./lib/db.js";
+import { templates } from "./lib/email-templates.js";
 
 export const newsletterRouter = createRouter({
   subscribe: publicQuery
@@ -13,7 +14,7 @@ export const newsletterRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      // 1. Save to KV (Redis in Prod, JSON in Local)
+      // 1. Save to KV
       try {
         const subscribers = (await kv.get<any[]>("newsletter_subscribers")) || [];
         const existingIndex = subscribers.findIndex((s: any) => s.email === input.email);
@@ -38,20 +39,27 @@ export const newsletterRouter = createRouter({
         console.error("[Newsletter] Save failed:", error);
       }
 
-      // 2. Send notification to admin
+      // 2. Send confirmation to user
+      await sendEmail(
+        input.email,
+        "Welcome to AlgoDeck",
+        templates.newsletterUser(input.email)
+      );
+
+      // 3. Send notification to admin
       await sendEmail(
         "admin@algodeck.app",
         `NEW SUBSCRIBER: ${input.email}`,
-        `
-        <h2>New Newsletter Subscriber</h2>
-        <p><strong>Email:</strong> ${input.email}</p>
-        <p><strong>Name:</strong> ${input.name || 'N/A'}</p>
-        <p><strong>Source:</strong> ${input.source || 'N/A'}</p>
-        `
+        templates.adminNotification("New Newsletter Subscriber", [
+          { label: "Email", value: input.email },
+          { label: "Name", value: input.name || "N/A" },
+          { label: "Source", value: input.source || "N/A" },
+        ])
       );
 
       return { success: true, message: "Successfully subscribed!" };
     }),
+...
 
   unsubscribe: publicQuery
     .input(z.object({ email: z.string().email() }))

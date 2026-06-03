@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
 import { sendEmail } from "./lib/email.js";
 import { kv } from "./lib/db.js";
+import { templates } from "./lib/email-templates.js";
 
 export const demoRouter = createRouter({
   request: publicQuery
@@ -17,7 +18,7 @@ export const demoRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      // 1. Save to KV (Redis in Prod, JSON in Local)
+      // 1. Save to KV
       try {
         const requests = (await kv.get<any[]>("demo_requests")) || [];
         const newRequest = {
@@ -32,25 +33,31 @@ export const demoRouter = createRouter({
         console.error("[Demo] Save failed:", error);
       }
 
-      // 2. Send notification to admin
+      // 2. Send confirmation to user
+      await sendEmail(
+        input.email,
+        "Demo Request Confirmed",
+        templates.demoUser(input.name)
+      );
+
+      // 3. Send notification to admin
       await sendEmail(
         "admin@algodeck.app",
         `NEW DEMO REQUEST: ${input.name}`,
-        `
-        <h2>New Demo Request</h2>
-        <p><strong>Name:</strong> ${input.name}</p>
-        <p><strong>Email:</strong> ${input.email}</p>
-        <p><strong>Company:</strong> ${input.company || 'N/A'}</p>
-        <p><strong>Phone:</strong> ${input.phone || 'N/A'}</p>
-        <p><strong>Trader Type:</strong> ${input.traderType}</p>
-        <p><strong>Preferred Date:</strong> ${input.preferredDate || 'N/A'}</p>
-        <p><strong>Message:</strong></p>
-        <p>${input.message || 'N/A'}</p>
-        `
+        templates.adminNotification("New Demo Request", [
+          { label: "Name", value: input.name },
+          { label: "Email", value: input.email },
+          { label: "Company", value: input.company || "N/A" },
+          { label: "Phone", value: input.phone || "N/A" },
+          { label: "Trader Type", value: input.traderType },
+          { label: "Preferred Date", value: input.preferredDate || "N/A" },
+          { label: "Message", value: input.message || "N/A" },
+        ])
       );
 
       return { success: true, id: Date.now() };
     }),
+...
 
   list: adminQuery
     .input(z.object({ limit: z.number().default(50) }).optional())

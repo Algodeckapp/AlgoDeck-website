@@ -2,7 +2,7 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import * as cookie from "cookie";
 import { Session } from "../contracts/constants.js";
 import { verifySessionToken } from "./lib/session.js";
-import { redis } from "./lib/db.js";
+import { readJson, db } from "./lib/json-db.js";
 
 export type TrpcContext = {
   req: Request;
@@ -22,7 +22,7 @@ export async function createContext(
     if (token) {
       const claim = await verifySessionToken(token);
       if (claim) {
-        const users = (await redis.get<any[]>("users")) || [];
+        const users = await readJson(db.users);
         ctx.user = users.find((u: any) => u.id === claim.id);
       }
     }

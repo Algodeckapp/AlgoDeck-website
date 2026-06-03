@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware.js";
-import { redis } from "./lib/db.js";
+import { sendEmail } from "./lib/email.js";
+import { kv } from "./lib/db.js";
 
 export const demoRouter = createRouter({
   request: publicQuery
@@ -16,39 +17,62 @@ export const demoRouter = createRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const requests = (await redis.get<any[]>("demo_requests")) || [];
-      const newRequest = {
-        id: Date.now(),
-        ...input,
-        status: 'pending',
-        createdAt: new Date().toISOString(),
-      };
-      requests.push(newRequest);
-      await redis.set("demo_requests", requests);
-      return { success: true, id: newRequest.id };
+      // 1. Save to KV (Redis in Prod, JSON in Local)
+      try {
+        const requests = (await kv.get<any[]>("demo_requests")) || [];
+        const newRequest = {
+          id: Date.now(),
+          ...input,
+          status: 'pending',
+          createdAt: new Date().toISOString(),
+        };
+        requests.push(newRequest);
+        await kv.set("demo_requests", requests);
+      } catch (error) {
+        console.error("[Demo] Save failed:", error);
+      }
+
+      // 2. Send notification to admin
+      await sendEmail(
+        "admin@algodeck.app",
+        `NEW DEMO REQUEST: ${input.name}`,
+        `
+        <h2>New Demo Request</h2>
+        <p><strong>Name:</strong> ${input.name}</p>
+        <p><strong>Email:</strong> ${input.email}</p>
+        <p><strong>Company:</strong> ${input.company || 'N/A'}</p>
+        <p><strong>Phone:</strong> ${input.phone || 'N/A'}</p>
+        <p><strong>Trader Type:</strong> ${input.traderType}</p>
+        <p><strong>Preferred Date:</strong> ${input.preferredDate || 'N/A'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${input.message || 'N/A'}</p>
+        `
+      );
+
+      return { success: true, id: Date.now() };
     }),
 
   list: adminQuery
     .input(z.object({ limit: z.number().default(50) }).optional())
     .query(async ({ input }) => {
-      const requests = (await redis.get<any[]>("demo_requests")) || [];
+      const requests = (await kv.get<any[]>("demo_requests")) || [];
       return requests.reverse().slice(0, input?.limit ?? 50);
     }),
 
   updateStatus: adminQuery
     .input(z.object({ id: z.number(), status: z.enum(['pending', 'scheduled', 'completed', 'cancelled']) }))
     .mutation(async ({ input }) => {
-      const requests = (await redis.get<any[]>("demo_requests")) || [];
+      const requests = (await kv.get<any[]>("demo_requests")) || [];
       const index = requests.findIndex((r: any) => r.id === input.id);
       if (index !== -1) {
         requests[index].status = input.status;
-        await redis.set("demo_requests", requests);
+        await kv.set("demo_requests", requests);
       }
       return { success: true };
     }),
 
   stats: adminQuery.query(async () => {
-    const requests = (await redis.get<any[]>("demo_requests")) || [];
+    const requests = (await kv.get<any[]>("demo_requests")) || [];
     return {
       total: requests.length,
       pending: requests.filter((r: any) => r.status === 'pending').length,

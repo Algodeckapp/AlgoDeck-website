@@ -170,6 +170,7 @@ export default function Contact() {
                         <option value="general">General Inquiry</option>
                         <option value="sales">Institutional / Sales</option>
                         <option value="technical">Technical Support</option>
+                        <option value="partnership">Partnership</option>
                         <option value="feedback">Feedback</option>
                       </select>
                     </div>

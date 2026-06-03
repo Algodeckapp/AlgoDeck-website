@@ -4,9 +4,9 @@ import { Session } from "../contracts/constants.js";
 import { getSessionCookieOptions } from "./lib/cookies.js";
 import { createRouter, authedQuery, publicQuery } from "./middleware.js";
 import { signSessionToken } from "./lib/session.js";
-import { hashPassword, verifyPassword } from "./lib/crypto.js";
+import { verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
-import { redis } from "./lib/db.js";
+import { readJson, db } from "./lib/json-db.js";
 
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
@@ -17,7 +17,7 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const users = (await redis.get<any[]>("users")) || [];
+      const users = await readJson(db.users);
       const user = users.find((u: any) => u.email === input.email.toLowerCase());
 
       if (!user) {
@@ -60,24 +60,13 @@ export const authRouter = createRouter({
       currentPassword: z.string(),
       newPassword: z.string().min(8),
     }))
-    .mutation(async ({ input, ctx }) => {
-      const users = (await redis.get<any[]>("users")) || [];
-      const userIndex = users.findIndex((u: any) => u.id === ctx.user?.id);
-
-      if (userIndex === -1) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
-      }
-
-      const user = users[userIndex];
-      const isValid = await verifyPassword(input.currentPassword, user.passwordHash);
-      if (!isValid) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect current password" });
-      }
-
-      users[userIndex].passwordHash = await hashPassword(input.newPassword);
-      await redis.set("users", users);
-      
-      return { success: true };
+    .mutation(async () => {
+      // In production (Vercel), we can't write to JSON files.
+      // This is primarily for local dev or simple admin access.
+      throw new TRPCError({
+        code: "METHOD_NOT_SUPPORTED",
+        message: "Password change is disabled in the direct-mapping version.",
+      });
     }),
 
   logout: authedQuery.mutation(async ({ ctx }) => {

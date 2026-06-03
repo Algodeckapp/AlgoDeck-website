@@ -40,8 +40,8 @@ export default function Admin() {
   
   if (isLoading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#05070F' }}>
-        <div style={{ color: '#3A7BFF', fontSize: '14px' }}>Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-[#05070F]">
+        <div className="text-[#3A7BFF] text-sm animate-pulse">Loading...</div>
       </div>
     )
   }
@@ -49,8 +49,8 @@ export default function Admin() {
   if (!user || user.role !== 'admin') {
     return (
       <div className="min-h-screen bg-[#05070F] flex items-center justify-center px-6">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-md w-full glass-panel p-10 border-white/5 text-center relative z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-red-500/5 rounded-full blur-[80px] md:blur-[120px] pointer-events-none" />
+        <div className="max-w-md w-full glass-panel p-8 md:p-10 border-white/5 text-center relative z-10">
           <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6 text-red-500">
             <ShieldCheck size={32} />
           </div>
@@ -87,63 +87,63 @@ export default function Admin() {
     { label: 'Newsletter', value: subscriberList.filter(s => s.source === 'footer').length, icon: Mail, color: '#3A7BFF' },
   ]
 
-  const tableHeaderStyle: React.CSSProperties = {
-    textAlign: 'left',
-    padding: '12px 16px',
-    fontSize: '11px',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.05em',
-    color: '#64748B',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
-  }
-
-  const tableCellStyle: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '13px',
-    color: '#E2E8F0',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
-  }
-
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#05070F', padding: '24px' }}>
+    <div className="relative min-h-screen bg-[#05070F] p-4 md:p-6 lg:p-8">
       <Toaster position="top-right" theme="dark" />
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
-          <Link to="/" style={{ color: '#94A3B8', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+      <div className="max-w-[1400px] mx-auto">
+        <div className="flex items-center gap-4 mb-8">
+          <Link to="/" className="text-[#94A3B8] hover:text-white transition-colors">
             <ArrowLeft size={20} />
           </Link>
-          <h1 style={{ fontSize: '28px', fontWeight: 600, color: '#FFFFFF' }}>Admin Dashboard</h1>
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">Admin Dashboard</h1>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px', marginBottom: '40px' }}>
-          <div style={{ background: '#0A0F2C', border: '1px solid rgba(58, 123, 255, 0.15)', borderRadius: '12px', padding: '24px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px' }}>Change Password</h2>
-            <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ fontSize: '12px', color: '#64748B' }}>Current Password</label>
-                <input type="password" value={changePasswordData.currentPassword} onChange={(e) => setChangePasswordData({...changePasswordData, currentPassword: e.target.value})} required style={{ background: '#0F1629', border: '1px solid rgba(58, 123, 255, 0.2)', padding: '10px 12px', borderRadius: '6px', color: 'white', outline: 'none' }} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+          {/* Change Password Card */}
+          <div className="lg:col-span-1 bg-[#0A0F2C] border border-[#3A7BFF]/15 rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-white mb-6">Change Password</h2>
+            <form onSubmit={handleChangePassword} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-[#64748B] uppercase tracking-wider">Current Password</label>
+                <input 
+                  type="password" 
+                  value={changePasswordData.currentPassword} 
+                  onChange={(e) => setChangePasswordData({...changePasswordData, currentPassword: e.target.value})} 
+                  required 
+                  className="bg-[#0F1629] border border-[#3A7BFF]/20 px-3 py-2.5 rounded-lg text-white text-sm outline-none focus:border-[#3A7BFF]/50 transition-colors"
+                />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ fontSize: '12px', color: '#64748B' }}>New Password</label>
-                <input type="password" value={changePasswordData.newPassword} onChange={(e) => setChangePasswordData({...changePasswordData, newPassword: e.target.value})} required style={{ background: '#0F1629', border: '1px solid rgba(58, 123, 255, 0.2)', padding: '10px 12px', borderRadius: '6px', color: 'white', outline: 'none' }} />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-[#64748B] uppercase tracking-wider">New Password</label>
+                <input 
+                  type="password" 
+                  value={changePasswordData.newPassword} 
+                  onChange={(e) => setChangePasswordData({...changePasswordData, newPassword: e.target.value})} 
+                  required 
+                  className="bg-[#0F1629] border border-[#3A7BFF]/20 px-3 py-2.5 rounded-lg text-white text-sm outline-none focus:border-[#3A7BFF]/50 transition-colors"
+                />
               </div>
-              <button type="submit" disabled={changePasswordMutation.isPending} style={{ background: '#3A7BFF', color: 'white', padding: '10px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, border: 'none', marginTop: '8px' }}>
+              <button 
+                type="submit" 
+                disabled={changePasswordMutation.isPending} 
+                className="bg-[#3A7BFF] hover:bg-[#3A7BFF]/90 text-white font-semibold py-2.5 rounded-lg text-sm transition-all disabled:opacity-50 mt-2"
+              >
                 {changePasswordMutation.isPending ? "Changing..." : "Update Password"}
               </button>
             </form>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+          {/* Stat Cards Grid */}
+          <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
             {statCards.map((stat) => {
               const Icon = stat.icon
               return (
-                <div key={stat.label} style={{ background: '#0A0F2C', border: '1px solid rgba(58, 123, 255, 0.15)', borderRadius: '12px', padding: '20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                    <span style={{ fontSize: '11px', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</span>
+                <div key={stat.label} className="bg-[#0A0F2C] border border-[#3A7BFF]/15 rounded-xl p-5 flex flex-col justify-between hover:border-[#3A7BFF]/30 transition-all">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] md:text-xs text-[#94A3B8] font-bold uppercase tracking-widest">{stat.label}</span>
                     <Icon size={16} color={stat.color} />
                   </div>
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#FFFFFF' }}>{stat.value}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-white tracking-tight">{stat.value}</div>
                 </div>
               )
             })}
@@ -151,37 +151,37 @@ export default function Admin() {
         </div>
 
         {/* Tables Section */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div className="flex flex-col gap-8">
           
           {/* Contact Inquiries Table */}
-          <div style={{ background: '#0A0F2C', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '12px', overflow: 'hidden' }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white' }}>Contact Inquiries</h3>
-              <span style={{ fontSize: '11px', color: '#64748B' }}>Emails are sent directly to admin@algodeck.app</span>
+          <div className="bg-[#0A0F2C] border border-white/5 rounded-xl overflow-hidden">
+            <div className="p-5 md:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+              <h3 className="text-lg font-semibold text-white">Contact Inquiries</h3>
+              <span className="text-[10px] md:text-xs text-[#64748B] font-medium uppercase tracking-wider">Direct mapping enabled</span>
             </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr>
-                    <th style={tableHeaderStyle}>Name</th>
-                    <th style={tableHeaderStyle}>Email</th>
-                    <th style={tableHeaderStyle}>Subject</th>
-                    <th style={tableHeaderStyle}>Company</th>
-                    <th style={tableHeaderStyle}>Message Snippet</th>
+                  <tr className="bg-white/5">
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Name</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Email</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Subject</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Company</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Message</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-white/5">
                   {contactInquiries.length > 0 ? contactInquiries.map((item, i) => (
-                    <tr key={i}>
-                      <td style={tableCellStyle}>{item.name}</td>
-                      <td style={tableCellStyle}>{item.email}</td>
-                      <td style={tableCellStyle}>{item.subject}</td>
-                      <td style={tableCellStyle}>{item.company || '-'}</td>
-                      <td style={tableCellStyle}>{item.message?.substring(0, 50)}...</td>
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-6 py-4 text-sm text-white font-medium">{item.name}</td>
+                      <td className="px-6 py-4 text-sm text-[#94A3B8]">{item.email}</td>
+                      <td className="px-6 py-4 text-sm text-[#3A7BFF] uppercase tracking-tighter font-bold">{item.subject}</td>
+                      <td className="px-6 py-4 text-sm text-[#94A3B8]">{item.company || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-[#64748B] italic max-w-xs truncate">{item.message}</td>
                     </tr>
                   )) : (
                     <tr>
-                      <td colSpan={5} style={{ ...tableCellStyle, textAlign: 'center', color: '#64748B', padding: '40px' }}>No inquiries found in direct-mapping mode. Check admin email for logs.</td>
+                      <td colSpan={5} className="px-6 py-20 text-center text-sm text-[#64748B]">No inquiries found. Check admin email for logs.</td>
                     </tr>
                   )}
                 </tbody>
@@ -190,36 +190,36 @@ export default function Admin() {
           </div>
 
           {/* Demo Requests Table */}
-          <div style={{ background: '#0A0F2C', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '12px', overflow: 'hidden' }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white' }}>Demo Requests</h3>
-              <span style={{ fontSize: '11px', color: '#64748B' }}>Requests are routed directly to sales email</span>
+          <div className="bg-[#0A0F2C] border border-white/5 rounded-xl overflow-hidden">
+            <div className="p-5 md:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+              <h3 className="text-lg font-semibold text-white">Demo Requests</h3>
+              <span className="text-[10px] md:text-xs text-[#64748B] font-medium uppercase tracking-wider">Sales routing active</span>
             </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr>
-                    <th style={tableHeaderStyle}>Name</th>
-                    <th style={tableHeaderStyle}>Email</th>
-                    <th style={tableHeaderStyle}>Phone</th>
-                    <th style={tableHeaderStyle}>Type</th>
-                    <th style={tableHeaderStyle}>Date</th>
-                    <th style={tableHeaderStyle}>Message</th>
+                  <tr className="bg-white/5">
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Name</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Email</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Phone</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Type</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Date</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Message</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-white/5">
                   {demoRequests.length > 0 ? demoRequests.map((item, i) => (
-                    <tr key={i}>
-                      <td style={tableCellStyle}>{item.name}</td>
-                      <td style={tableCellStyle}>{item.email}</td>
-                      <td style={tableCellStyle}>{item.phone || '-'}</td>
-                      <td style={tableCellStyle}>{item.traderType}</td>
-                      <td style={tableCellStyle}>{item.preferredDate || '-'}</td>
-                      <td style={tableCellStyle}>{item.message?.substring(0, 30)}...</td>
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-6 py-4 text-sm text-white font-medium">{item.name}</td>
+                      <td className="px-6 py-4 text-sm text-[#94A3B8]">{item.email}</td>
+                      <td className="px-6 py-4 text-sm text-[#94A3B8]">{item.phone || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-[#17B7BD] font-semibold">{item.traderType}</td>
+                      <td className="px-6 py-4 text-sm text-white">{item.preferredDate || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-[#64748B] italic max-w-xs truncate">{item.message}</td>
                     </tr>
                   )) : (
                     <tr>
-                      <td colSpan={6} style={{ ...tableCellStyle, textAlign: 'center', color: '#64748B', padding: '40px' }}>No demo requests found.</td>
+                      <td colSpan={6} className="px-6 py-20 text-center text-sm text-[#64748B]">No demo requests found.</td>
                     </tr>
                   )}
                 </tbody>
@@ -228,33 +228,34 @@ export default function Admin() {
           </div>
 
           {/* Newsletter Subscribers Table */}
-          <div style={{ background: '#0A0F2C', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '12px', overflow: 'hidden' }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white' }}>Newsletter Subscribers</h3>
+          <div className="bg-[#0A0F2C] border border-white/5 rounded-xl overflow-hidden">
+            <div className="p-5 md:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+              <h3 className="text-lg font-semibold text-white">Newsletter Subscribers</h3>
+              <span className="text-[10px] md:text-xs text-[#64748B] font-medium uppercase tracking-wider">Active audience</span>
             </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr>
-                    <th style={tableHeaderStyle}>Email</th>
-                    <th style={tableHeaderStyle}>Source</th>
-                    <th style={tableHeaderStyle}>Name</th>
-                    <th style={tableHeaderStyle}>Status</th>
+                  <tr className="bg-white/5">
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Email</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Source</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Name</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#64748B] uppercase tracking-widest border-b border-white/5">Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-white/5">
                   {subscriberList.length > 0 ? subscriberList.map((item, i) => (
-                    <tr key={i}>
-                      <td style={tableCellStyle}>{item.email}</td>
-                      <td style={tableCellStyle}>{item.source}</td>
-                      <td style={tableCellStyle}>{item.name || '-'}</td>
-                      <td style={tableCellStyle}>
-                        <span style={{ padding: '4px 8px', background: 'rgba(0, 208, 132, 0.1)', color: '#00D084', borderRadius: '4px', fontSize: '11px', fontWeight: 600 }}>Active</span>
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-6 py-4 text-sm text-white font-medium">{item.email}</td>
+                      <td className="px-6 py-4 text-sm text-[#3A7BFF]">{item.source}</td>
+                      <td className="px-6 py-4 text-sm text-[#94A3B8]">{item.name || '-'}</td>
+                      <td className="px-6 py-4 text-sm">
+                        <span className="inline-flex px-2 py-1 bg-green-500/10 text-green-500 rounded text-[10px] font-bold uppercase tracking-wider">Active</span>
                       </td>
                     </tr>
                   )) : (
                     <tr>
-                      <td colSpan={4} style={{ ...tableCellStyle, textAlign: 'center', color: '#64748B', padding: '40px' }}>No subscribers found.</td>
+                      <td colSpan={4} className="px-6 py-20 text-center text-sm text-[#64748B]">No subscribers found.</td>
                     </tr>
                   )}
                 </tbody>

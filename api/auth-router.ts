@@ -4,9 +4,9 @@ import { Session } from "../contracts/constants.js";
 import { getSessionCookieOptions } from "./lib/cookies.js";
 import { createRouter, authedQuery, publicQuery } from "./middleware.js";
 import { signSessionToken } from "./lib/session.js";
-import { verifyPassword } from "./lib/crypto.js";
+import { hashPassword, verifyPassword } from "./lib/crypto.js";
 import { TRPCError } from "@trpc/server";
-import { readJson, db } from "./lib/json-db.js";
+import { kv } from "./lib/db.js";
 
 export const authRouter = createRouter({
   me: authedQuery.query((opts) => opts.ctx.user),
@@ -17,7 +17,7 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const users = await readJson(db.users);
+      const users = (await kv.get<any[]>("users")) || [];
       const user = users.find((u: any) => u.email === input.email.toLowerCase());
 
       if (!user) {
@@ -60,13 +60,24 @@ export const authRouter = createRouter({
       currentPassword: z.string(),
       newPassword: z.string().min(8),
     }))
-    .mutation(async () => {
-      // In production (Vercel), we can't write to JSON files.
-      // This is primarily for local dev or simple admin access.
-      throw new TRPCError({
-        code: "METHOD_NOT_SUPPORTED",
-        message: "Password change is disabled in the direct-mapping version.",
-      });
+    .mutation(async ({ input, ctx }) => {
+      const users = (await kv.get<any[]>("users")) || [];
+      const userIndex = users.findIndex((u: any) => u.id === ctx.user?.id);
+
+      if (userIndex === -1) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
+      }
+
+      const user = users[userIndex];
+      const isValid = await verifyPassword(input.currentPassword, user.passwordHash);
+      if (!isValid) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect current password" });
+      }
+
+      users[userIndex].passwordHash = await hashPassword(input.newPassword);
+      await kv.set("users", users);
+      
+      return { success: true };
     }),
 
   logout: authedQuery.mutation(async ({ ctx }) => {

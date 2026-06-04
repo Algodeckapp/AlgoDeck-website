@@ -150,7 +150,7 @@ export default function Hero() {
             <span className="gradient-text">Empire</span>
           </h1>
           <p className="text-base md:text-lg text-[#CBD5E1] leading-relaxed mt-6 max-w-2xl mx-auto" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>
-            Build, backtest, and deploy AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
+            Build, backtest, and deploy Custom AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
           </p>
 
           <div className="flex flex-col items-center gap-6 mt-10">

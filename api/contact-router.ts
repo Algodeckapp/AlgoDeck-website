@@ -52,7 +52,6 @@ export const contactRouter = createRouter({
 
       return { success: true };
     }),
-...
 
   list: adminQuery
     .input(

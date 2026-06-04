@@ -37,19 +37,6 @@ export const contactRouter = createRouter({
         templates.contactUser(input.name, input.subject, input.message)
       );
 
-      // 3. Send notification to admin
-      await sendEmail(
-        "admin@algodeck.app",
-        `NEW CONTACT: ${input.subject}`,
-        templates.adminNotification("New Contact Submission", [
-          { label: "Name", value: input.name },
-          { label: "Email", value: input.email },
-          { label: "Company", value: input.company || "N/A" },
-          { label: "Subject", value: input.subject },
-          { label: "Message", value: input.message },
-        ])
-      );
-
       return { success: true };
     }),
 

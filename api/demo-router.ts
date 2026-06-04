@@ -33,19 +33,11 @@ export const demoRouter = createRouter({
         console.error("[Demo] Save failed:", error);
       }
 
-      // 2. Send notification to admin
+      // 2. Send confirmation to user
       await sendEmail(
-        "admin@algodeck.app",
-        `NEW DEMO REQUEST: ${input.name}`,
-        templates.adminNotification("New Demo Request", [
-          { label: "Name", value: input.name },
-          { label: "Email", value: input.email },
-          { label: "Company", value: input.company || "N/A" },
-          { label: "Phone", value: input.phone || "N/A" },
-          { label: "Trader Type", value: input.traderType },
-          { label: "Preferred Date", value: input.preferredDate || "N/A" },
-          { label: "Message", value: input.message || "N/A" },
-        ])
+        input.email,
+        "Demo Request Confirmed",
+        templates.demoUser(input.name)
       );
 
       return { success: true, id: Date.now() };

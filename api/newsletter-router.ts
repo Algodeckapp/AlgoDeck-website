@@ -46,17 +46,6 @@ export const newsletterRouter = createRouter({
         templates.newsletterUser(input.email)
       );
 
-      // 3. Send notification to admin
-      await sendEmail(
-        "admin@algodeck.app",
-        `NEW SUBSCRIBER: ${input.email}`,
-        templates.adminNotification("New Newsletter Subscriber", [
-          { label: "Email", value: input.email },
-          { label: "Name", value: input.name || "N/A" },
-          { label: "Source", value: input.source || "N/A" },
-        ])
-      );
-
       return { success: true, message: "Successfully subscribed!" };
     }),
 

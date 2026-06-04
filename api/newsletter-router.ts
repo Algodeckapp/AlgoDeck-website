@@ -40,11 +40,19 @@ export const newsletterRouter = createRouter({
       }
 
       // 2. Send confirmation to user
-      await sendEmail(
-        input.email,
-        "Welcome to AlgoDeck",
-        templates.newsletterUser(input.email)
-      );
+      if (input.source && input.source.includes('waitlist')) {
+        await sendEmail(
+          input.email,
+          "You're on the waitlist!",
+          templates.waitlistUser(input.name || "Trader", input.source)
+        );
+      } else {
+        await sendEmail(
+          input.email,
+          "Welcome to AlgoDeck",
+          templates.newsletterUser(input.email)
+        );
+      }
 
       return { success: true, message: "Successfully subscribed!" };
     }),

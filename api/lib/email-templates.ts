@@ -9,6 +9,7 @@ const header = `
   </div>
 `;
 
+
 const footer = `
   <div style="padding: 30px 20px; text-align: center; color: #64748B; font-size: 12px;">
     <p>© ${new Date().getFullYear()} AlgoDeck. All rights reserved.</p>
@@ -85,5 +86,14 @@ export const templates = {
       <li style="margin-bottom: 10px;">Beta access to upcoming features</li>
     </ul>
     <p style="margin-top: 30px;">Your registered email: <strong>${email}</strong></p>
+  `),
+
+  // 5. User: Waitlist Confirmation
+  waitlistUser: (name: string, source: string) => container(`
+    <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; color: #05070F;">You're on the list!</h1>
+    <p>Hi ${name},</p>
+    <p>Thanks for your interest in the <strong>${source.replace('_', ' ')}</strong>. You have been successfully added to our priority waitlist.</p>
+    <p>We're putting the finishing touches on the mobile experience and will notify you as soon as your access is ready.</p>
+    <p>We appreciate your patience and your passion for better trading automation.</p>
   `)
 };

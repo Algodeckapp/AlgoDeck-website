@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import FeaturesPage from './pages/Features'
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <SpeedInsights />
     </>
   )
 }

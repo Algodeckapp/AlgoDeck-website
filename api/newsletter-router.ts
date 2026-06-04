@@ -59,7 +59,6 @@ export const newsletterRouter = createRouter({
 
       return { success: true, message: "Successfully subscribed!" };
     }),
-...
 
   unsubscribe: publicQuery
     .input(z.object({ email: z.string().email() }))

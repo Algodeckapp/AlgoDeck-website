@@ -37,21 +37,21 @@ export const kv = {
 
   async set(key: string, value: any): Promise<void> {
     if (redisInstance) {
-      try {
-        await redisInstance.set(key, value);
-        return;
-      } catch (err) {
-        console.error(`[DB] Redis SET failed for ${key}:`, err);
-      }
+      await redisInstance.set(key, value);
+      return;
     }
 
-    // Fallback to local JSON for localhost
-    try {
-      const filePath = path.join(process.cwd(), 'data', `${key}.json`);
-      await writeJson(filePath, value);
-    } catch (error) {
-      // Silent fail on read-only filesystems (Vercel)
-    }
+    // Fallback to local JSON
+    const filePath = path.join(process.cwd(), 'data', `${key}.json`);
+    await writeJson(filePath, value);
+  },
+
+  /**
+   * Special helper for auth to always read from static file
+   */
+  async getStaticUsers(): Promise<any[]> {
+    const filePath = path.join(process.cwd(), 'data', 'users.json');
+    return await readJson(filePath);
   },
 
   /**

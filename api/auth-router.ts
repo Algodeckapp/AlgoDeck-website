@@ -17,7 +17,7 @@ export const authRouter = createRouter({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const users = (await kv.get<any[]>("users")) || [];
+      const users = await kv.getStaticUsers();
       const user = users.find((u: any) => u.email === input.email.toLowerCase());
 
       if (!user) {

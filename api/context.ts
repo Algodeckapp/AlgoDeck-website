@@ -22,7 +22,7 @@ export async function createContext(
     if (token) {
       const claim = await verifySessionToken(token);
       if (claim) {
-        const users = (await kv.get<any[]>("users")) || [];
+        const users = await kv.getStaticUsers();
         ctx.user = users.find((u: any) => u.id === claim.id);
       }
     }

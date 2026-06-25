@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef} from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { Mail, Users, Send, CheckCircle2, ShieldCheck, Clock } from 'lucide-react'
 import { trpc } from '@/providers/trpc'
 import { toast } from 'sonner'
+import * as THREE from 'three'
 
 export default function Contact() {
   const [loaded, setLoaded] = useState(false)
@@ -15,10 +16,134 @@ export default function Contact() {
     company: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     setLoaded(true)
   }, [])
+  useEffect(() => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+  
+      const heroEl = canvas.parentElement
+      const getSize = () => ({
+        width: heroEl?.clientWidth || window.innerWidth,
+        height: heroEl?.clientHeight || window.innerHeight,
+      })
+  
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      let { width, height } = getSize()
+      renderer.setSize(width, height)
+  
+      const scene = new THREE.Scene()
+      const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
+      camera.position.set(0, 0, 30)
+  
+      const particleCount = 2000
+      const positions = new Float32Array(particleCount * 3)
+      const colors = new Float32Array(particleCount * 3)
+      const sizes = new Float32Array(particleCount)
+  
+      const colorBlue = new THREE.Color('#3A7BFF')
+      const colorCyan = new THREE.Color('#17B7BD')
+  
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        positions[i3] = (Math.random() - 0.5) * 80
+        positions[i3 + 1] = (Math.random() - 0.5) * 60
+        positions[i3 + 2] = (Math.random() - 0.5) * 40
+  
+        const mixRatio = Math.random()
+        const color = mixRatio > 0.6 ? colorBlue : colorCyan
+        colors[i3] = color.r
+        colors[i3 + 1] = color.g
+        colors[i3 + 2] = color.b
+  
+        sizes[i] = Math.random() * 2 + 0.5
+      }
+  
+      const geometry = new THREE.BufferGeometry()
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+  
+      const material = new THREE.PointsMaterial({
+        size: 0.15,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+  
+      const particles = new THREE.Points(geometry, material)
+      scene.add(particles)
+  
+      const gridHelper = new THREE.GridHelper(100, 50, 0x1a2540, 0x0d1220)
+      gridHelper.position.y = -20
+      gridHelper.material.transparent = true
+      gridHelper.material.opacity = 0.3
+      scene.add(gridHelper)
+  
+      let animationId: number
+      const clock = new THREE.Clock()
+  
+      const animate = () => {
+        animationId = requestAnimationFrame(animate)
+        const elapsed = clock.getElapsedTime()
+  
+        const posArray = geometry.attributes.position.array as Float32Array
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3
+          posArray[i3 + 1] += Math.sin(elapsed * 0.3 + i * 0.01) * 0.008
+          posArray[i3] += Math.cos(elapsed * 0.2 + i * 0.005) * 0.005
+        }
+        geometry.attributes.position.needsUpdate = true
+  
+        const targetX = mouseRef.current.x * 3
+        const targetY = mouseRef.current.y * 2
+        camera.position.x += (targetX - camera.position.x) * 0.02
+        camera.position.y += (targetY - camera.position.y) * 0.02
+        camera.lookAt(0, 0, 0)
+  
+        particles.rotation.y = elapsed * 0.02
+        particles.rotation.x = Math.sin(elapsed * 0.01) * 0.1
+  
+        renderer.render(scene, camera)
+      }
+  
+      animate()
+  
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = heroEl?.getBoundingClientRect()
+        const localX = rect ? e.clientX - rect.left : e.clientX
+        const localY = rect ? e.clientY - rect.top : e.clientY
+        const w = rect?.width || window.innerWidth
+        const h = rect?.height || window.innerHeight
+        mouseRef.current.x = (localX / w - 0.5) * 2
+        mouseRef.current.y = -(localY / h - 0.5) * 2
+      }
+      window.addEventListener('mousemove', handleMouseMove, { passive: true })
+  
+      const handleResize = () => {
+        const size = getSize()
+        camera.aspect = size.width / size.height
+        camera.updateProjectionMatrix()
+        renderer.setSize(size.width, size.height)
+      }
+      window.addEventListener('resize', handleResize)
+  
+      return () => {
+        cancelAnimationFrame(animationId)
+        window.removeEventListener('mousemove', handleMouseMove)
+        window.removeEventListener('resize', handleResize)
+        geometry.dispose()
+        material.dispose()
+        renderer.dispose()
+      }
+    }, [])
 
   const submitMutation = trpc.contact.submit.useMutation({
     onSuccess: () => {
@@ -69,9 +194,12 @@ export default function Contact() {
     <>
       <Navigation />
       <div className="bg-[#05070F] min-h-screen pt-20 overflow-hidden relative">
-        {/* Background Effects */}
+        {}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-[#3A7BFF]/10 to-transparent pointer-events-none z-0" />
-        
+        <canvas
+            ref={canvasRef}
+            style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: loaded ? 1 : 0, transition: 'opacity 1.5s ease' }}
+          />
         <div className="relative z-10 pt-16 md:pt-28 pb-32 px-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-start">
             

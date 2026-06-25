@@ -1,5 +1,6 @@
 import { Smartphone, Wifi, HardDrive, CheckCircle2, Apple, PlayCircle } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import * as THREE from 'three'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { trpc } from '@/providers/trpc'
@@ -11,9 +12,135 @@ export default function Download() {
   const [androidSubmitted, setAndroidSubmitted] = useState(false)
   const [iosSubmitted, setIosSubmitted] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     setLoaded(true)
+  }, [])
+
+  // ─── Three.js Particle Background (scoped to hero section only) ───
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const heroEl = canvas.parentElement
+    const getSize = () => ({
+      width: heroEl?.clientWidth || window.innerWidth,
+      height: heroEl?.clientHeight || window.innerHeight,
+    })
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    let { width, height } = getSize()
+    renderer.setSize(width, height)
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
+    camera.position.set(0, 0, 30)
+
+    const particleCount = 2000
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const sizes = new Float32Array(particleCount)
+
+    const colorBlue = new THREE.Color('#3A7BFF')
+    const colorCyan = new THREE.Color('#17B7BD')
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3
+      positions[i3] = (Math.random() - 0.5) * 80
+      positions[i3 + 1] = (Math.random() - 0.5) * 60
+      positions[i3 + 2] = (Math.random() - 0.5) * 40
+
+      const mixRatio = Math.random()
+      const color = mixRatio > 0.6 ? colorBlue : colorCyan
+      colors[i3] = color.r
+      colors[i3 + 1] = color.g
+      colors[i3 + 2] = color.b
+
+      sizes[i] = Math.random() * 2 + 0.5
+    }
+
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+
+    const material = new THREE.PointsMaterial({
+      size: 0.15,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    const particles = new THREE.Points(geometry, material)
+    scene.add(particles)
+
+    const gridHelper = new THREE.GridHelper(100, 50, 0x1a2540, 0x0d1220)
+    gridHelper.position.y = -20
+    gridHelper.material.transparent = true
+    gridHelper.material.opacity = 0.3
+    scene.add(gridHelper)
+
+    let animationId: number
+    const clock = new THREE.Clock()
+
+    const animate = () => {
+      animationId = requestAnimationFrame(animate)
+      const elapsed = clock.getElapsedTime()
+
+      const posArray = geometry.attributes.position.array as Float32Array
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        posArray[i3 + 1] += Math.sin(elapsed * 0.3 + i * 0.01) * 0.008
+        posArray[i3] += Math.cos(elapsed * 0.2 + i * 0.005) * 0.005
+      }
+      geometry.attributes.position.needsUpdate = true
+
+      const targetX = mouseRef.current.x * 3
+      const targetY = mouseRef.current.y * 2
+      camera.position.x += (targetX - camera.position.x) * 0.02
+      camera.position.y += (targetY - camera.position.y) * 0.02
+      camera.lookAt(0, 0, 0)
+
+      particles.rotation.y = elapsed * 0.02
+      particles.rotation.x = Math.sin(elapsed * 0.01) * 0.1
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = heroEl?.getBoundingClientRect()
+      const localX = rect ? e.clientX - rect.left : e.clientX
+      const localY = rect ? e.clientY - rect.top : e.clientY
+      const w = rect?.width || window.innerWidth
+      const h = rect?.height || window.innerHeight
+      mouseRef.current.x = (localX / w - 0.5) * 2
+      mouseRef.current.y = -(localY / h - 0.5) * 2
+    }
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+
+    const handleResize = () => {
+      const size = getSize()
+      camera.aspect = size.width / size.height
+      camera.updateProjectionMatrix()
+      renderer.setSize(size.width, size.height)
+    }
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('resize', handleResize)
+      geometry.dispose()
+      material.dispose()
+      renderer.dispose()
+    }
   }, [])
 
   const androidSubscribeMutation = trpc.newsletter.subscribe.useMutation()
@@ -62,8 +189,13 @@ export default function Download() {
         <div className="absolute bottom-[20%] -left-[10%] w-[600px] h-[600px] bg-[#3A7BFF]/5 rounded-full blur-[150px] pointer-events-none" />
 
         {/* Hero Section */}
-        <section className="relative z-10 pt-16 md:pt-24 pb-12 md:pb-20 px-6">
-          <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-6">
+        <section className="relative z-10 pt-16 md:pt-24 pb-12 md:pb-20 px-6 overflow-hidden">
+          {/* Three.js canvas, scoped to this hero section only */}
+          <canvas
+            ref={canvasRef}
+            style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: loaded ? 1 : 0, transition: 'opacity 1.5s ease' }}
+          />
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-6 relative z-10">
             <div className={`w-full transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <span className="section-eyebrow mb-4 block">GET THE APP</span>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">

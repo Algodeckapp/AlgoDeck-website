@@ -59,12 +59,11 @@ export default function Navigation() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[9999] flex items-center transition-colors duration-300 ${
           scrolled 
-            ? 'h-16 bg-[#0A0F2C] border-b border-[#3A7BFF]/20 shadow-lg' 
-            : 'h-16 md:h-20 bg-[#05070F] border-b border-white/5 md:border-[#3A7BFF]/10'
-        } backdrop-blur-xl`}
+            ? 'h-16 bg-[#0A0F2C] shadow-lg' 
+            : 'h-16 md:h-20 bg-[#05070F]'
+        }`}
       >
-        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 relative">
-          {/* Logo */}
+        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 relative">
           <Link
             to="/"
             className="flex items-center transition-transform hover:scale-105 shrink-0"
@@ -72,7 +71,7 @@ export default function Navigation() {
             <img
               src="/assets/logo-primary.png"
               alt="AlgoDeck"
-              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-9 md:h-12' : 'h-10 md:h-14'}`}
+              className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-12 md:h-16' : 'h-14 md:h-20'}`}
               style={{ maxWidth: '200px' }}
             />
           </Link>

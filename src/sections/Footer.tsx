@@ -24,10 +24,9 @@ const footerLinks = {
     { label: 'Privacy Policy', href: '/privacy', isRoute: true },
   ],
   Connect: [
-    { label: 'Twitter/X', href: 'https://twitter.com/algodeck', isRoute: false },
-    { label: 'Discord', href: 'https://discord.gg/algodeck', isRoute: false },
-    { label: 'Telegram', href: 'https://t.me/AlgoDeckOfficial', isRoute: false },
-    { label: 'YouTube', href: 'https://youtube.com/@AlgoDeck', isRoute: false },
+    { label: 'Twitter/X', href: 'https://x.com/algodeckapp', isRoute: false },
+    { label: 'Instagram', href: 'https://www.instagram.com/algodeck.app/', isRoute: false },
+    { label: 'TikTok', href: 'https://t.me/AlgoDeckOfficial', isRoute: false },
   ],
 }
 
@@ -112,7 +111,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               {[
-                { type: 'twitter', href: 'https://x.com/Algodeckapp' },
+                { type: 'twitter', href: 'https://x.com/algodeckapp' },
                 { type: 'instagram', href: 'https://www.instagram.com/algodeck.app/' },
                 { type: 'github', href: 'https://github.com/Algodeckapp' },
               ].map((social) => (

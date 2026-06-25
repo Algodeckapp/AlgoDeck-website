@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router'
 import { Check, X, HelpCircle, TrendingUp, DollarSign, Activity } from 'lucide-react'
+import * as THREE from 'three'
+import Navigation from '@/sections/Navigation'
 
 const tiers = [
   {
@@ -211,6 +213,9 @@ export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false)
   const headerRef = useRef<HTMLDivElement>(null)
   const [headerVisible, setHeaderVisible] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const [bgLoaded, setBgLoaded] = useState(false)
 
   useEffect(() => {
     const el = headerRef.current
@@ -230,12 +235,143 @@ export default function Pricing() {
     return () => observer.unobserve(el)
   }, [])
 
+  // ─── Three.js Particle Background ───
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setSize(window.innerWidth, window.innerHeight)
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera.position.set(0, 0, 30)
+
+    const particleCount = 2000
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const sizes = new Float32Array(particleCount)
+
+    const colorBlue = new THREE.Color('#3A7BFF')
+    const colorCyan = new THREE.Color('#17B7BD')
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3
+      positions[i3] = (Math.random() - 0.5) * 80
+      positions[i3 + 1] = (Math.random() - 0.5) * 60
+      positions[i3 + 2] = (Math.random() - 0.5) * 40
+
+      const mixRatio = Math.random()
+      const color = mixRatio > 0.6 ? colorBlue : colorCyan
+      colors[i3] = color.r
+      colors[i3 + 1] = color.g
+      colors[i3 + 2] = color.b
+
+      sizes[i] = Math.random() * 2 + 0.5
+    }
+
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+
+    const material = new THREE.PointsMaterial({
+      size: 0.15,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    const particles = new THREE.Points(geometry, material)
+    scene.add(particles)
+
+    const gridHelper = new THREE.GridHelper(100, 50, 0x1a2540, 0x0d1220)
+    gridHelper.position.y = -20
+    gridHelper.material.transparent = true
+    gridHelper.material.opacity = 0.3
+    scene.add(gridHelper)
+
+    let animationId: number
+    const clock = new THREE.Clock()
+
+    const animate = () => {
+      animationId = requestAnimationFrame(animate)
+      const elapsed = clock.getElapsedTime()
+
+      const posArray = geometry.attributes.position.array as Float32Array
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        posArray[i3 + 1] += Math.sin(elapsed * 0.3 + i * 0.01) * 0.008
+        posArray[i3] += Math.cos(elapsed * 0.2 + i * 0.005) * 0.005
+      }
+      geometry.attributes.position.needsUpdate = true
+
+      const targetX = mouseRef.current.x * 3
+      const targetY = mouseRef.current.y * 2
+      camera.position.x += (targetX - camera.position.x) * 0.02
+      camera.position.y += (targetY - camera.position.y) * 0.02
+      camera.lookAt(0, 0, 0)
+
+      particles.rotation.y = elapsed * 0.02
+      particles.rotation.x = Math.sin(elapsed * 0.01) * 0.1
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2
+    }
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+    window.addEventListener('resize', handleResize)
+
+    setTimeout(() => setBgLoaded(true), 300)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('resize', handleResize)
+      geometry.dispose()
+      material.dispose()
+      renderer.dispose()
+    }
+  }, [])
+
   return (
-    <section className="bg-transparent py-24 md:py-32 px-6">
+    <>
+    <Navigation />
+    <section className="relative bg-[#05070F] pt-32 md:pt-40 pb-24 md:pb-32 px-6 overflow-hidden">
+      {/* Three.js canvas, fixed so it stays in place across the entire scrollable page */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          opacity: bgLoaded ? 1 : 0,
+          transition: 'opacity 1.5s ease',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* Header */}
       <div 
         ref={headerRef}
-        className={`text-center max-w-3xl mx-auto mb-20 transition-all duration-1000 ${
+        className={`relative z-10 text-center max-w-3xl mx-auto mb-20 transition-all duration-1000 ${
           headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
@@ -266,14 +402,14 @@ export default function Pricing() {
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="relative z-10 max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {tiers.map((tier, index) => (
           <PricingCard key={tier.name} tier={tier} isAnnual={isAnnual} index={index} />
         ))}
       </div>
 
       {/* Performance Fee Card */}
-      <div className="max-w-4xl mx-auto mt-32 relative group">
+      <div className="relative z-10 max-w-4xl mx-auto mt-32 relative group">
         <div className="absolute -inset-1 bg-gradient-to-r from-[#3A7BFF]/20 to-[#17B7BD]/20 rounded-[2rem] blur opacity-50" />
         <div className="glass-panel relative p-8 md:p-16 border-white/5">
           <div className="flex flex-col md:flex-row items-center gap-12">
@@ -322,7 +458,7 @@ export default function Pricing() {
       </div>
 
       {/* FAQ Section */}
-      <div className="max-w-4xl mx-auto mt-32">
+      <div className="relative z-10 max-w-4xl mx-auto mt-32">
         <div className="text-center mb-16">
           <span className="section-eyebrow mb-4 block">QUESTIONS?</span>
           <h2 className="section-title text-4xl">Commonly Asked</h2>
@@ -368,7 +504,7 @@ export default function Pricing() {
       </div>
 
       {/* Final CTA */}
-      <div className="max-w-4xl mx-auto mt-40 text-center relative">
+      <div className="relative z-10 max-w-4xl mx-auto mt-40 text-center relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3A7BFF]/5 rounded-full blur-[120px] pointer-events-none" />
         <h2 className="section-title text-3xl md:text-5xl mb-8">
           Start Your <span className="gradient-text">Freedom Journey.</span>
@@ -405,5 +541,6 @@ export default function Pricing() {
         </div>
       </div>
     </section>
+    </>
   )
 }

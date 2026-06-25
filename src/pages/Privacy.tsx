@@ -45,9 +45,9 @@ export default function Privacy() {
               AlgoDeck is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information.
             </p>
             <p style={{ marginBottom: '16px' }}>
-              By using AlgoDeck, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
-            </p>
-          </div>
+                By using AlgoDeck, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
+              </p>
+              </div>
 
          {/* Section 1 */}
           <div style={{ marginBottom: '48px' }}>

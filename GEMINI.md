@@ -13,11 +13,8 @@ AlgoDeck Website is a modern, high-performance marketing platform for **AlgoDeck
 
 ## Directory Structure
 - `api/`: Hono server and TRPC router logic.
-  - `boot.ts`: Main entry point for the Hono server.
-  - `router.ts`: Root TRPC router.
-  - `middleware.ts`: TRPC procedures and middleware.
-  - `context.ts`: TRPC context definition.
-  - `lib/`: Backend-specific utilities (env, http, cookies).
+  - `index.ts`: Vercel serverless entry point for Hono server.
+  - `_src/`: Internal server modules ignored by Vercel serverless build (routers, context, middleware, lib).
 - `src/`: React frontend application.
   - `pages/`: Individual route components.
   - `sections/`: Reusable landing page sections (Hero, Features, Pricing, etc.).
@@ -58,7 +55,7 @@ Refer to `.env.example` for required variables. Key variables include:
 
 ### API & Data Fetching
 - **Always use TRPC**: Do not use raw `fetch` or `axios` for internal API calls.
-- **Define Routers**: Add new sub-routers in `api/` and register them in `api/router.ts`.
+- **Define Routers**: Add new sub-routers in `api/_src/` and register them in `api/_src/router.ts`.
 - **Typesafety**: Use the exported `AppRouter` type in the frontend via TanStack Query.
 
 ### Frontend Development

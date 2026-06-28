@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { appRouter } from "./router.js";
-import { createContext } from "./context.js";
+import { appRouter } from "./_src/router.js";
+import { createContext } from "./_src/context.js";
 
 const app = new Hono();
 

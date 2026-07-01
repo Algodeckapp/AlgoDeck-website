@@ -502,7 +502,7 @@ export default function Pricing() {
           ))}
         </div>
       </div>
-
+  
       {/* Final CTA */}
       <div className="relative z-10 max-w-4xl mx-auto mt-40 text-center relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3A7BFF]/5 rounded-full blur-[120px] pointer-events-none" />

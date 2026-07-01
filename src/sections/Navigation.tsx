@@ -63,7 +63,7 @@ export default function Navigation() {
             : 'h-16 md:h-20 bg-[#05070F]'
         }`}
       >
-        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 relative">
+        <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 xl:px-2 2xl:px-0 relative">
           <Link
             to="/"
             className="flex items-center transition-transform hover:scale-105 shrink-0"

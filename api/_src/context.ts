@@ -1,6 +1,6 @@
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import * as cookie from "cookie";
-import { Session } from "../contracts/constants.js";
+import { Session } from "../../contracts/constants.js";
 import { verifySessionToken } from "./lib/session.js";
 import { kv } from "./lib/db.js";
 

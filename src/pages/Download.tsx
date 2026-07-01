@@ -217,7 +217,7 @@ export default function Download() {
               <div className="glass-panel p-8 md:p-12 text-center border border-white/10 shadow-[0_20px_50px_rgba(58,123,255,0.05)] relative overflow-hidden group">
                 <div className="badge badge-warning absolute top-6 right-6">BETA ACCESS</div>
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#3A7BFF] to-[#17B7BD] flex items-center justify-center mx-auto mb-8 shadow-lg shadow-[#3A7BFF]/20 transition-transform group-hover:scale-110">
-                  <PlayCircle size={40} className="text-white" />
+                  <img src="/assets/android-logo.png" alt="Android Logo" className="h-10 w-auto" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">Android</h3>
                 <p className="text-[#94A3B8] text-base mb-8">
@@ -264,7 +264,7 @@ export default function Download() {
               <div className="glass-panel p-8 md:p-12 text-center border border-white/10 relative overflow-hidden group opacity-90">
                 <div className="badge badge-warning absolute top-6 right-6">COMING SOON</div>
                 <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8 transition-transform group-hover:scale-110">
-                  <Apple size={40} className="text-[#94A3B8]" />
+                  <img src="/assets/apple_logo.png" alt="iOS Logo" className="h-10 w-auto" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">iOS App Store</h3>
                 <p className="text-[#94A3B8] text-base mb-8">

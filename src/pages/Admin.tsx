@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { trpc } from '@/providers/trpc'
@@ -57,9 +57,14 @@ export default function Admin() {
     )
   }
 
+  const [filterSource, setFilterSource] = useState<'all' | 'footer' | 'android_waitlist' | 'ios_waitlist'>('all')
   const subscriberList = (subscribers.data as any[]) || []
   const contactInquiries = (contactList.data as any[]) || []
   const demoRequests = (demoList.data as any[]) || []
+  
+  const filteredSubscribers = filterSource === 'all'
+    ? subscriberList
+    : subscriberList.filter(s => s.source === filterSource)
   
   const statCards = [
     { label: 'Total Contacts', value: contactStats.data?.total ?? 0, icon: MessageSquare, color: '#3A7BFF' },
@@ -188,9 +193,26 @@ export default function Admin() {
 
           {/* Newsletter Subscribers Table */}
           <div className="bg-[#0A0F2C] border border-white/5 rounded-xl overflow-hidden">
-            <div className="p-5 md:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-              <h3 className="text-lg font-semibold text-white">Newsletter Subscribers</h3>
-              <span className="text-[10px] md:text-xs text-[#64748B] font-medium uppercase tracking-wider">Active audience</span>
+            <div className="p-5 md:p-6 border-b border-white/5 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-white">Audience & Waitlists</h3>
+                <p className="text-xs text-[#64748B] mt-1">Manage waitlist signups and newsletter subscribers</p>
+              </div>
+              <div className="flex bg-[#05070F] border border-white/5 rounded-lg p-0.5 gap-1 overflow-x-auto max-w-full scrollbar-none self-start md:self-auto">
+                {(['all', 'footer', 'android_waitlist', 'ios_waitlist'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setFilterSource(tab)}
+                    className={`flex-shrink-0 px-3 py-1.5 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                      filterSource === tab
+                        ? 'bg-[#3A7BFF] text-white'
+                        : 'text-[#64748B] hover:text-[#94A3B8]'
+                    }`}
+                  >
+                    {tab === 'all' ? 'All' : tab === 'footer' ? 'Newsletter' : tab === 'android_waitlist' ? 'Android' : 'iOS'}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
@@ -203,7 +225,7 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {subscriberList.length > 0 ? subscriberList.map((item, i) => (
+                  {filteredSubscribers.length > 0 ? filteredSubscribers.map((item, i) => (
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-6 py-4 text-sm text-white font-medium">{item.email}</td>
                       <td className="px-6 py-4 text-sm text-[#3A7BFF]">{item.source}</td>

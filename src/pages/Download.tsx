@@ -215,13 +215,13 @@ export default function Download() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {/* Android Card */}
               <div className="glass-panel p-8 md:p-12 text-center border border-white/10 shadow-[0_20px_50px_rgba(58,123,255,0.05)] relative overflow-hidden group">
-                <div className="badge badge-warning absolute top-6 right-6">BETA ACCESS</div>
+                <div className="badge badge-warning absolute top-6 right-6">COMING SOON</div>
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#3A7BFF] to-[#17B7BD] flex items-center justify-center mx-auto mb-8 shadow-lg shadow-[#3A7BFF]/20 transition-transform group-hover:scale-110">
                   <img src="/assets/android-logo.png" alt="Android Logo" className="h-10 w-auto" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">Android</h3>
                 <p className="text-[#94A3B8] text-base mb-8">
-                  Get early access to the Android version and start automating.
+                  Join the waitlist to be first in line when we launch on Android.
                 </p>
                 
                 <form onSubmit={handleAndroidWaitlist} className="space-y-4 mb-8">
@@ -254,10 +254,9 @@ export default function Download() {
                   />
                 </button>
 
-                <div className="mt-8 flex items-center justify-center gap-2 text-[#64748B] text-[10px] uppercase tracking-widest font-bold border-t border-white/5 pt-6">
-                  <Smartphone size={14} />
-                  Requires Android 7.0+
-                </div>
+                <p className="mt-6 text-[#64748B] text-[10px] uppercase tracking-widest font-bold border-t border-white/5 pt-6">
+                  Expected Launch: Q3 2026
+                </p>
               </div>
 
               {/* iOS Card */}

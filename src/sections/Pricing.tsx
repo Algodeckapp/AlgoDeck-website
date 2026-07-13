@@ -13,7 +13,7 @@ const tiers = [
     features: [
       { label: 'Strategy Builder', included: true },
       { label: 'Standard Backtesting', included: true },
-      { label: '1 Active Bot', included: true },
+      { label: '1 Active Bot', included: false },
       { label: 'MT4/MT5 Integration', included: false },
       { label: 'Multiple Accounts', included: false },
       { label: 'Advanced Analytics', included: false },

@@ -1,0 +1,56 @@
+# AlgoDeck - Full Specifications and Documentation (LLM Guide)
+
+This document contains the detailed specifications, pricing structure, features, and setup instructions for **AlgoDeck**, a mobile-first trading automation platform for MT4 and MT5.
+
+---
+
+## 1. Core Feature Catalog
+
+### No-Code Visual Strategy Builder
+* **Logic Definition:** Users build rules visually by combining conditions, indicators, and actions (e.g., IF RSI(14) < 30 AND Close > EMA(200) THEN Buy).
+* **Technical Indicators Supported:** RSI (Relative Strength Index), EMA/SMA (Moving Averages), MACD, Bollinger Bands, ATR (Average True Range), Stochastic Oscillator, Ichimoku Cloud, and custom indicator integrations.
+* **Risk Controls:** Visual fields for hard Stop-Loss (SL), Take-Profit (TP), Trailing Stops, Max Drawdown limits, and daily loss caps.
+
+### AI Natural Language Strategy Engine
+* **Natural Language Processing:** Powered by specialized LLM parsers, users can type plain English strategies (e.g., *"Buy Gold (XAUUSD) when RSI drops below 30 on the 1-hour chart, close position when price crosses above the 200 EMA"*) and the engine translates it instantly into active visual strategy blocks.
+
+### Cloud-Based Live Deployment
+* **24/7 Hosting:** Strategy execution runs entirely on AlgoDeck's low-latency cloud infrastructure.
+* **No VPS Needed:** Users do not need to lease virtual private servers (VPS) or leave their computers or phones turned on.
+* **MetaTrader Bridge:** A secure, high-frequency bridge communicates trades instantly to MT4 & MT5 terminals.
+
+### Backtesting & Analytics Engine
+* **Tick-Data Backtesting:** Fast simulation using historical tick data.
+* **Metrics:** Detailed reports including Profit Factor, Win Rate, Max Drawdown, Sharpe Ratio, Recovery Factor, and average trade duration.
+* **Visual Log:** Visual chart overlay showing entry points, exit points, and margin levels throughout the backtest.
+
+---
+
+## 2. Setting Up & Connecting to MetaTrader (MT4/MT5)
+
+AlgoDeck bridges directly to MetaTrader accounts without modifying the broker side. The connection flow is as follows:
+
+1. **Broker Credentials:** The user provides their MetaTrader Account Number, Account Password (investor or master), and the Broker Server Name.
+2. **Encryption:** Credentials are encrypted on the device using bank-grade AES-256 encryption before being securely stored.
+3. **Cloud Execution Terminal:** AlgoDeck instantiates a dedicated cloud container instance that logs into the broker server using the credentials, running the custom bots 24/7 with under 5ms execution latency.
+
+---
+
+## 3. Subscription & Pricing Tiers
+
+| Tier Name | Price (Monthly / Annual) | Active Bots | Connected Accounts | Key Features Included | Support Tier |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Free** | $0 / $0 | 1 | 0 (Backtest only) | Strategy Builder, Standard Backtesting | Self-service |
+| **Starter** | $49 / $490 | 3 | 1 MT4/MT5 Account | 7-day Analytics, Email Alerts, 0% Performance Fee | Email Support |
+| **Pro** | $99 / $990 | 10 | 3 MT4/MT5 Accounts | AI Natural Language Parser, Advanced Backtesting, Push Alerts | Priority Support |
+| **Elite** | $249 / $2490 | Unlimited | 10 MT4/MT5 Accounts | AI Strategy Optimization, PDF Reports, SMS Alerts, VPS Monitoring | Dedicated Manager |
+| **Institutional**| Custom / Custom | Unlimited | Unlimited | API Access, Custom Bot Development, SLA Guarantee | 24/7 Hotline |
+
+---
+
+## 4. FAQ & Technical Details
+
+* **Is my broker account secure?** Yes. AlgoDeck uses read-write encryption keys and communicates with broker servers over secure, standard protocols. We never hold your funds directly; withdrawals can only be processed from your broker's own client portal.
+* **What asset classes can I automate?** Forex pairs, Commodities (Gold, Silver, Oil), Indices, and Cryptocurrencies (if supported by your MT4/MT5 broker).
+* **Does it work on iOS and Android?** Yes, the web application is fully responsive, and native Android & iOS mobile packages are available for download.
+* **What is the latency?** The cloud execution servers are co-located in major financial data centers (LD4 in London, NY4 in New York) to guarantee execution speeds under 5-10ms.

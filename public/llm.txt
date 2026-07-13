@@ -1,5 +1,7 @@
 # AlgoDeck - Mobile-First Trading Automation Platform
 
+> For a full breakdown of features, setup guides, and detailed pricing, see the [Full Specifications](https://algodeck.app/llm-full.txt).
+
 ## Business Overview
 AlgoDeck is a modern, high-performance mobile trading automation platform designed for individual traders. We empower users to build, backtest, and deploy their own custom trading bots directly to their MetaTrader 4 (MT4) and MetaTrader 5 (MT5) accounts.
 

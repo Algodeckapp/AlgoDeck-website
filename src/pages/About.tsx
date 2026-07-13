@@ -2,7 +2,7 @@ import { useEffect, useState, useRef} from 'react'
 import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
-import { Target, Shield, Users, Lightbulb, HeartHandshake, Smartphone, Server, Database, Network, Bot, Award, Zap, Globe } from 'lucide-react'
+import { Target, Shield, Users, Lightbulb, HeartHandshake, Award, Zap, Globe } from 'lucide-react'
 import * as THREE from 'three'
 
 export default function About() {
@@ -170,38 +170,7 @@ export default function About() {
     },
   ]
 
-  const techStack = [
-    {
-      icon: Smartphone,
-      name: 'Flutter',
-      description: 'Cross-platform mobile app framework for iOS & Android',
-      color: '#02569B',
-    },
-    {
-      icon: Server,
-      name: 'Python FastAPI',
-      description: 'High-performance backend API infrastructure',
-      color: '#009688',
-    },
-    {
-      icon: Database,
-      name: 'Supabase',
-      description: 'Real-time database and authentication platform',
-      color: '#3ECF8E',
-    },
-    {
-      icon: Network,
-      name: 'MetaAPI',
-      description: 'MT4/MT5 broker integration for live trading',
-      color: '#FF6B35',
-    },
-    {
-      icon: Bot,
-      name: 'Claude AI',
-      description: 'AI-powered strategy generation and optimization',
-      color: '#8B5CF6',
-    },
-  ]
+
 
   return (
     <>
@@ -311,33 +280,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Tech Stack */}
-        <section className="py-24 md:py-32 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16 text-center lg:text-left">
-              <div className="max-w-2xl">
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Built on Modern Tech</h2>
-                <p className="text-[#94A3B8] text-lg">We leverage the best tools and technologies to deliver a fast, reliable, and secure trading platform.</p>
-              </div>
-              <div className="hidden lg:block text-[#64748B] font-mono text-sm tracking-tighter uppercase opacity-50">Infrastructure v2.4.0</div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              {techStack.map((tech, i) => (
-                <div 
-                  key={i} 
-                  className="glass-panel p-8 border border-white/5 hover:border-white/20 transition-all duration-500 flex flex-col items-center text-center group"
-                >
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 grayscale group-hover:grayscale-0 transition-all" style={{ background: `${tech.color}15` }}>
-                    <tech.icon size={24} style={{ color: tech.color }} />
-                  </div>
-                  <h4 className="text-white font-bold mb-2">{tech.name}</h4>
-                  <p className="text-[#64748B] text-xs leading-relaxed">{tech.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Final CTA */}
         <section className="py-24 md:py-32 px-6 border-t border-white/5 bg-gradient-to-b from-transparent to-[#0A0F2C]/50 relative overflow-hidden">

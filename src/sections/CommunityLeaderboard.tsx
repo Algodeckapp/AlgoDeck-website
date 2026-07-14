@@ -83,7 +83,17 @@ export default function CommunityLeaderboard() {
 
           {/* Visual Mockup (Right side) */}
           <div className={`lg:col-span-7 relative transition-all duration-1000 delay-500 ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C] shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#3A7BFF]/10 to-transparent rounded-3xl z-0 blur-xl" />
+            
+            <div className="relative z-10 rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl">
+              {/* Overlay Badge */}
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
+                <div className="bg-[#05070F] border border-[#3A7BFF]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
+                  <div className="w-2 h-2 rounded-full bg-[#3A7BFF] animate-pulse" />
+                  <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
+                </div>
+              </div>
+
               {/* Fake UI Header */}
               <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
                 <div className="flex gap-4 font-medium text-sm">
@@ -92,51 +102,38 @@ export default function CommunityLeaderboard() {
                 </div>
               </div>
               
-              {/* Leaderboard Rows */}
-              <div className="p-6 space-y-4">
-                {[
-                  { rank: 1, name: 'Quantum Scalper Pro', creator: '@algotrader', gain: '+142.5%', color: '#00D084', copies: '2.4k' },
-                  { rank: 2, name: 'EURUSD Momentum Bot', creator: '@fx_wizard', gain: '+98.2%', color: '#00D084', copies: '1.1k' },
-                  { rank: 3, name: 'Crypto Swing Master', creator: '@hodler99', gain: '+75.4%', color: '#00D084', copies: '856' },
-                  { rank: 4, name: 'Gold Grid Strategy', creator: '@metaltrader', gain: '+62.1%', color: '#00D084', copies: '432' },
-                ].map((bot, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 text-center font-bold text-[#64748B]">#{bot.rank}</div>
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center border border-white/10 text-white font-bold">
-                        <Bot size={20} className="opacity-70" />
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold flex items-center gap-2">
-                          {bot.name}
-                          {i === 0 && <Star size={14} className="text-amber-400 fill-amber-400" />}
-                        </div>
-                        <div className="text-xs text-[#64748B]">{bot.creator}</div>
+              {/* Abstract Leaderboard Rows */}
+              <div className="p-6 space-y-4 opacity-50">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
+                    <div className="flex items-center gap-4 w-1/2">
+                      <div className="w-8 text-center font-bold text-[#64748B]">#{i}</div>
+                      <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse" />
+                      <div className="space-y-2 flex-1">
+                        <div className="h-4 w-3/4 bg-white/10 rounded animate-pulse" />
+                        <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
                       </div>
                     </div>
-                    <div className="flex items-center gap-8">
-                      <div className="text-right hidden sm:block">
-                        <div className="text-white font-bold" style={{ color: bot.color }}>{bot.gain}</div>
-                        <div className="text-[10px] text-[#64748B] uppercase tracking-wider">30D Return</div>
+                    <div className="flex items-center gap-8 w-1/3 justify-end">
+                      <div className="space-y-2 text-right w-16">
+                        <div className="h-4 w-full bg-[#00D084]/20 rounded animate-pulse" />
+                        <div className="h-2 w-3/4 ml-auto bg-white/5 rounded animate-pulse" />
                       </div>
-                      <button className="flex items-center gap-2 px-4 py-2 bg-[#3A7BFF]/10 hover:bg-[#3A7BFF]/20 text-[#3A7BFF] rounded-lg font-semibold text-sm transition-colors border border-[#3A7BFF]/30">
-                        <Copy size={16} /> <span className="hidden sm:inline">Clone ({bot.copies})</span>
-                      </button>
+                      <div className="w-24 h-8 bg-[#3A7BFF]/10 rounded-lg animate-pulse hidden sm:block" />
                     </div>
                   </div>
                 ))}
               </div>
-
             </div>
 
-            {/* Floating Elements */}
-            <div className="absolute -right-6 -bottom-6 bg-[#05070F] border border-white/10 rounded-2xl p-4 shadow-xl flex items-center gap-4">
+            {/* Floating Elements Abstracted */}
+            <div className="absolute -right-6 -bottom-6 bg-[#05070F]/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl flex items-center gap-4 z-20">
                <div className="w-10 h-10 rounded-full bg-[#00D084]/20 flex items-center justify-center text-[#00D084]">
                   <MessageSquare size={20} />
                </div>
-               <div>
-                 <div className="text-sm font-bold text-white">Join the Discussion</div>
-                 <div className="text-xs text-[#94A3B8]">15k+ active traders</div>
+               <div className="space-y-2 w-32">
+                 <div className="h-4 w-full bg-white/10 rounded animate-pulse" />
+                 <div className="h-3 w-2/3 bg-white/5 rounded animate-pulse" />
                </div>
             </div>
           </div>

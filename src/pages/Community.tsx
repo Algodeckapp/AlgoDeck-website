@@ -16,6 +16,21 @@ export default function Community() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[600px] bg-[#3A7BFF]/20 blur-[150px] rounded-full pointer-events-none" />
+        
+        {/* Floating background elements */}
+        <div className="absolute right-[10%] top-1/4 bg-[#0A0F2C]/60 backdrop-blur-xl border border-[#3A7BFF]/30 rounded-xl p-4 shadow-2xl z-0 animate-float hidden lg:block opacity-50">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full bg-[#3A7BFF] animate-pulse" />
+            <div className="h-2 w-16 bg-white/20 rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="absolute left-[10%] bottom-1/4 bg-[#0A0F2C]/60 backdrop-blur-xl border border-[#17B7BD]/30 rounded-xl p-4 shadow-2xl z-0 animate-float-delayed hidden lg:block opacity-50">
+          <div className="flex items-center gap-3">
+            <div className="h-2 w-12 bg-white/20 rounded animate-pulse" />
+            <div className="w-3 h-3 rounded-full bg-[#17B7BD] animate-pulse" />
+          </div>
+        </div>
+
         <div className="max-w-[1200px] mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#3A7BFF]/30 bg-[#3A7BFF]/10 text-[#3A7BFF] text-sm font-semibold mb-6">
             <Users size={16} />
@@ -67,37 +82,38 @@ export default function Community() {
             </div>
             
             {/* Visual Mockup for Leaderboards */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C] shadow-2xl">
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl">
+              {/* Overlay Badge */}
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
+                <div className="bg-[#05070F] border border-[#3A7BFF]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
+                  <div className="w-2 h-2 rounded-full bg-[#3A7BFF] animate-pulse" />
+                  <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
+                </div>
+              </div>
+
               <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
                 <div className="flex gap-4 font-medium text-sm">
                   <span className="text-white border-b-2 border-[#3A7BFF] py-4">Top Performing Bots</span>
                   <span className="text-[#64748B] py-4">Trending Creators</span>
                 </div>
               </div>
-              <div className="p-6 space-y-4">
-                {[
-                  { rank: 1, name: 'Quantum Scalper Pro', creator: '@algotrader', gain: '+142.5%', color: '#00D084', copies: '2.4k' },
-                  { rank: 2, name: 'EURUSD Momentum Bot', creator: '@fx_wizard', gain: '+98.2%', color: '#00D084', copies: '1.1k' },
-                  { rank: 3, name: 'Crypto Swing Master', creator: '@hodler99', gain: '+75.4%', color: '#00D084', copies: '856' },
-                  { rank: 4, name: 'Gold Grid Strategy', creator: '@metaltrader', gain: '+62.1%', color: '#00D084', copies: '432' },
-                ].map((bot, i) => (
+              
+              <div className="p-6 space-y-4 opacity-50">
+                {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 text-center font-bold text-[#64748B]">#{bot.rank}</div>
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center border border-white/10 text-white font-bold">
-                        <Bot size={20} className="opacity-70" />
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold flex items-center gap-2">
-                          {bot.name}
-                          {i === 0 && <Star size={14} className="text-amber-400 fill-amber-400" />}
-                        </div>
-                        <div className="text-xs text-[#64748B]">{bot.creator}</div>
+                    <div className="flex items-center gap-4 w-1/2">
+                      <div className="w-8 text-center font-bold text-[#64748B]">#{i}</div>
+                      <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse" />
+                      <div className="space-y-2 flex-1">
+                        <div className="h-4 w-3/4 bg-white/10 rounded animate-pulse" />
+                        <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
                       </div>
                     </div>
-                    <div className="text-right hidden sm:block">
-                      <div className="text-white font-bold" style={{ color: bot.color }}>{bot.gain}</div>
-                      <div className="text-[10px] text-[#64748B] uppercase tracking-wider">30D Return</div>
+                    <div className="flex items-center gap-8 w-1/3 justify-end">
+                      <div className="space-y-2 text-right w-16">
+                        <div className="h-4 w-full bg-[#00D084]/20 rounded animate-pulse" />
+                        <div className="h-2 w-3/4 ml-auto bg-white/5 rounded animate-pulse" />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -113,36 +129,41 @@ export default function Community() {
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Visual Mockup for Cloning */}
-            <div className="order-2 lg:order-1 relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C] p-8 shadow-2xl flex flex-col items-center justify-center">
-               <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-6 relative">
-                 <div className="flex justify-between items-start mb-6">
-                   <div>
-                     <h3 className="text-xl font-bold text-white mb-1">Quantum Scalper Pro</h3>
-                     <p className="text-sm text-[#94A3B8]">by @algotrader</p>
+            <div className="order-2 lg:order-1 relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md p-8 shadow-2xl flex flex-col items-center justify-center">
+               
+               {/* Overlay Badge */}
+               <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
+                 <div className="bg-[#05070F] border border-[#17B7BD]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
+                   <div className="w-2 h-2 rounded-full bg-[#17B7BD] animate-pulse" />
+                   <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
+                 </div>
+               </div>
+
+               <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-6 relative opacity-50">
+                 <div className="flex justify-between items-start mb-8">
+                   <div className="space-y-3 w-1/2">
+                     <div className="h-5 w-full bg-white/10 rounded animate-pulse" />
+                     <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
                    </div>
-                   <div className="bg-[#00D084]/20 text-[#00D084] px-3 py-1 rounded-full text-xs font-bold">
-                     +142.5% Return
-                   </div>
+                   <div className="h-6 w-24 bg-[#00D084]/20 rounded-full animate-pulse" />
                  </div>
                  
-                 <div className="space-y-4 mb-8">
-                   <div className="flex justify-between text-sm">
-                     <span className="text-[#64748B]">Strategy Type</span>
-                     <span className="text-white">Mean Reversion</span>
+                 <div className="space-y-5 mb-8">
+                   <div className="flex justify-between items-center">
+                     <div className="h-3 w-20 bg-white/5 rounded animate-pulse" />
+                     <div className="h-3 w-24 bg-white/10 rounded animate-pulse" />
                    </div>
-                   <div className="flex justify-between text-sm">
-                     <span className="text-[#64748B]">Timeframe</span>
-                     <span className="text-white">M15</span>
+                   <div className="flex justify-between items-center">
+                     <div className="h-3 w-16 bg-white/5 rounded animate-pulse" />
+                     <div className="h-3 w-12 bg-white/10 rounded animate-pulse" />
                    </div>
-                   <div className="flex justify-between text-sm">
-                     <span className="text-[#64748B]">Risk Profile</span>
-                     <span className="text-amber-400">Medium</span>
+                   <div className="flex justify-between items-center">
+                     <div className="h-3 w-20 bg-white/5 rounded animate-pulse" />
+                     <div className="h-3 w-16 bg-amber-400/20 rounded animate-pulse" />
                    </div>
                  </div>
 
-                 <button className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]">
-                   <Copy size={18} /> Clone Bot to Workspace
-                 </button>
+                 <div className="w-full h-12 bg-[#3A7BFF]/20 rounded-xl animate-pulse" />
                </div>
             </div>
 
@@ -184,40 +205,52 @@ export default function Community() {
           </p>
         </div>
 
-        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="bg-[#05070F] border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-1 h-full bg-[#3A7BFF]" />
-             <div className="flex items-center gap-3 mb-4">
-               <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xs font-bold text-white">MR</div>
-               <div>
-                 <div className="text-sm font-bold text-white">Mike R.</div>
-                 <div className="text-xs text-[#64748B]">2 hours ago</div>
-               </div>
-             </div>
-             <p className="text-[#E2E8F0] text-sm leading-relaxed mb-4">
-               Just backtested the new CPI volatility strategy on EURUSD. Seeing incredibly consistent results with a 2.5 profit factor on M5. Anyone else testing this logic block?
-             </p>
-             <div className="flex gap-4 text-xs font-bold text-[#64748B]">
-               <span className="flex items-center gap-1 hover:text-[#3A7BFF] cursor-pointer"><MessageSquare size={14} /> 12 Replies</span>
-               <span className="flex items-center gap-1 hover:text-red-400 cursor-pointer">❤️ 45 Likes</span>
+        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+           {/* Overlay Badge for Social */}
+           <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px] rounded-2xl">
+             <div className="bg-[#05070F] border border-[#8B5CF6]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
+               <div className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-pulse" />
+               <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
              </div>
            </div>
 
-           <div className="bg-[#05070F] border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-1 h-full bg-[#17B7BD]" />
-             <div className="flex items-center gap-3 mb-4">
-               <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xs font-bold text-white">SJ</div>
-               <div>
-                 <div className="text-sm font-bold text-white">Sarah J.</div>
-                 <div className="text-xs text-[#64748B]">5 hours ago</div>
+           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden opacity-50">
+             <div className="absolute top-0 left-0 w-1 h-full bg-[#3A7BFF]" />
+             <div className="flex items-center gap-3 mb-6">
+               <div className="w-10 h-10 bg-white/10 rounded-full animate-pulse" />
+               <div className="space-y-2 w-32">
+                 <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
+                 <div className="h-2 w-2/3 bg-white/5 rounded animate-pulse" />
                </div>
              </div>
-             <p className="text-[#E2E8F0] text-sm leading-relaxed mb-4">
-               I've just published my Gold Grid Bot to the community. I added a new trailing stop mechanism that reduced max drawdown by 15%. Feel free to clone and tweak!
-             </p>
-             <div className="flex gap-4 text-xs font-bold text-[#64748B]">
-               <span className="flex items-center gap-1 hover:text-[#3A7BFF] cursor-pointer"><MessageSquare size={14} /> 8 Replies</span>
-               <span className="flex items-center gap-1 hover:text-red-400 cursor-pointer">❤️ 89 Likes</span>
+             <div className="space-y-3 mb-6">
+               <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
+               <div className="h-3 w-[90%] bg-white/10 rounded animate-pulse" />
+               <div className="h-3 w-[75%] bg-white/10 rounded animate-pulse" />
+             </div>
+             <div className="flex gap-4">
+               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
+               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
+             </div>
+           </div>
+
+           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden opacity-50">
+             <div className="absolute top-0 left-0 w-1 h-full bg-[#17B7BD]" />
+             <div className="flex items-center gap-3 mb-6">
+               <div className="w-10 h-10 bg-white/10 rounded-full animate-pulse" />
+               <div className="space-y-2 w-32">
+                 <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
+                 <div className="h-2 w-2/3 bg-white/5 rounded animate-pulse" />
+               </div>
+             </div>
+             <div className="space-y-3 mb-6">
+               <div className="h-3 w-[95%] bg-white/10 rounded animate-pulse" />
+               <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
+               <div className="h-3 w-[60%] bg-white/10 rounded animate-pulse" />
+             </div>
+             <div className="flex gap-4">
+               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
+               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
              </div>
            </div>
         </div>

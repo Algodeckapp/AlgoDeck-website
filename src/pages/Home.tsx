@@ -5,6 +5,7 @@ import StatsMarquee from '@/sections/StatsMarquee'
 import Pipeline from '@/sections/Pipeline'
 import Features from '@/sections/Features'
 import TradingViz from '@/sections/TradingViz'
+import CommunityLeaderboard from '@/sections/CommunityLeaderboard'
 import Pricing from '@/sections/Pricing'
 import Testimonials from '@/sections/Testimonials'
 import CTABanner from '@/sections/CTABanner'
@@ -40,6 +41,7 @@ export default function Home() {
         <section id="platform">
           <Features />
         </section>        <TradingViz />
+        <CommunityLeaderboard />
         <section id="pricing">
           <Pricing />
         </section>

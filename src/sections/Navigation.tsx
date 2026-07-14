@@ -32,6 +32,7 @@ export default function Navigation() {
   const navLinks = [
     { label: 'Home', href: '/', isRoute: true },
     { label: 'Features', href: '/features', isRoute: true },
+    { label: 'Community', href: '#community', isRoute: false },
     { label: 'Pricing', href: '/pricing', isRoute: true },
     { label: 'Download', href: '/download', isRoute: true },
     { label: 'Blog', href: '/blog', isRoute: true },

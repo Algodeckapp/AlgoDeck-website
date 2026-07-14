@@ -30,13 +30,11 @@ export default function ReferralFallback() {
               Our mobile app is launching soon. Get ready to automate your trading empire directly from your phone.
             </p>
 
-            <div className="relative">
-              {/* Coming Soon Overlay Badge */}
-              <div className="absolute inset-0 z-20 flex items-center justify-center">
-                <div className="bg-[#05070F]/90 backdrop-blur-md border border-[#3A7BFF]/50 px-6 py-3 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.3)]">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#3A7BFF] animate-pulse" />
-                  <span className="text-sm font-bold text-white tracking-widest uppercase">Coming Soon</span>
-                </div>
+            <div className="flex flex-col items-center gap-6">
+              {/* Coming Soon Badge */}
+              <div className="bg-[#05070F]/90 backdrop-blur-md border border-[#3A7BFF]/50 px-6 py-3 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.3)] z-20">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#3A7BFF] animate-pulse" />
+                <span className="text-sm font-bold text-white tracking-widest uppercase">Coming Soon</span>
               </div>
 
               {/* Disabled Store Buttons */}

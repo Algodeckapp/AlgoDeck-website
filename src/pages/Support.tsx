@@ -162,13 +162,15 @@ export default function Support() {
             <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
               Check the real-time health of the AlgoDeck platform, API services, and infrastructure uptime.
             </p>
-            <Link
-              to="/status"
+            <a
+              href="https://status.algodeck.app"
+              target="_blank"
+              rel="noopener noreferrer"
               className="outline-button !justify-center !gap-3"
               style={{ marginTop: 'auto' }}
             >
               <Activity size={16} /> View Status Page <ExternalLink size={14} />
-            </Link>
+            </a>
           </div>
 
           {/* Contact Support Card */}

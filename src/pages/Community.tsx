@@ -1,12 +1,125 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import * as THREE from 'three'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { Trophy, Copy, Users, TrendingUp, MessageSquare, Star, Bot, ArrowRight, ShieldCheck, Zap } from 'lucide-react'
 import { Link } from 'react-router'
 
 export default function Community() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const [loaded, setLoaded] = useState(false)
+
+  // ─── Three.js Particle Background (scoped to hero section) ───
   useEffect(() => {
-    // Optional: Add some entry animations if desired
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    const width = canvas.parentElement?.clientWidth || window.innerWidth
+    const height = canvas.parentElement?.clientHeight || window.innerHeight
+    renderer.setSize(width, height)
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
+    camera.position.set(0, 0, 30)
+
+    const particleCount = 2000
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const sizes = new Float32Array(particleCount)
+
+    const colorBlue = new THREE.Color('#3A7BFF')
+    const colorCyan = new THREE.Color('#17B7BD')
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3
+      positions[i3] = (Math.random() - 0.5) * 80
+      positions[i3 + 1] = (Math.random() - 0.5) * 60
+      positions[i3 + 2] = (Math.random() - 0.5) * 40
+
+      const mixRatio = Math.random()
+      const color = mixRatio > 0.6 ? colorBlue : colorCyan
+      colors[i3] = color.r
+      colors[i3 + 1] = color.g
+      colors[i3 + 2] = color.b
+
+      sizes[i] = Math.random() * 2 + 0.5
+    }
+
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+
+    const material = new THREE.PointsMaterial({
+      size: 0.15,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    const particles = new THREE.Points(geometry, material)
+    scene.add(particles)
+
+    let animationId: number
+    const clock = new THREE.Clock()
+
+    const animate = () => {
+      animationId = requestAnimationFrame(animate)
+      const elapsed = clock.getElapsedTime()
+
+      const posArray = geometry.attributes.position.array as Float32Array
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        posArray[i3 + 1] += Math.sin(elapsed * 0.3 + i * 0.01) * 0.008
+        posArray[i3] += Math.cos(elapsed * 0.2 + i * 0.005) * 0.005
+      }
+      geometry.attributes.position.needsUpdate = true
+
+      const targetX = mouseRef.current.x * 3
+      const targetY = mouseRef.current.y * 2
+      camera.position.x += (targetX - camera.position.x) * 0.02
+      camera.position.y += (targetY - camera.position.y) * 0.02
+      camera.lookAt(0, 0, 0)
+
+      particles.rotation.y = elapsed * 0.02
+      particles.rotation.x = Math.sin(elapsed * 0.01) * 0.1
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2
+    }
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+
+    const handleResize = () => {
+      if (!canvas.parentElement) return
+      const w = canvas.parentElement.clientWidth
+      const h = canvas.parentElement.clientHeight
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
+      renderer.setSize(w, h)
+    }
+    window.addEventListener('resize', handleResize)
+
+    setTimeout(() => setLoaded(true), 300)
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('resize', handleResize)
+      geometry.dispose()
+      material.dispose()
+      renderer.dispose()
+    }
   }, [])
 
   return (
@@ -15,6 +128,10 @@ export default function Community() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden">
+        <canvas
+          ref={canvasRef}
+          style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: loaded ? 1 : 0, transition: 'opacity 1.5s ease' }}
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[600px] bg-[#3A7BFF]/20 blur-[150px] rounded-full pointer-events-none" />
         
         {/* Floating background elements */}
@@ -129,41 +246,36 @@ export default function Community() {
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Visual Mockup for Cloning */}
-            <div className="order-2 lg:order-1 relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md p-8 shadow-2xl flex flex-col items-center justify-center">
-               
-               {/* Overlay Badge */}
-               <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
-                 <div className="bg-[#05070F] border border-[#17B7BD]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
-                   <div className="w-2 h-2 rounded-full bg-[#17B7BD] animate-pulse" />
-                   <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
-                 </div>
-               </div>
-
-               <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-6 relative opacity-50">
-                 <div className="flex justify-between items-start mb-8">
-                   <div className="space-y-3 w-1/2">
-                     <div className="h-5 w-full bg-white/10 rounded animate-pulse" />
-                     <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
+            <div className="order-2 lg:order-1 relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C] p-8 shadow-2xl flex flex-col items-center justify-center z-10">
+               <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-6 relative">
+                 <div className="flex justify-between items-start mb-6">
+                   <div>
+                     <h3 className="text-xl font-bold text-white mb-1">Quantum Scalper Pro</h3>
+                     <p className="text-sm text-[#94A3B8]">by @algotrader</p>
                    </div>
-                   <div className="h-6 w-24 bg-[#00D084]/20 rounded-full animate-pulse" />
+                   <div className="bg-[#00D084]/20 text-[#00D084] px-3 py-1 rounded-full text-xs font-bold">
+                     +142.5% Return
+                   </div>
                  </div>
                  
-                 <div className="space-y-5 mb-8">
-                   <div className="flex justify-between items-center">
-                     <div className="h-3 w-20 bg-white/5 rounded animate-pulse" />
-                     <div className="h-3 w-24 bg-white/10 rounded animate-pulse" />
+                 <div className="space-y-4 mb-8">
+                   <div className="flex justify-between text-sm">
+                     <span className="text-[#64748B]">Strategy Type</span>
+                     <span className="text-white">Mean Reversion</span>
                    </div>
-                   <div className="flex justify-between items-center">
-                     <div className="h-3 w-16 bg-white/5 rounded animate-pulse" />
-                     <div className="h-3 w-12 bg-white/10 rounded animate-pulse" />
+                   <div className="flex justify-between text-sm">
+                     <span className="text-[#64748B]">Timeframe</span>
+                     <span className="text-white">M15</span>
                    </div>
-                   <div className="flex justify-between items-center">
-                     <div className="h-3 w-20 bg-white/5 rounded animate-pulse" />
-                     <div className="h-3 w-16 bg-amber-400/20 rounded animate-pulse" />
+                   <div className="flex justify-between text-sm">
+                     <span className="text-[#64748B]">Risk Profile</span>
+                     <span className="text-amber-400">Medium</span>
                    </div>
                  </div>
 
-                 <div className="w-full h-12 bg-[#3A7BFF]/20 rounded-xl animate-pulse" />
+                 <Link to="/download" className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]">
+                   <Copy size={18} /> Download App to Clone Bot
+                 </Link>
                </div>
             </div>
 

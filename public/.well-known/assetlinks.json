@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.algodeck.com",
+      "sha256_cert_fingerprints": [
+        "01:9A:15:69:60:28:87:AF:F2:91:2E:97:46:8D:1C:AA:79:E7:BA:41:75:31:BB:88:21:97:0E:4F:53:57:1A:13"
+      ]
+    }
+  }
+]

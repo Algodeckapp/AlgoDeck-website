@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Trophy, Copy, Users, TrendingUp, MessageSquare, Star, Bot } from 'lucide-react'
+import { Trophy, Copy, Users, TrendingUp, MessageSquare, Star, Bot, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router'
 
 export default function CommunityLeaderboard() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -70,6 +71,13 @@ export default function CommunityLeaderboard() {
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Social Insights</h3>
               <p className="text-[#94A3B8]">Discuss market trends, share backtest results, and collaborate with other developers and traders.</p>
+            </div>
+
+            <div className={`pt-4 transition-all duration-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '600ms' }}>
+               <Link to="/community" className="primary-button group w-full sm:w-auto inline-flex justify-center">
+                 Explore Community Features
+                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+               </Link>
             </div>
           </div>
 

@@ -409,6 +409,8 @@ export default function Blog() {
                 <img 
                   src={currentPost.image} 
                   alt={currentPost.title} 
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -493,7 +495,7 @@ export default function Blog() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-2">
                     <div className="relative h-[300px] lg:h-auto overflow-hidden">
-                      <img src={featuredPost.image} alt="Featured" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                      <img src={featuredPost.image} alt="Featured" loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                     </div>
                     <div className="p-8 md:p-16 flex flex-col justify-center">
                       <div className="flex items-center gap-4 mb-6"><span className="badge badge-primary">{featuredPost.category}</span></div>
@@ -520,7 +522,7 @@ export default function Blog() {
                       className="glass-panel group border border-white/5 hover:border-[#3A7BFF]/30 transition-all duration-500 cursor-pointer overflow-hidden flex flex-col"
                     >
                       <div className="relative h-56 overflow-hidden">
-                        <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute top-4 left-4 z-20"><span className="px-3 py-1 bg-[#05070F]/80 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase">{post.category}</span></div>
                       </div>
                       <div className="p-8 flex flex-col flex-1">

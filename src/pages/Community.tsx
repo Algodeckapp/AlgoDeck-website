@@ -338,7 +338,7 @@ export default function Community() {
           </p>
           <div className="max-w-[900px] mx-auto relative mb-12 flex justify-center">
           <img 
-            src="/assets/connect.png" 
+            src="/assets/connect.webp" 
             alt="AlgoDeck Community Connection" 
             loading="lazy"
             decoding="async"

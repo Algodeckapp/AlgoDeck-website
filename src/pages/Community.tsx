@@ -336,51 +336,12 @@ export default function Community() {
           <p className="text-lg text-[#94A3B8] max-w-2xl mx-auto leading-relaxed">
             AlgoDeck isn't just a tool; it's a social network for algorithmic traders. Discuss market trends, share your backtest results, and collaborate with developers globally.
           </p>
-        </div>
-
-        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative mb-12">
-           {/* First Social Post */}
-           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-1 h-full bg-[#3A7BFF]" />
-             <div className="flex items-center gap-3 mb-4">
-               <div className="w-10 h-10 bg-[#3A7BFF]/20 text-[#3A7BFF] font-bold rounded-full flex items-center justify-center">
-                 T
-               </div>
-               <div>
-                 <h4 className="text-white font-bold text-sm">TradeMasterX</h4>
-                 <p className="text-xs text-[#64748B]">2 hours ago</p>
-               </div>
-             </div>
-             <p className="text-[#E2E8F0] text-sm mb-4 leading-relaxed">
-               Just deployed a new Mean Reversion strategy on EURUSD. Backtested over 5 years with a 99.9% tick quality. Check out the equity curve!
-             </p>
-             <div className="flex items-center gap-4 text-xs text-[#94A3B8]">
-               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><MessageSquare size={14} /> 24</div>
-               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><TrendingUp size={14} /> 156</div>
-             </div>
-           </div>
-
-           {/* Second Social Post */}
-           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-1 h-full bg-[#17B7BD]" />
-             <div className="flex items-center gap-3 mb-4">
-               <div className="w-10 h-10 bg-[#17B7BD]/20 text-[#17B7BD] font-bold rounded-full flex items-center justify-center">
-                 Q
-               </div>
-               <div>
-                 <h4 className="text-white font-bold text-sm">QuantNinja</h4>
-                 <p className="text-xs text-[#64748B]">5 hours ago</p>
-               </div>
-             </div>
-             <p className="text-[#E2E8F0] text-sm mb-4 leading-relaxed">
-               Looking for feedback on my latest Grid Bot logic. What's your preferred grid spacing for high volatility crypto pairs?
-             </p>
-             <div className="flex items-center gap-4 text-xs text-[#94A3B8]">
-               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><MessageSquare size={14} /> 89</div>
-               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><TrendingUp size={14} /> 412</div>
-             </div>
-           </div>
+          <div className="max-w-[900px] mx-auto relative mb-12 flex justify-center">
+          <img 
+            src="/assets/connect.png" 
+            alt="AlgoDeck Community Connection" 
+            className="w-full max-w-4xl h-auto object-cover rounded-2xl shadow-[0_20px_60px_rgba(139,92,246,0.15)] border border-white/10"
+          />
         </div>
         
         <div className="flex justify-center">

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
+import { useParams, useNavigate } from 'react-router'
 import * as THREE from 'three'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
@@ -6,7 +7,10 @@ import { Calendar, Clock, ArrowRight, BookOpen, TrendingUp, Newspaper, BarChart3
 
 export default function Blog() {
   const [loaded, setLoaded] = useState(false)
-  const [selectedPost, setSelectedPost] = useState<string | null>(null)
+  const { slug } = useParams()
+  const navigate = useNavigate()
+  
+  const toSlug = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
   const [activeCategory, setActiveCategory] = useState('All Posts')
   const [searchQuery, setSearchQuery] = useState('')
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -15,12 +19,12 @@ export default function Blog() {
   useEffect(() => {
     setLoaded(true)
     window.scrollTo(0, 0)
-  }, [selectedPost])
+  }, [slug])
 
   // ─── Three.js Particle Background (scoped to hero section only, dashboard view) ───
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || selectedPost) return
+    if (!canvas || slug) return
 
     const heroEl = canvas.parentElement
     const getSize = () => ({
@@ -139,7 +143,7 @@ export default function Blog() {
       material.dispose()
       renderer.dispose()
     }
-  }, [selectedPost])
+  }, [slug])
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -343,10 +347,12 @@ export default function Blog() {
   }
 
   const currentPost = useMemo(() => {
-    if (!selectedPost) return null
+    if (!slug) return null
     const allPosts = [featuredPost, ...blogPosts]
-    return allPosts.find(p => p.title === selectedPost)
-  }, [selectedPost, blogPosts, featuredPost])
+    return allPosts.find(p => toSlug(p.title) === slug) || null
+  }, [slug, blogPosts, featuredPost])
+
+  const selectedPost = currentPost ? currentPost.title : null
 
   return (
     <>
@@ -361,7 +367,7 @@ export default function Blog() {
             <div className="max-w-4xl mx-auto">
               {/* Breadcrumbs & Back */}
               <button 
-                onClick={() => setSelectedPost(null)}
+                onClick={() => navigate('/blog')}
                 className="flex items-center gap-2 text-[#3A7BFF] font-bold text-sm mb-12 hover:gap-3 transition-all group"
               >
                 <ArrowLeft size={16} /> Back to Blog
@@ -482,7 +488,7 @@ export default function Blog() {
             <section className="py-12 px-6">
               <div className="max-w-7xl mx-auto">
                 <div 
-                  onClick={() => setSelectedPost(featuredPost.title)}
+                  onClick={() => navigate(`/blog/${toSlug(featuredPost.title)}`)}
                   className={`glass-panel group overflow-hidden border border-white/5 hover:border-[#3A7BFF]/30 transition-all duration-700 cursor-pointer ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -510,7 +516,7 @@ export default function Blog() {
                   {filteredPosts.map((post, i) => (
                     <div 
                       key={i} 
-                      onClick={() => setSelectedPost(post.title)}
+                      onClick={() => navigate(`/blog/${toSlug(post.title)}`)}
                       className="glass-panel group border border-white/5 hover:border-[#3A7BFF]/30 transition-all duration-500 cursor-pointer overflow-hidden flex flex-col"
                     >
                       <div className="relative h-56 overflow-hidden">

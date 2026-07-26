@@ -340,6 +340,8 @@ export default function Community() {
           <img 
             src="/assets/connect.png" 
             alt="AlgoDeck Community Connection" 
+            loading="lazy"
+            decoding="async"
             className="w-full max-w-4xl h-auto object-cover rounded-2xl shadow-[0_20px_60px_rgba(139,92,246,0.15)] border border-white/10"
           />
         </div>

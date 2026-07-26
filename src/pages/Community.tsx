@@ -384,17 +384,15 @@ export default function Community() {
         </div>
         
         <div className="flex justify-center">
-          <a 
-             href="https://hub.algodeck.app/login" 
-             target="_blank"
-             rel="noopener noreferrer"
-             title="Join the AlgoDeck Community Hub"
+          <Link 
+             to="/download"
+             title="Download the AlgoDeck App to Join the Community"
              className="bg-[#8B5CF6] hover:bg-[#7C3AED] px-8 py-4 rounded-xl flex items-center gap-3 shadow-[0_10px_40px_rgba(139,92,246,0.3)] transition-all hover:scale-105"
            >
              <MessageSquare className="text-white" size={20} />
-             <span className="text-base font-bold text-white tracking-wide">Join the Community Hub</span>
+             <span className="text-base font-bold text-white tracking-wide">Download App to Join</span>
              <ArrowRight className="text-white" size={20} />
-           </a>
+           </Link>
         </div>
         </div>
       </section>

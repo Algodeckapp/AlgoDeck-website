@@ -336,13 +336,13 @@ export default function Community() {
           <p className="text-lg text-[#94A3B8] max-w-2xl mx-auto leading-relaxed">
             AlgoDeck isn't just a tool; it's a social network for algorithmic traders. Discuss market trends, share your backtest results, and collaborate with developers globally.
           </p>
-          <div className="max-w-[900px] mx-auto relative mb-12 flex justify-center">
+          <div className="max-w-[500px] mx-auto relative mt-12 mb-12 flex justify-center hover:scale-105 transition-transform duration-500">
           <img 
             src="/assets/connect.webp" 
             alt="AlgoDeck Community Connection" 
             loading="lazy"
             decoding="async"
-            className="w-full max-w-4xl h-auto object-cover rounded-2xl shadow-[0_20px_60px_rgba(139,92,246,0.15)] border border-white/10"
+            className="w-full h-auto object-cover rounded-2xl shadow-[0_20px_60px_rgba(139,92,246,0.25)] border border-white/10"
           />
         </div>
         

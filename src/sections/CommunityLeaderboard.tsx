@@ -86,12 +86,18 @@ export default function CommunityLeaderboard() {
             <div className="absolute inset-0 bg-gradient-to-tr from-[#3A7BFF]/10 to-transparent rounded-3xl z-0 blur-xl" />
             
             <div className="relative z-10 rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl">
-              {/* Overlay Badge */}
-              <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
-                <div className="bg-[#05070F] border border-[#3A7BFF]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
-                  <div className="w-2 h-2 rounded-full bg-[#3A7BFF] animate-pulse" />
-                  <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
-                </div>
+              {/* Overlay CTA */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05070F]/60 backdrop-blur-sm transition-all duration-300">
+                <a 
+                  href="https://hub.algodeck.app" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#3A7BFF] hover:bg-[#2563EB] border border-[#3A7BFF]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
+                >
+                  <Trophy className="text-white" size={20} />
+                  <span className="text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
+                  <ArrowRight className="text-white" size={20} />
+                </a>
               </div>
 
               {/* Fake UI Header */}

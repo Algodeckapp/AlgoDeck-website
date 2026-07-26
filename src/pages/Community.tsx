@@ -199,13 +199,19 @@ export default function Community() {
             </div>
             
             {/* Visual Mockup for Leaderboards */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl">
-              {/* Overlay Badge */}
-              <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px]">
-                <div className="bg-[#05070F] border border-[#3A7BFF]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
-                  <div className="w-2 h-2 rounded-full bg-[#3A7BFF] animate-pulse" />
-                  <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
-                </div>
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl group">
+              {/* Overlay CTA */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05070F]/60 backdrop-blur-sm transition-all duration-300">
+                <a 
+                  href="https://hub.algodeck.app" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#3A7BFF] hover:bg-[#2563EB] border border-[#3A7BFF]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
+                >
+                  <Trophy className="text-white" size={20} />
+                  <span className="text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
+                  <ArrowRight className="text-white" size={20} />
+                </a>
               </div>
 
               <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
@@ -273,9 +279,9 @@ export default function Community() {
                    </div>
                  </div>
 
-                 <Link to="/download" className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]">
-                   <Copy size={18} /> Download App to Clone Bot
-                 </Link>
+                 <a href="https://hub.algodeck.app" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]">
+                   <Copy size={18} /> Open Hub to Clone Bot
+                 </a>
                </div>
             </div>
 
@@ -318,12 +324,18 @@ export default function Community() {
         </div>
 
         <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-           {/* Overlay Badge for Social */}
-           <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/40 backdrop-blur-[2px] rounded-2xl">
-             <div className="bg-[#05070F] border border-[#8B5CF6]/30 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl">
-               <div className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-pulse" />
-               <span className="text-sm font-bold text-white tracking-widest uppercase">Launching Q3 2026</span>
-             </div>
+           {/* Overlay CTA for Social */}
+           <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/60 backdrop-blur-sm rounded-2xl transition-all duration-300">
+             <a 
+               href="https://hub.algodeck.app" 
+               target="_blank"
+               rel="noopener noreferrer"
+               className="bg-[#8B5CF6] hover:bg-[#7C3AED] border border-[#8B5CF6]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(139,92,246,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
+             >
+               <MessageSquare className="text-white" size={20} />
+               <span className="text-base font-bold text-white tracking-wide">Join the Community Hub</span>
+               <ArrowRight className="text-white" size={20} />
+             </a>
            </div>
 
            <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden opacity-50">

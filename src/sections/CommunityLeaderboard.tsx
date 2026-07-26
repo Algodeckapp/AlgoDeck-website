@@ -89,7 +89,7 @@ export default function CommunityLeaderboard() {
               {/* Overlay CTA */}
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05070F]/60 backdrop-blur-sm transition-all duration-300">
                 <a 
-                  href="https://hub.algodeck.app" 
+                  href="https://hub.algodeck.app/marketplace" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#3A7BFF] hover:bg-[#2563EB] border border-[#3A7BFF]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1"

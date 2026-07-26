@@ -27,6 +27,7 @@ const footerLinks = {
     { label: 'Twitter/X', href: 'https://x.com/algodeckapp', isRoute: false },
     { label: 'Instagram', href: 'https://www.instagram.com/algodeck.app/', isRoute: false },
     { label: 'TikTok', href: 'https://www.tiktok.com/@algodeckapp?is_from_webapp=1&sender_device=pc', isRoute: false },
+    { label: 'Discord', href: 'https://discord.gg/Qfp4SHUxT', isRoute: false },
   ],
 }
 
@@ -120,6 +121,7 @@ export default function Footer() {
                 { type: 'instagram', href: 'https://www.instagram.com/algodeck.app/' },
                 { type: 'tiktok', href: 'https://www.tiktok.com/@algodeckapp?is_from_webapp=1&sender_device=pc' },
                 { type: 'github', href: 'https://github.com/Algodeckapp' },
+                { type: 'discord', href: 'https://discord.gg/Qfp4SHUxT' },
               ].map((social) => (
                 <a
                   key={social.type}

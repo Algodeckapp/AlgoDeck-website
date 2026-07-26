@@ -69,7 +69,7 @@ const tiers = [
     description: 'For professionals managing multiple strategies.',
     features: [
       { label: '10 Connected Accounts', included: true },
-      { label: 'Unlimited Bots', included: true },
+      { label: 'Up to 50 active bots', included: true },
       { label: 'AI Optimization', included: true },
       { label: 'Advanced Backtesting', included: true },
       { label: 'Push + Email + SMS', included: true },

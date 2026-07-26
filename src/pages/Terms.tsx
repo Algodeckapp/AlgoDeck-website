@@ -147,7 +147,33 @@ export default function Terms() {
             </ul>
           </section>
 
-          {/* 3. Trading Risks */}
+          {/* 3. Marketplace & Strategy Purchases */}
+          <section style={{ marginBottom: '48px' }}>
+            <h2
+              style={{
+                fontSize: '24px',
+                fontWeight: 600,
+                color: 'var(--color-text-primary)',
+                marginBottom: '16px',
+                paddingBottom: '12px',
+                borderBottom: '1px solid var(--color-border)',
+              }}
+            >
+              3. MARKETPLACE PURCHASES AND ALGORITHM CLONING
+            </h2>
+            <p
+              style={{
+                fontSize: '15px',
+                lineHeight: 1.8,
+                color: 'var(--color-text-secondary)',
+                marginBottom: '16px',
+              }}
+            >
+              When a user purchases or clones a strategy from the AlgoDeck Marketplace, a permanent, independent copy of the algorithmic rules is transferred to the buyer's account. Because this is a direct transfer of intellectual property and execution logic, all marketplace purchases are strictly non-refundable. The original creator relinquishes control over the buyers specific cloned instance, and the buyer assumes full responsibility and risk for the execution, modification, and financial outcomes of their cloned strategy.
+            </p>
+          </section>
+
+          {/* 4. Trading Risks */}
           <section style={{ marginBottom: '48px' }}>
             <h2
               style={{

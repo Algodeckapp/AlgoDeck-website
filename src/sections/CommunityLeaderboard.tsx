@@ -85,50 +85,58 @@ export default function CommunityLeaderboard() {
           <div className={`lg:col-span-7 relative transition-all duration-1000 delay-500 ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
             <div className="absolute inset-0 bg-gradient-to-tr from-[#3A7BFF]/10 to-transparent rounded-3xl z-0 blur-xl" />
             
-            <div className="relative z-10 rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl">
-              {/* Overlay CTA */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05070F]/60 backdrop-blur-sm transition-all duration-300">
+            <div className="relative z-10 rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl flex flex-col h-full">
+              {/* Header */}
+              <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
+                <div className="flex gap-4 font-medium text-sm">
+                  <span className="text-white border-b-2 border-[#3A7BFF] py-4">Top Performing Bots</span>
+                  <span className="text-[#64748B] py-4 hover:text-white transition-colors cursor-pointer">Trending Creators</span>
+                </div>
+              </div>
+              
+              {/* Leaderboard Rows */}
+              <div className="p-6 space-y-4 flex-grow">
+                {[
+                  { name: 'Apex Predator V2', creator: '@algotrader', return: '+184.2%', users: '1.2k', type: 'Forex' },
+                  { name: 'Quantum Scalper', creator: '@pipmaster', return: '+142.5%', users: '890', type: 'Crypto' },
+                  { name: 'Golden Cross Grid', creator: '@wealthbot', return: '+118.0%', users: '560', type: 'Indices' },
+                  { name: 'Night Owl EURUSD', creator: '@fxninja', return: '+94.8%', users: '420', type: 'Forex' }
+                ].map((bot, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-6 text-center font-bold text-[#64748B]">#{i + 1}</div>
+                      <div className="hidden sm:flex w-10 h-10 rounded-full bg-[#3A7BFF]/20 items-center justify-center text-[#3A7BFF] font-bold">
+                        {bot.name[0]}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-sm">{bot.name}</h4>
+                        <div className="flex items-center gap-2 text-xs text-[#94A3B8]">
+                          <span>{bot.creator}</span>
+                          <span className="w-1 h-1 rounded-full bg-white/20" />
+                          <span>{bot.type}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[#00D084] font-bold text-sm">{bot.return}</div>
+                      <div className="text-xs text-[#64748B]">{bot.users} cloners</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="p-6 pt-0 border-t border-white/5 bg-white/[0.01]">
                 <a 
                   href="https://hub.algodeck.app/marketplace" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#3A7BFF] hover:bg-[#2563EB] border border-[#3A7BFF]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
+                  title="Explore the AlgoDeck Bot Marketplace"
+                  className="w-full bg-[#3A7BFF] hover:bg-[#2563EB] py-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_10px_40px_rgba(58,123,255,0.2)] transition-all hover:scale-[1.02] mt-4"
                 >
-                  <Trophy className="text-white" size={20} />
-                  <span className="text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
-                  <ArrowRight className="text-white" size={20} />
+                  <Trophy className="text-white" size={18} />
+                  <span className="text-sm sm:text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
                 </a>
-              </div>
-
-              {/* Fake UI Header */}
-              <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
-                <div className="flex gap-4 font-medium text-sm">
-                  <span className="text-white border-b-2 border-[#3A7BFF] py-4">Top Performing Bots</span>
-                  <span className="text-[#64748B] py-4">Trending Creators</span>
-                </div>
-              </div>
-              
-              {/* Abstract Leaderboard Rows */}
-              <div className="p-6 space-y-4 opacity-50">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
-                    <div className="flex items-center gap-4 w-1/2">
-                      <div className="w-8 text-center font-bold text-[#64748B]">#{i}</div>
-                      <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse" />
-                      <div className="space-y-2 flex-1">
-                        <div className="h-4 w-3/4 bg-white/10 rounded animate-pulse" />
-                        <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-8 w-1/3 justify-end">
-                      <div className="space-y-2 text-right w-16">
-                        <div className="h-4 w-full bg-[#00D084]/20 rounded animate-pulse" />
-                        <div className="h-2 w-3/4 ml-auto bg-white/5 rounded animate-pulse" />
-                      </div>
-                      <div className="w-24 h-8 bg-[#3A7BFF]/10 rounded-lg animate-pulse hidden sm:block" />
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
 

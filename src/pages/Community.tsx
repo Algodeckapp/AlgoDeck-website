@@ -199,47 +199,56 @@ export default function Community() {
             </div>
             
             {/* Visual Mockup for Leaderboards */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl group">
-              {/* Overlay CTA */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05070F]/60 backdrop-blur-sm transition-all duration-300">
+            <div className="rounded-3xl overflow-hidden border border-white/10 bg-[#0A0F2C]/80 backdrop-blur-md shadow-2xl flex flex-col h-full">
+              <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
+                <div className="flex gap-4 font-medium text-sm">
+                  <span className="text-white border-b-2 border-[#3A7BFF] py-4">Top Performing Bots</span>
+                  <span className="text-[#64748B] py-4 hover:text-white transition-colors cursor-pointer">Trending Creators</span>
+                </div>
+              </div>
+              
+              <div className="p-6 space-y-4 flex-grow">
+                {[
+                  { name: 'Apex Predator V2', creator: '@algotrader', return: '+184.2%', users: '1.2k', type: 'Forex' },
+                  { name: 'Quantum Scalper', creator: '@pipmaster', return: '+142.5%', users: '890', type: 'Crypto' },
+                  { name: 'Golden Cross Grid', creator: '@wealthbot', return: '+118.0%', users: '560', type: 'Indices' },
+                  { name: 'Night Owl EURUSD', creator: '@fxninja', return: '+94.8%', users: '420', type: 'Forex' }
+                ].map((bot, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-6 text-center font-bold text-[#64748B]">#{i + 1}</div>
+                      <div className="hidden sm:flex w-10 h-10 rounded-full bg-[#3A7BFF]/20 items-center justify-center text-[#3A7BFF] font-bold">
+                        {bot.name[0]}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-sm">{bot.name}</h4>
+                        <div className="flex items-center gap-2 text-xs text-[#94A3B8]">
+                          <span>{bot.creator}</span>
+                          <span className="w-1 h-1 rounded-full bg-white/20" />
+                          <span>{bot.type}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[#00D084] font-bold text-sm">{bot.return}</div>
+                      <div className="text-xs text-[#64748B]">{bot.users} cloners</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA at the bottom */}
+              <div className="p-6 pt-0 border-t border-white/5 bg-white/[0.01]">
                 <a 
                   href="https://hub.algodeck.app/marketplace" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#3A7BFF] hover:bg-[#2563EB] border border-[#3A7BFF]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(58,123,255,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
+                  title="Explore the AlgoDeck Bot Marketplace"
+                  className="w-full bg-[#3A7BFF] hover:bg-[#2563EB] py-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_10px_40px_rgba(58,123,255,0.2)] transition-all hover:scale-[1.02] mt-4"
                 >
-                  <Trophy className="text-white" size={20} />
-                  <span className="text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
-                  <ArrowRight className="text-white" size={20} />
+                  <Trophy className="text-white" size={18} />
+                  <span className="text-sm sm:text-base font-bold text-white tracking-wide">Explore Bot Marketplace</span>
                 </a>
-              </div>
-
-              <div className="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
-                <div className="flex gap-4 font-medium text-sm">
-                  <span className="text-white border-b-2 border-[#3A7BFF] py-4">Top Performing Bots</span>
-                  <span className="text-[#64748B] py-4">Trending Creators</span>
-                </div>
-              </div>
-              
-              <div className="p-6 space-y-4 opacity-50">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
-                    <div className="flex items-center gap-4 w-1/2">
-                      <div className="w-8 text-center font-bold text-[#64748B]">#{i}</div>
-                      <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse" />
-                      <div className="space-y-2 flex-1">
-                        <div className="h-4 w-3/4 bg-white/10 rounded animate-pulse" />
-                        <div className="h-3 w-1/2 bg-white/5 rounded animate-pulse" />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-8 w-1/3 justify-end">
-                      <div className="space-y-2 text-right w-16">
-                        <div className="h-4 w-full bg-[#00D084]/20 rounded animate-pulse" />
-                        <div className="h-2 w-3/4 ml-auto bg-white/5 rounded animate-pulse" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
@@ -279,7 +288,13 @@ export default function Community() {
                    </div>
                  </div>
 
-                 <a href="https://hub.algodeck.app/marketplace" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]">
+                 <a 
+                   href="https://hub.algodeck.app/marketplace" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   title="Clone this bot in the AlgoDeck Hub"
+                   className="w-full flex items-center justify-center gap-2 py-3 bg-[#3A7BFF] hover:bg-[#2563EB] text-white rounded-xl font-bold transition-all hover:scale-[1.02]"
+                 >
                    <Copy size={18} /> Open Hub to Clone Bot
                  </a>
                </div>
@@ -324,59 +339,63 @@ export default function Community() {
         </div>
 
         <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-           {/* Overlay CTA for Social */}
-           <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05070F]/60 backdrop-blur-sm rounded-2xl transition-all duration-300">
-             <a 
-               href="https://hub.algodeck.app/login" 
-               target="_blank"
-               rel="noopener noreferrer"
-               className="bg-[#8B5CF6] hover:bg-[#7C3AED] border border-[#8B5CF6]/50 px-8 py-4 rounded-full flex items-center gap-3 shadow-[0_10px_40px_rgba(139,92,246,0.4)] transition-all hover:scale-105 hover:-translate-y-1"
-             >
-               <MessageSquare className="text-white" size={20} />
-               <span className="text-base font-bold text-white tracking-wide">Join the Community Hub</span>
-               <ArrowRight className="text-white" size={20} />
-             </a>
-           </div>
-
-           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden opacity-50">
+        <div className="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative mb-12">
+           {/* First Social Post */}
+           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
              <div className="absolute top-0 left-0 w-1 h-full bg-[#3A7BFF]" />
-             <div className="flex items-center gap-3 mb-6">
-               <div className="w-10 h-10 bg-white/10 rounded-full animate-pulse" />
-               <div className="space-y-2 w-32">
-                 <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
-                 <div className="h-2 w-2/3 bg-white/5 rounded animate-pulse" />
+             <div className="flex items-center gap-3 mb-4">
+               <div className="w-10 h-10 bg-[#3A7BFF]/20 text-[#3A7BFF] font-bold rounded-full flex items-center justify-center">
+                 T
+               </div>
+               <div>
+                 <h4 className="text-white font-bold text-sm">TradeMasterX</h4>
+                 <p className="text-xs text-[#64748B]">2 hours ago</p>
                </div>
              </div>
-             <div className="space-y-3 mb-6">
-               <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
-               <div className="h-3 w-[90%] bg-white/10 rounded animate-pulse" />
-               <div className="h-3 w-[75%] bg-white/10 rounded animate-pulse" />
-             </div>
-             <div className="flex gap-4">
-               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
-               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
+             <p className="text-[#E2E8F0] text-sm mb-4 leading-relaxed">
+               Just deployed a new Mean Reversion strategy on EURUSD. Backtested over 5 years with a 99.9% tick quality. Check out the equity curve!
+             </p>
+             <div className="flex items-center gap-4 text-xs text-[#94A3B8]">
+               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><MessageSquare size={14} /> 24</div>
+               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><TrendingUp size={14} /> 156</div>
              </div>
            </div>
 
-           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden opacity-50">
+           {/* Second Social Post */}
+           <div className="bg-[#0A0F2C]/80 border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
              <div className="absolute top-0 left-0 w-1 h-full bg-[#17B7BD]" />
-             <div className="flex items-center gap-3 mb-6">
-               <div className="w-10 h-10 bg-white/10 rounded-full animate-pulse" />
-               <div className="space-y-2 w-32">
-                 <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
-                 <div className="h-2 w-2/3 bg-white/5 rounded animate-pulse" />
+             <div className="flex items-center gap-3 mb-4">
+               <div className="w-10 h-10 bg-[#17B7BD]/20 text-[#17B7BD] font-bold rounded-full flex items-center justify-center">
+                 Q
+               </div>
+               <div>
+                 <h4 className="text-white font-bold text-sm">QuantNinja</h4>
+                 <p className="text-xs text-[#64748B]">5 hours ago</p>
                </div>
              </div>
-             <div className="space-y-3 mb-6">
-               <div className="h-3 w-[95%] bg-white/10 rounded animate-pulse" />
-               <div className="h-3 w-full bg-white/10 rounded animate-pulse" />
-               <div className="h-3 w-[60%] bg-white/10 rounded animate-pulse" />
-             </div>
-             <div className="flex gap-4">
-               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
-               <div className="h-4 w-16 bg-white/5 rounded animate-pulse" />
+             <p className="text-[#E2E8F0] text-sm mb-4 leading-relaxed">
+               Looking for feedback on my latest Grid Bot logic. What's your preferred grid spacing for high volatility crypto pairs?
+             </p>
+             <div className="flex items-center gap-4 text-xs text-[#94A3B8]">
+               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><MessageSquare size={14} /> 89</div>
+               <div className="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><TrendingUp size={14} /> 412</div>
              </div>
            </div>
+        </div>
+        
+        <div className="flex justify-center">
+          <a 
+             href="https://hub.algodeck.app/login" 
+             target="_blank"
+             rel="noopener noreferrer"
+             title="Join the AlgoDeck Community Hub"
+             className="bg-[#8B5CF6] hover:bg-[#7C3AED] px-8 py-4 rounded-xl flex items-center gap-3 shadow-[0_10px_40px_rgba(139,92,246,0.3)] transition-all hover:scale-105"
+           >
+             <MessageSquare className="text-white" size={20} />
+             <span className="text-base font-bold text-white tracking-wide">Join the Community Hub</span>
+             <ArrowRight className="text-white" size={20} />
+           </a>
+        </div>
         </div>
       </section>
 

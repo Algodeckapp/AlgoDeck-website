@@ -1,7 +1,7 @@
 {
-  "name": "AlgoDeck - AI-Powered Trading Automation",
+  "name": "AlgoDeck - Custom Trading Strategy Automation",
   "short_name": "AlgoDeck",
-  "description": "Build, backtest, and deploy AI-powered trading bots on MetaTrader 4 & 5 from your phone.",
+  "description": "Build, backtest, and deploy custom trading bots on MetaTrader 4 & 5 from your phone.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

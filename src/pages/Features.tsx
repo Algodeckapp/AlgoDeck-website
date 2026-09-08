@@ -144,13 +144,13 @@ export default function FeaturesPage() {
   const features = [
     {
       icon: Bot,
-      title: 'AI Strategy Creation',
-      description: 'Turn plain English into executable trading strategies',
+      title: 'StratAI Strategy Builder',
+      description: 'Describe your custom rules and let StratAI output the explicit logic for review',
       details: [
-        'Natural language input parsing',
-        'AI-powered logic optimization',
-        'Automated code generation',
-        'Strategy health validation'
+        'Natural language strategy parsing',
+        'Automatic rule & parameter output',
+        'Direct review before deployment',
+        'Strategy logic validation'
       ],
       tier: 'Pro & Elite',
       color: '#3A7BFF'

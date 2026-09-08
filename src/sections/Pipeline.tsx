@@ -12,7 +12,7 @@ const stages = [
   {
     step: 2,
     title: 'Build Your Strategy',
-    description: 'Use our AI-powered builder or visual strategy designer. Backtest your strategy on years of historical data. Fine-tune parameters for optimal performance.',
+    description: 'Use StratAI to generate your strategy rules from plain English, or design with our visual builder. Backtest on historical data and fine-tune parameters for your exact setup.',
     icon: Cog,
     side: 'right' as const,
   },

@@ -211,7 +211,7 @@ export default function Contact() {
                 <span className="gradient-text">Empire Together.</span>
               </h1>
               <p className="text-[#94A3B8] text-lg leading-relaxed mb-12 max-w-xl">
-                Have a question about our AI strategies or need enterprise-level deployment? 
+                Have a question about custom strategy automation or need enterprise-level deployment? 
                 Our team of experts is ready to help you automate your success.
               </p>
 

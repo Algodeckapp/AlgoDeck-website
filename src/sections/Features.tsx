@@ -4,8 +4,8 @@ import { Bot, Zap, BarChart3, Link2, Cpu, Globe, Shield, Target } from 'lucide-r
 const mainFeatures = [
   {
     icon: Bot,
-    title: 'AI Strategy Builder',
-    description: 'Natural language to trading strategy. AI-powered optimization. No coding required.',
+    title: 'StratAI Strategy Builder',
+    description: 'Describe your custom strategy in plain English. StratAI outputs the exact rules for your review without manual builder friction.',
     color: '#3A7BFF'
   },
   {

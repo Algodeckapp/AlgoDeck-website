@@ -17,7 +17,7 @@ const testimonials = [
     avatar: '/assets/avatar-2.jpg',
   },
   {
-    quote: 'The AI strategy parser understood my natural language description perfectly. No coding, no debugging — just submit, validate, deploy. Revolutionary.',
+    quote: 'StratAI understood my strategy description and outputted the exact rules for review in seconds. No manual builder assembly needed — just review, validate, and deploy.',
     author: 'Oyelola Moyosola',
     role: 'Market Analyst',
     rating: 5,

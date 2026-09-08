@@ -203,7 +203,7 @@ export default function Download() {
                 <span className="gradient-text">Anywhere.</span>
               </h1>
               <p className="section-subtitle text-lg md:text-xl mt-6 max-w-2xl mx-auto">
-                AlgoDeck brings institutional-grade trading automation to your fingertips. Download the mobile app and start trading with Custom AI-powered intelligence today.
+                AlgoDeck brings institutional-grade trading automation to your fingertips. Download the mobile app and start automating your custom trading strategies today.
               </p>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function Download() {
                 { num: '01', title: 'Download', desc: 'Install AlgoDeck from the Google Play Store.' },
                 { num: '02', title: 'Onboard', desc: 'Create your account and complete the setup.' },
                 { num: '03', title: 'Connect', desc: 'Securely link your MT4/MT5 broker account.' },
-                { num: '04', title: 'Automate', desc: 'Deploy your first Custom AI-powered bot in minutes.' }
+                { num: '04', title: 'Automate', desc: 'Deploy your first custom automated bot in minutes.' }
               ].map((step) => (
                 <div key={step.num} className="relative group">
                   <div className="text-6xl font-black text-white/5 absolute -top-8 -left-2 transition-colors group-hover:text-[#3A7BFF]/10">{step.num}</div>

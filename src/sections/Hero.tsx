@@ -144,13 +144,13 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-[1400px] flex flex-col items-center justify-start px-6 gap-6">
         <div className="w-full text-center pointer-events-auto">
-          <span className="section-eyebrow block mb-4" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>AUTOMATED TRADING INTELLIGENCE</span>
+          <span className="section-eyebrow block mb-4" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>CUSTOM STRATEGY AUTOMATION</span>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight" style={{ textShadow: '0 4px 20px rgba(5,7,15,0.9)' }}>
             Automate Your Trading <br className="hidden md:block" />
             <span className="gradient-text">Empire</span>
           </h1>
           <p className="text-base md:text-lg text-[#CBD5E1] leading-relaxed mt-6 max-w-2xl mx-auto" style={{ textShadow: '0 2px 10px rgba(5,7,15,0.8)' }}>
-            Build, backtest, and deploy Custom AI-powered trading bots directly to your MT4/MT5 accounts. No coding required. Download the mobile app and start trading smarter.
+            Build, backtest, and deploy custom trading bots directly to your MT4/MT5 accounts. Describe your strategy with StratAI or build visually with no coding required.
           </p>
 
           <div className="flex flex-col items-center gap-6 mt-10">

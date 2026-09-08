@@ -159,7 +159,7 @@ export default function About() {
     {
       icon: Lightbulb,
       title: 'Innovation',
-      description: 'Continuously pushing boundaries with AI-powered tools and cutting-edge trading technology.',
+      description: 'Continuously pushing boundaries with custom strategy tools and cutting-edge trading technology.',
       color: '#00D084'
     },
     {
@@ -238,8 +238,8 @@ export default function About() {
                   <Zap size={20} className="text-[#17B7BD]" /> Innovation First
                 </h3>
                 <p className="text-[#94A3B8] leading-relaxed">
-                  We pioneered the use of AI for strategy creation, allowing traders to describe their ideas in
-                  plain English and have them instantly converted into executable trading bots.
+                  We built StratAI to revolutionize strategy creation—allowing traders to describe their custom ideas in
+                  plain English and instantly review the generated rule parameters without manual builder friction.
                 </p>
               </div>
               <div>

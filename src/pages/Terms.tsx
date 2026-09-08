@@ -92,7 +92,7 @@ export default function Terms() {
                 marginBottom: '16px',
               }}
             >
-              AlgoDeck provides automated trading bot creation and management services for MetaTrader 4 and MetaTrader 5 platforms. Our service includes strategy building, backtesting, AI-powered features, and automated trade execution.
+              AlgoDeck provides automated trading bot creation and management services for MetaTrader 4 and MetaTrader 5 platforms. Our service includes custom strategy building, backtesting, StratAI rule parsing, and automated trade execution.
             </p>
           </section>
 

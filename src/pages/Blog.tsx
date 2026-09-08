@@ -153,8 +153,8 @@ export default function Blog() {
   }
 
   const featuredPost = {
-    title: 'Introducing AI Strategy Optimization: The Future of Algorithmic Trading',
-    excerpt: 'Discover how our new AI-powered optimization engine can automatically fine-tune your trading strategies for maximum performance across different market conditions.',
+    title: 'Introducing StratAI: Plain English to Custom Strategy Rules',
+    excerpt: 'Discover how StratAI lets you describe your custom trading ideas in natural language and outputs structured rules for your review—eliminating manual builder setup.',
     category: 'Platform Updates',
     date: 'May 1, 2026',
     readTime: '8 min read',
@@ -258,26 +258,26 @@ export default function Blog() {
 
   // Detailed Article Content Mapping
   const articleContents: Record<string, React.ReactNode> = {
-    'Introducing AI Strategy Optimization: The Future of Algorithmic Trading': (
+    'Introducing StratAI: Plain English to Custom Strategy Rules': (
       <article className="prose prose-invert max-w-none">
         <p className="text-xl text-[#94A3B8] leading-relaxed mb-10">
-          The biggest challenge in algorithmic trading isn't coming up with an idea—it's finding the exact parameters that turn a "good" idea into a consistent profit-generator. Today, we're changing that forever.
+          The biggest challenge in algorithmic trading isn't coming up with an idea—it's translating that idea into structured, executable rules without getting bogged down in coding or complex manual builders. StratAI changes that forever.
         </p>
-        <h3 className="text-2xl font-bold text-white mb-6">The Multi-Dimensional Optimization Problem</h3>
+        <h3 className="text-2xl font-bold text-white mb-6">Natural Language to Explicit Rules</h3>
         <p className="text-[#94A3B8] mb-8">
-          Traditional optimization takes hours, even days. You have to manually run tests for RSI periods, EMA lengths, and stop-loss levels. AlgoDeck's new AI Engine does this in parallel across thousands of variations, using genetic algorithms to evolve your strategy toward its peak performance.
+          Traditional setup requires assembling every condition, indicator, and parameter manually. StratAI does the heavy lifting: you describe your logic in plain English, and it outputs the exact conditions and parameters for your review and validation before you ever run a backtest.
         </p>
         <div className="bg-[#3A7BFF]/5 border border-[#3A7BFF]/20 p-8 rounded-3xl mb-10">
           <h4 className="text-white font-bold mb-4 flex items-center gap-2"><CheckCircle2 size={18} className="text-[#3A7BFF]" /> Key Benefits</h4>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[#94A3B8]">
             <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> Zero Curve-Fitting Protection</li>
             <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> Out-of-Sample Validation</li>
-            <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> 100x Faster than Manual Testing</li>
-            <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> Intelligent Parameter Suggestion</li>
+            <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> Fast Natural-Language-to-Rule Translation</li>
+            <li className="flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#3A7BFF] mt-2 flex-shrink-0" /> Full User Review & Parameter Control</li>
           </ul>
         </div>
         <p className="text-[#94A3B8]">
-          "We didn't just build a faster backtester; we built a brain for your trading bots," says Tony Chris, CEO of AlgoDeck. "Our goal is to let the AI handle the math so you can focus on the market vision."
+          "We didn't build a black-box that trades for you; we built StratAI to turn your trading ideas into explicit, testable rules in seconds," says Tony Chris, CEO of AlgoDeck. "You maintain 100% control over your logic, while the builder handles the translation."
         </p>
       </article>
     ),
@@ -317,7 +317,7 @@ export default function Blog() {
           <div className="space-y-6">
             <div className="flex gap-4">
               <div className="w-8 h-8 rounded-full bg-[#3A7BFF] flex items-center justify-center text-white font-bold text-xs">1</div>
-              <p className="text-sm text-[#94A3B8] mt-1"><strong>Hypothesis:</strong> Generate ideas using the AI Strategy Builder.</p>
+              <p className="text-sm text-[#94A3B8] mt-1"><strong>Hypothesis:</strong> Generate rules using the StratAI Strategy Builder or Visual Editor.</p>
             </div>
             <div className="flex gap-4">
               <div className="w-8 h-8 rounded-full bg-[#17B7BD] flex items-center justify-center text-white font-bold text-xs">2</div>

@@ -47,11 +47,11 @@ const tiers = [
     name: 'Pro',
     monthlyPrice: 99,
     annualPrice: 990,
-    description: 'For serious traders who need AI power.',
+    description: 'For serious traders automating custom strategies.',
     features: [
       { label: '3 Connected Accounts', included: true },
       { label: 'Up to 10 Active Bots', included: true },
-      { label: 'AI Natural Strategies', included: true },
+      { label: 'StratAI Strategy Builder', included: true },
       { label: 'Advanced Backtesting', included: true },
       { label: 'Push + Email Alerts', included: true },
       { label: 'Full Analytics History', included: true },
@@ -70,7 +70,7 @@ const tiers = [
     features: [
       { label: '10 Connected Accounts', included: true },
       { label: 'Up to 50 active bots', included: true },
-      { label: 'AI Optimization', included: true },
+      { label: 'StratAI Rule Optimization', included: true },
       { label: 'Advanced Backtesting', included: true },
       { label: 'Push + Email + SMS', included: true },
       { label: 'PDF Reports', included: true },

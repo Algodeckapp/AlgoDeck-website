@@ -38,7 +38,7 @@ const docSections: DocSection[] = [
     icon: Code,
     articles: [
       'Strategy Builder Interface',
-      'AI Natural Language Parser',
+      'StratAI Natural Language Builder',
       'Technical Indicators Guide',
       'Entry & Exit Rules',
       'Position Sizing & Risk',
@@ -107,8 +107,8 @@ const articleContent: Record<string, React.ReactNode> = {
           <p className="text-sm text-[#64748B]">Manage your entire trading empire from your phone. No desktop required for deployment or monitoring.</p>
         </div>
         <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
-          <h4 className="text-white font-bold mb-2 flex items-center gap-2"><Cpu size={18} className="text-[#17B7BD]" /> AI Powered</h4>
-          <p className="text-sm text-[#64748B]">Leverage advanced LLMs to convert plain English ideas into high-performance execution logic.</p>
+          <h4 className="text-white font-bold mb-2 flex items-center gap-2"><Cpu size={18} className="text-[#17B7BD]" /> StratAI Builder</h4>
+          <p className="text-sm text-[#64748B]">Describe your custom trading rules in plain English and StratAI translates them into explicit logic for your review.</p>
         </div>
       </div>
       <h3 className="text-2xl font-bold text-white mb-4">Core Ecosystem</h3>
@@ -136,16 +136,19 @@ const articleContent: Record<string, React.ReactNode> = {
       </ol>
     </div>
   ),
-  'AI Natural Language Parser': (
+  'StratAI Natural Language Builder': (
     <div className="prose prose-invert max-w-none">
-      <h3 className="text-2xl font-bold text-white mb-6 text-center">Plain English to Profit</h3>
+      <h3 className="text-2xl font-bold text-white mb-6 text-center">Plain English to Custom Strategy Rules</h3>
+      <p className="text-[#94A3B8] mb-6 text-center max-w-xl mx-auto">
+        StratAI is designed to turn your custom trading ideas into structured algorithmic rules. You describe your idea, StratAI outputs the exact conditions and parameters, and you review and fine-tune them before ever running a backtest or going live.
+      </p>
       <div className="bg-[#0A0F2C] border border-[#3A7BFF]/30 p-8 rounded-3xl mb-8 relative">
         <div className="absolute -top-3 left-6 px-3 py-1 bg-[#3A7BFF] rounded-full text-[10px] font-black uppercase">User Input</div>
         <p className="text-xl italic text-white font-serif">"Buy 0.1 lots of Gold when the 14-period RSI crosses below 30 and the price is above the 200 EMA."</p>
       </div>
       <div className="flex justify-center mb-8"><ArrowLeft className="rotate-[270deg] text-[#3A7BFF]" /></div>
       <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
-        <h4 className="text-[#00D084] font-bold mb-4 flex items-center gap-2"><Terminal size={18} /> AI Interpretation:</h4>
+        <h4 className="text-[#00D084] font-bold mb-4 flex items-center gap-2"><Terminal size={18} /> StratAI Output Rules:</h4>
         <ul className="space-y-2 text-sm text-[#94A3B8]">
           <li><strong>Symbol:</strong> XAUUSD</li>
           <li><strong>Volume:</strong> 0.1 Lots (Fixed)</li>

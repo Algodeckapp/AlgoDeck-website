@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useEffect, useState, useRef} from 'react'
 import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
@@ -6,6 +7,8 @@ import { Target, Shield, Users, Lightbulb, HeartHandshake, Award, Zap, Globe } f
 import * as THREE from 'three'
 
 export default function About() {
+  usePageMeta({ title: 'About AlgoDeck — Democratizing Algorithmic Trading', description: 'Learn about AlgoDeck\'s mission to bring institutional-grade automated trading to every mobile trader. Built by traders, for traders.', canonical: 'https://algodeck.app/about' });
+
   const [loaded, setLoaded] = useState(false)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const mouseRef = useRef({ x: 0, y: 0 })

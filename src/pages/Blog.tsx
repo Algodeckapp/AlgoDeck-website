@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import * as THREE from 'three'
@@ -6,6 +7,8 @@ import Footer from '@/sections/Footer'
 import { Calendar, Clock, ArrowRight, BookOpen, TrendingUp, Newspaper, BarChart3, Search, ArrowLeft, Share2, Bookmark, CheckCircle2 } from 'lucide-react'
 
 export default function Blog() {
+  usePageMeta({ title: 'AlgoDeck Blog — Trading Automation Insights & Strategies', description: 'Expert guides on algo trading, MT4/MT5 bots, backtesting strategies and more. Stay ahead of the markets with AlgoDeck.', canonical: 'https://algodeck.app/blog' });
+
   const [loaded, setLoaded] = useState(false)
   const { slug } = useParams()
   const navigate = useNavigate()

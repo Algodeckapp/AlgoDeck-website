@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useState } from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
@@ -82,6 +83,8 @@ const knowledgeBaseArticles: KnowledgeBaseArticle[] = [
 
 
 export default function Support() {
+  usePageMeta({ title: 'AlgoDeck Support — Help Center', description: 'Find answers, guides and tutorials for AlgoDeck. Get help with MT4/MT5 setup, strategy building, backtesting and more.', canonical: 'https://algodeck.app/support' });
+
   const [searchQuery, setSearchQuery] = useState('')
 
   const filteredArticles = knowledgeBaseArticles.filter(

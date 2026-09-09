@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import Navigation from '@/sections/Navigation'
@@ -6,6 +7,8 @@ import { Trophy, Copy, Users, TrendingUp, MessageSquare, Star, Bot, ArrowRight, 
 import { Link } from 'react-router'
 
 export default function Community() {
+  usePageMeta({ title: 'AlgoDeck Community — Trade, Compete & Learn Together', description: 'Join thousands of automated traders in the AlgoDeck community. Share strategies, climb the leaderboard and connect on Discord.', canonical: 'https://algodeck.app/community' });
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
   const [loaded, setLoaded] = useState(false)

@@ -5,6 +5,7 @@ import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import { trpc } from '@/providers/trpc'
 import { toast } from 'sonner'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function Download() {
   const [androidEmail, setAndroidEmail] = useState('')
@@ -14,6 +15,12 @@ export default function Download() {
   const [loaded, setLoaded] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
+
+  usePageMeta({
+    title: 'Download AlgoDeck — Trade Smarter From Your Phone',
+    description: 'Get AlgoDeck on Android & iOS. Build and deploy custom trading bots on MT4/MT5 from your mobile. Join the waitlist — launching soon.',
+    canonical: 'https://algodeck.app/download',
+  })
 
   useEffect(() => {
     setLoaded(true)

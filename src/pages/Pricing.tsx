@@ -1,8 +1,11 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
 import Pricing from '@/sections/Pricing'
 
 export default function PricingPage() {
+  usePageMeta({ title: 'AlgoDeck Pricing — Free, Starter & Pro Plans', description: 'Start free. Scale with Starter at $49/mo or go Pro at $99/mo. Transparent pricing, no hidden fees. Cancel anytime.', canonical: 'https://algodeck.app/pricing' });
+
   return (
     <>
       <Navigation />

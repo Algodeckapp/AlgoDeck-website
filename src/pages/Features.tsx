@@ -4,11 +4,18 @@ import { Link } from 'react-router'
 import * as THREE from 'three'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function FeaturesPage() {
   const [loaded, setLoaded] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
+
+  usePageMeta({
+    title: 'AlgoDeck Features — Build, Backtest & Deploy Trading Bots',
+    description: 'StratAI strategy builder, advanced backtesting, live MT4/MT5 bots, multi-account support and more. Institutional power in your pocket.',
+    canonical: 'https://algodeck.app/features',
+  })
 
   useEffect(() => {
     setLoaded(true)
@@ -265,7 +272,7 @@ export default function FeaturesPage() {
           
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 md:gap-24 relative z-10">
             <div className={`w-full lg:max-w-2xl text-center lg:text-left transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <span className="section-eyebrow mb-4 block text-[#3A7BFF]">ADVANCED TECHNOLOGY</span>
+              <span className="section-eyebrow mb-4 block text-[#3A7BFF]">BUILT DIFFERENT</span>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
                 Everything You Need to <br />
                 <span className="gradient-text">Dominate Markets.</span>

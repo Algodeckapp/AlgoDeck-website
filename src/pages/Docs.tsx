@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router'
 import Navigation from '@/sections/Navigation'
@@ -192,6 +193,8 @@ const articleContent: Record<string, React.ReactNode> = {
 }
 
 export default function Docs() {
+  usePageMeta({ title: 'AlgoDeck Documentation — Setup Guides & API Reference', description: 'Everything you need to get started with AlgoDeck. MT4/MT5 integration guides, strategy builder docs and full API reference.', canonical: 'https://algodeck.app/docs' });
+
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedArticle, setSelectedArticle] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)

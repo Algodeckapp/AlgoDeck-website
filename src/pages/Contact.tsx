@@ -1,3 +1,4 @@
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { useState, useEffect, useRef} from 'react'
 import Navigation from '@/sections/Navigation'
 import Footer from '@/sections/Footer'
@@ -7,6 +8,8 @@ import { toast } from 'sonner'
 import * as THREE from 'three'
 
 export default function Contact() {
+  usePageMeta({ title: 'Contact AlgoDeck — Get in Touch', description: 'Have a question? Reach the AlgoDeck team. We\'re here to help with anything from onboarding to technical support.', canonical: 'https://algodeck.app/contact' });
+
   const [loaded, setLoaded] = useState(false)
   const [formData, setFormData] = useState({
     name: '',

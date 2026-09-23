@@ -121,7 +121,8 @@
       and is replaced/overridden by the React app on load.
       The noscript block restores visibility for users with JS disabled.
     -->
-    <div id="root" aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+    <div id="root">
+      <div id="seo-fallback" aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
       <header>
         <nav aria-label="Main navigation">
           <a href="https://algodeck.app/">AlgoDeck Home</a>
@@ -311,6 +312,7 @@
           <a href="https://algodeck.app/about">About AlgoDeck</a>
         </nav>
       </footer>
+      </div>
     </div>
 
     <noscript>

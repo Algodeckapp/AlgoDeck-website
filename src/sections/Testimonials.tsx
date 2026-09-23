@@ -7,21 +7,21 @@ const testimonials = [
     author: 'Tony Chris',
     role: 'Founder & CEO @ AlgoDeck Inc',
     rating: 5,
-    avatar: '/assets/avatar-1.jpg',
+    avatar: '/assets/avatar-1.png',
   },
   {
     quote: 'We manage 20+ accounts for our fund. The Cloud orchestration and bulk deployment saved us weeks of infrastructure work. Pure automation excellence.',
     author: 'Bilal Oke',
     role: 'Quant Developer',
     rating: 5,
-    avatar: '/assets/avatar-2.jpg',
+    avatar: '/assets/avatar-1.png',
   },
   {
     quote: 'StratAI understood my strategy description and outputted the exact rules for review in seconds. No manual builder assembly needed — just review, validate, and deploy.',
     author: 'Oyelola Moyosola',
     role: 'Market Analyst',
     rating: 5,
-    avatar: '/assets/avatar-3.jpg',
+    avatar: '/assets/avatar-1.png',
   },
 ]
 
